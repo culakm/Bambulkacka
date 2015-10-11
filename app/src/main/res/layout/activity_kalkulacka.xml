@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.hellbilling.bambulkacka.kalkulacka">
+
+    <TextView
+        android:id="@+id/prikladText"
+        android:textSize="32sp"
+        android:text="@string/hello_world"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+    <EditText
+        android:id="@+id/vysledok_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/prikladText"
+        android:layout_alignRight="@id/prikladText"
+        android:layout_alignLeft="@id/prikladText"/>
+    <Button
+        android:id="@+id/vysledok_button"
+        android:text="@string/str_button"
+        android:onClick="submitVysledok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vysledok_text"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
