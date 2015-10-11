@@ -1,10 +1,4 @@
-/**
- * Created by mculak on 10/10/15.
- */
-
 package com.hellbilling.bambulkacka;
-
-import android.util.Log;
 
 import java.util.Random;
 
@@ -39,8 +33,6 @@ public class Priklad {
 
         a = generateRandomInt();
 
-        //Log.d("myTag", "moje " + znamienko + " : " + a + " + " + b + " = " + vysledok + ", start: " + start + " stop " + stop);
-
         if (znamienko.equals("+")){
 
             do {
@@ -55,8 +47,6 @@ public class Priklad {
                 b = generateRandomInt();
                 vysledok = a - b;
             } while ( !(vysledok >= start && vysledok <= stop) );
-
-
         }
     }
 
@@ -77,6 +67,9 @@ public class Priklad {
         return znamienko;
     }
 
+    String getPrikladString () {  return a + znamienko + b + "="; }
+
+    String getCelyPrikladString () { return getPrikladString() + vysledok; }
 
     // Random generatory
     private int generateRandomInt(){

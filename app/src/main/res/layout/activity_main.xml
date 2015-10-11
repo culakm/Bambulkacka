@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked" />
         <RadioButton
+            android:checked="true"
             android:text="@string/radioDo100"
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"

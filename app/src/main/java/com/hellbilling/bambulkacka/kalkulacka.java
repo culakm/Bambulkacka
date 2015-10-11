@@ -1,5 +1,6 @@
 package com.hellbilling.bambulkacka;
 
+import android.media.MediaPlayer;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,22 +9,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.Random;
-
-import static java.lang.Thread.sleep;
+import android.widget.Toast;
 
 
 public class kalkulacka extends ActionBarActivity {
 
-
     String calkStatus;
+    TextView prikladText;
+    TextView errorText;
+
     int start = 0,stop;
     Priklad priklad;
-    //int a,b, prikladVysledok;
-    String znamienko;
 
-    TextView prikladText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,20 +28,13 @@ public class kalkulacka extends ActionBarActivity {
         setContentView(R.layout.activity_kalkulacka);
 
         calkStatus = getIntent().getExtras().getString("calkStatus");
+        Toast.makeText(getApplicationContext(), " PAKO calkStatus : " + calkStatus, Toast.LENGTH_SHORT).show();
         prikladText =(TextView)findViewById(R.id.prikladText);
+        errorText =(TextView)findViewById(R.id.errorText);
 
         setStartStop();
         getPriklad();
-    }
 
-
-
-
-    private void getPriklad() {
-        priklad = new Priklad(start,stop);
-        priklad.getCisla();
-
-        prikladText.setText(priklad.getA() + priklad.getZnamienko() + priklad.getB() + " = " + priklad.getVysledok());
     }
 
     public void submitVysledok(View view) throws InterruptedException {
@@ -53,14 +43,21 @@ public class kalkulacka extends ActionBarActivity {
         String vysledokLocalStr = vysledokLocal.getText().toString();
         int vysledokLocalInt;
 
-        // vysledok je nenulovy
+        errorText.setText("");
+
+        // vysledok je prazdny
         if (vysledokLocalStr.length() == 0){
-            vysledokLocalInt = 0;
+            //vysledokLocalInt = 0;
+            errorText.setText("Bambulina, zadala si prazdny vysledok, daj este raz.");
+            return;
         }
 
-        // vysledok je cislo
+        // vysledok nie je cislo
         if ( ! vysledokLocalStr.matches("\\d+")) {
-            vysledokLocalInt = 0;
+            //vysledokLocalInt = 0;
+            errorText.setText("Prskon maly, musis zadat cele cislo, davaj!");
+            vysledokLocal.setText("");
+            return;
         }
         else {
             vysledokLocalInt = Integer.parseInt(vysledokLocalStr);
@@ -68,20 +65,32 @@ public class kalkulacka extends ActionBarActivity {
 
         // Vysledok dobre
         if (vysledokLocalInt == priklad.getVysledok()){
-            Log.d("--", "vysledok je dobre");
-            prikladText.setText("Dobre " + vysledokLocalStr);
+            Log.d("++", "vysledok je dobre");
+            playOK ();
+            errorText.setText("Baruska, ty si genius, " + priklad.getCelyPrikladString() + ", ides dalej.");
             getPriklad();
         }
         // Vysledok zle
         else {
             Log.d("--", "vysledok je zle");
-            prikladText.setText("Zle, skus dalsi priklad");
+            playNOK ();
+            errorText.setText("Cele zle, este raz!");
         }
 
+        // Vynuluj editText
         vysledokLocal.setText("");
 
     }
 
+    // Nacita priklad
+    private void getPriklad() {
+        priklad = new Priklad(start,stop);
+        priklad.getCisla();
+        // Nastavi text prikladu
+        prikladText.setText(priklad.getPrikladString());
+    }
+
+    // Nastavi stop pre priklad (start je default 0)
     private void setStartStop() {
         switch (calkStatus) {
             case "do20":  stop = 20;
@@ -94,6 +103,16 @@ public class kalkulacka extends ActionBarActivity {
                 break;
         }
 
+    }
+
+    private void playOK () {
+        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.ok);
+        mediaPlayer.start(); // no need to call prepare(); create() does that for you
+    }
+
+    private void playNOK () {
+        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.nok);
+        mediaPlayer.start(); // no need to call prepare(); create() does that for you
     }
 
     @Override
