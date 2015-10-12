@@ -4,19 +4,27 @@ import android.media.MediaPlayer;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class kalkulacka extends ActionBarActivity {
+//public class kalkulacka extends ActionBarActivity {
+public class kalkulacka extends ActionBarActivity implements EditText.OnEditorActionListener{
 
+    // typ prikladu
     String calkStatus;
+    EditText vysledokLocal;
     TextView prikladText;
     TextView errorText;
 
+    // rozsah generovanych cisel
     int start = 0,stop;
+    // aktualny priklad
     Priklad priklad;
 
 
@@ -25,19 +33,41 @@ public class kalkulacka extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kalkulacka);
 
+        // nacitanie z parametrov
         calkStatus = getIntent().getExtras().getString("calkStatus");
-        //Toast.makeText(getApplicationContext(), " PAKO calkStatus : " + calkStatus, Toast.LENGTH_SHORT).show();
+
+        // zistenie widgetov z obrazovky
+        vysledokLocal =(EditText)findViewById(R.id.vysledok_text);
         prikladText =(TextView)findViewById(R.id.prikladText);
         errorText =(TextView)findViewById(R.id.errorText);
 
-        setStartStop();
-        getPriklad();
+        // tu sa nastavil listener onEditorAction na EditText
+        vysledokLocal.setOnEditorActionListener(this);
 
+        // nastavime stop rozsahu generovanych cisel
+        setStartStop();
+        // nacitame aktualny priklad
+        getPriklad();
     }
 
-    public void submitVysledok(View view) throws InterruptedException {
+    // pocuvanie ake odosielacie tlacitko klavesnice je zmacknute, v tomto pripade go
+    public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
+        Toast.makeText(getApplicationContext(), " klikol som go", Toast.LENGTH_SHORT).show();
+        boolean handled = false;
+        if (actionId == EditorInfo.IME_ACTION_GO) {
+            zpracujVysledok();
+            handled = true;
+        }
+        return handled;
+    }
 
-        EditText vysledokLocal =(EditText)findViewById(R.id.vysledok_text);
+    //  handlovanie odosielacieho tlacitka
+    public void submitVysledok(View view) {
+        zpracujVysledok();
+    }
+
+    // spracujeme odoslany vysledok
+    private void zpracujVysledok () {
         String vysledokLocalStr = vysledokLocal.getText().toString();
         int vysledokLocalInt;
 
@@ -64,6 +94,7 @@ public class kalkulacka extends ActionBarActivity {
         // Vysledok dobre
         if (vysledokLocalInt == priklad.getVysledok()){
             Log.d("++", "vysledok je dobre");
+            // prehrajeme ok zvuk
             playSound("ok");
             errorText.setText("Baruska, ty si genius, " + priklad.getCelyPrikladString() + ", ides dalej.");
             getPriklad();
@@ -71,6 +102,7 @@ public class kalkulacka extends ActionBarActivity {
         // Vysledok zle
         else {
             Log.d("--", "vysledok je zle");
+            // Prehrajeme NOK zvuk
             playSound("nok");
             errorText.setText("Cele zle, este raz!");
         }
@@ -103,12 +135,15 @@ public class kalkulacka extends ActionBarActivity {
 
     }
 
+    // prehrajeme zvuk
     private void playSound (String filename) {
         // Find file as resource
         int res = getResources().getIdentifier(filename, "raw", getPackageName());
         MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), res);
         mediaPlayer.start(); // no need to call prepare(); create() does that for you
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
