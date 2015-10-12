@@ -9,8 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 public class kalkulacka extends ActionBarActivity {
 
@@ -28,7 +26,7 @@ public class kalkulacka extends ActionBarActivity {
         setContentView(R.layout.activity_kalkulacka);
 
         calkStatus = getIntent().getExtras().getString("calkStatus");
-        Toast.makeText(getApplicationContext(), " PAKO calkStatus : " + calkStatus, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), " PAKO calkStatus : " + calkStatus, Toast.LENGTH_SHORT).show();
         prikladText =(TextView)findViewById(R.id.prikladText);
         errorText =(TextView)findViewById(R.id.errorText);
 
@@ -66,14 +64,14 @@ public class kalkulacka extends ActionBarActivity {
         // Vysledok dobre
         if (vysledokLocalInt == priklad.getVysledok()){
             Log.d("++", "vysledok je dobre");
-            playOK ();
+            playSound("ok");
             errorText.setText("Baruska, ty si genius, " + priklad.getCelyPrikladString() + ", ides dalej.");
             getPriklad();
         }
         // Vysledok zle
         else {
             Log.d("--", "vysledok je zle");
-            playNOK ();
+            playSound("nok");
             errorText.setText("Cele zle, este raz!");
         }
 
@@ -105,13 +103,10 @@ public class kalkulacka extends ActionBarActivity {
 
     }
 
-    private void playOK () {
-        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.ok);
-        mediaPlayer.start(); // no need to call prepare(); create() does that for you
-    }
-
-    private void playNOK () {
-        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.nok);
+    private void playSound (String filename) {
+        // Find file as resource
+        int res = getResources().getIdentifier(filename, "raw", getPackageName());
+        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), res);
         mediaPlayer.start(); // no need to call prepare(); create() does that for you
     }
 
