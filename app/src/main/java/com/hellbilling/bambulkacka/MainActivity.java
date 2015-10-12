@@ -14,8 +14,14 @@ public class MainActivity extends ActionBarActivity {
 
     /*
 
+    prirobit pocitadlo prikladov (uchovavat objeky prikladov?)
 
-    dorobit ovladanie klavesnice
+
+    hned otvorena klavesnica
+
+ InputMethodManager imm = (InputMethodManager)
+                getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+        imm.showSoftInput(R.layout.activity_kalkulacka, InputMethodManager.SHOW_IMPLICIT);
 
 
      */

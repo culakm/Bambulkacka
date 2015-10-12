@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,11 +22,16 @@ public class kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     EditText vysledokLocal;
     TextView prikladText;
     TextView errorText;
+    TextView textPokusovCounter;
+    TextView textSpravneCounter;
 
     // rozsah generovanych cisel
     int start = 0,stop;
     // aktualny priklad
     Priklad priklad;
+
+    int pokusov = 0;
+    int spravne = 0;
 
 
     @Override
@@ -40,6 +46,8 @@ public class kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         vysledokLocal =(EditText)findViewById(R.id.vysledok_text);
         prikladText =(TextView)findViewById(R.id.prikladText);
         errorText =(TextView)findViewById(R.id.errorText);
+        textPokusovCounter =(TextView)findViewById(R.id.textPokusovCounter);
+        textSpravneCounter =(TextView)findViewById(R.id.textSpravneCounter);
 
         // tu sa nastavil listener onEditorAction na EditText
         vysledokLocal.setOnEditorActionListener(this);
@@ -71,6 +79,7 @@ public class kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         String vysledokLocalStr = vysledokLocal.getText().toString();
         int vysledokLocalInt;
 
+        errorText.setTextColor(getResources().getColor(R.color.default_color));
         errorText.setText("");
 
         // vysledok je prazdny
@@ -96,6 +105,10 @@ public class kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             Log.d("++", "vysledok je dobre");
             // prehrajeme ok zvuk
             playSound("ok");
+
+            textSpravneCounter.setText(++spravne + "");
+            textPokusovCounter.setText(++pokusov + "");
+            errorText.setTextColor(getResources().getColor(R.color.spravne_color));
             errorText.setText("Baruska, ty si genius, " + priklad.getCelyPrikladString() + ", ides dalej.");
             getPriklad();
         }
@@ -104,6 +117,9 @@ public class kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             Log.d("--", "vysledok je zle");
             // Prehrajeme NOK zvuk
             playSound("nok");
+            textPokusovCounter.setText(++pokusov + "");
+            //errorText.setTextColor(getResources().getIdentifier("nespravne_color", "color", getPackageName()));
+            errorText.setTextColor(getResources().getColor(R.color.nespravne_color));
             errorText.setText("Cele zle, este raz!");
         }
 
@@ -132,6 +148,10 @@ public class kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             default: stop = 100;
                 break;
         }
+
+    }
+
+    private void updateVysledky (){
 
     }
 

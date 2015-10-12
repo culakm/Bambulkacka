@@ -7,5 +7,7 @@
     <string name="radioDo20">do 20</string>
     <string name="radioDo100">do 100</string>
     <string name="radioNad100">nad 100</string>
+    <string name="pokusov">pokusov :</string>
+    <string name="spravne">spravne :</string>
     <string name="title_activity_kalkulacka">kalkulacka</string>
 </resources>
