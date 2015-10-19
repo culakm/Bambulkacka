@@ -8,11 +8,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 //public class kalkulacka extends ActionBarActivity {
 public class kalkulacka extends ActionBarActivity implements EditText.OnEditorActionListener{
@@ -56,11 +55,25 @@ public class kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         setStartStop();
         // nacitame aktualny priklad
         getPriklad();
+        // otvorim klavesnicu
+        showSoftKeyboard();
+
+    }
+
+    public void showSoftKeyboard() {
+        // otvorenie klavesnice
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        // zatvorenie klavesnice
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+// toto mi nefungovalo
+//        if (view.requestFocus()) {
+//            InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+//            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+//        }
     }
 
     // pocuvanie ake odosielacie tlacitko klavesnice je zmacknute, v tomto pripade go
     public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-        Toast.makeText(getApplicationContext(), " klikol som go", Toast.LENGTH_SHORT).show();
         boolean handled = false;
         if (actionId == EditorInfo.IME_ACTION_GO) {
             zpracujVysledok();

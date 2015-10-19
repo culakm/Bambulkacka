@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.RadioButton;
 
 public class MainActivity extends ActionBarActivity {
@@ -17,13 +19,8 @@ public class MainActivity extends ActionBarActivity {
     prirobit pocitadlo prikladov (uchovavat objeky prikladov?)
 
 
-    hned otvorena klavesnica
-
- InputMethodManager imm = (InputMethodManager)
-                getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
-        imm.showSoftInput(R.layout.activity_kalkulacka, InputMethodManager.SHOW_IMPLICIT);
-
-
+    drzat premenne pri otacani
+    co je to context??
      */
 
 
