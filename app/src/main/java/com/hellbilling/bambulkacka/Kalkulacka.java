@@ -1,6 +1,8 @@
 package com.hellbilling.bambulkacka;
 
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorActionListener{
 
@@ -56,6 +59,9 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         // tu sa nastavil listener onEditorAction na EditText
         vysledokLocal.setOnEditorActionListener(this);
 
+        // Nacitaj settingy
+        getSettings();
+
         // riesi zotavenie po zmene orientacie
         restoreMe(savedInstanceState);
 
@@ -68,33 +74,18 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         }
         // otvorim klavesnicu
         showSoftKeyboard();
-
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable("priklad", priklad);
-        outState.putInt("pokusov", pokusov);
-        outState.putInt("spravne", spravne);
-    }
 
-    // Obnovujeme zapamatany stav
-    //je zaujimave ze vysledokLocal ma hodnotu zachovanu bez toho ze by sme to riesili
-    private void restoreMe(Bundle state){
+    private void getSettings(){
+        //////////////
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if  (state != null){
-
-            priklad = state.getParcelable("priklad");
-            pokusov = state.getInt("pokusov");
-            spravne = state.getInt("spravne");
-            Log.d("--", "pokusov:"+priklad.getPrikladString());
-            // Nastavi text prikladu
-            prikladText.setText(priklad.getPrikladString());
-            textSpravneCounter.setText(spravne + "");
-            textPokusovCounter.setText(pokusov + "");
-        }
-
+        Boolean syncConnPref1 = sharedPref.getBoolean("pref_sync1", true);
+        String syncConnPref3 = sharedPref.getString("pref_sync3", "");
+        Toast.makeText(getApplicationContext(), "String  pref_sync1 zo settingsov: " + syncConnPref1.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "String  pref_sync3 zo settingsov: " + syncConnPref3, Toast.LENGTH_SHORT).show();
+        //////////
     }
 
     // Toto moze byt divne, ako vieme ku ktoremu editTextu to otvara tu klavesnicu?
@@ -194,6 +185,8 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
                 break;
             case "do100":  stop = 100;
                 break;
+            case "do100cez10":  stop = 100;
+                break;
             case "nad100":  stop = 1000;
                 break;
             default: stop = 100;
@@ -214,6 +207,32 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         mediaPlayer.start(); // no need to call prepare(); create() does that for you
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("priklad", priklad);
+        outState.putInt("pokusov", pokusov);
+        outState.putInt("spravne", spravne);
+    }
+
+    // Obnovujeme zapamatany stav
+    //je zaujimave ze vysledokLocal ma hodnotu zachovanu bez toho ze by sme to riesili
+    private void restoreMe(Bundle state){
+
+        if  (state != null){
+
+            priklad = state.getParcelable("priklad");
+            pokusov = state.getInt("pokusov");
+            spravne = state.getInt("spravne");
+            Log.d("--", "pokusov:"+priklad.getPrikladString());
+            // Nastavi text prikladu
+            prikladText.setText(priklad.getPrikladString());
+            textSpravneCounter.setText(spravne + "");
+            textPokusovCounter.setText(pokusov + "");
+        }
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

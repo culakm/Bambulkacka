@@ -31,12 +31,21 @@ public class Priklad implements Parcelable {
 
     }
 
-    // Konstruktor so znamienkom
-    public Priklad(int parStart, int parStop, String parZnamienko) {
-        this(parStart,parStop);
-        this.znamienko = parZnamienko;
-    }
+    /* Konstruktor s extra
+    public Priklad(int parStart, int parStop, String extra) {
 
+        this(parStart,parStop);
+
+        // Vygeneruj nahodne znamienko
+        if (generateRandomBool()){
+            this.znamienko = "+";
+        }
+        else {
+            this.znamienko = "-";
+        }
+
+    }
+*/
     public void getCisla(){
 
         a = generateRandomInt();

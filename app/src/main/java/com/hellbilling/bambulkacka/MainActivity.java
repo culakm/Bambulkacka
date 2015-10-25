@@ -1,6 +1,8 @@
 package com.hellbilling.bambulkacka;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import java.lang.reflect.Method;
 
@@ -49,6 +52,10 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
     }
 
     public void buttonSendsMessage(View view) {
@@ -77,6 +84,10 @@ public class MainActivity extends ActionBarActivity {
             case R.id.radioButton3:
                 if (checked)
                     radioStatus = "nad100";
+                break;
+            case R.id.radioButton4:
+                if (checked)
+                    radioStatus = "do100cez10";
                 break;
         }
     }
@@ -120,10 +131,10 @@ public class MainActivity extends ActionBarActivity {
                 return(true);
 
             case R.id.settings:
-                /*Intent intent;
-                intent = new Intent(this, PreferenceActivity.class);
+                Intent intent;
+                intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
-                */
+
                 return(true);
         }
 

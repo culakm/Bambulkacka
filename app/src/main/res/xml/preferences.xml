@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory android:title="Main">
+        <CheckBoxPreference android:title="Enable Preferences"
+            android:key="pref_sync1" android:summary="Check to enable Other Preferences" />
+        <CheckBoxPreference android:title="Enable Preferences2"
+            android:key="pref_sync2" android:summary="Check to enable Other Preferences2" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Ostatne nastavenia">
+
+        <EditTextPreference android:title="Meno uzivatela"
+            android:key="user_name"
+            android:summary="%s"
+            android:dialogTitle="Zadaj meno"
+            android:defaultValue="Android Partaker"/>
+
+    </PreferenceCategory>
+
+
 </PreferenceScreen>
