@@ -13,15 +13,19 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-//public class kalkulacka extends ActionBarActivity {
-public class kalkulacka extends ActionBarActivity implements EditText.OnEditorActionListener{
+public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorActionListener{
 
-    // typ prikladu
+    // Typ prikladu
     String calkStatus;
+    // Tu zadavame vysledok
     EditText vysledokLocal;
+    // text zadania prikladu
     TextView prikladText;
+    // Chybove hlasenia, a komentare k odoslanemu vysledku
     TextView errorText;
+    // Zobrazovanie poctu vsetkych pokusov
     TextView textPokusovCounter;
+    // Zobrazovanie poctu spravnych pokusov
     TextView textSpravneCounter;
 
     // rozsah generovanych cisel
@@ -29,6 +33,7 @@ public class kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     // aktualny priklad
     Priklad priklad;
 
+    // Pocitadla
     int pokusov = 0;
     int spravne = 0;
 
@@ -38,7 +43,7 @@ public class kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kalkulacka);
 
-        // nacitanie z parametrov
+        // Nacitanie parametrov z aktivity odkial tato aktivita bola volana
         calkStatus = getIntent().getExtras().getString("calkStatus");
 
         // zistenie widgetov z obrazovky
@@ -51,15 +56,48 @@ public class kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         // tu sa nastavil listener onEditorAction na EditText
         vysledokLocal.setOnEditorActionListener(this);
 
+        // riesi zotavenie po zmene orientacie
+        restoreMe(savedInstanceState);
+
         // nastavime stop rozsahu generovanych cisel
         setStartStop();
-        // nacitame aktualny priklad
-        getPriklad();
+
+        // nacitame aktualny priklad ak este neexistuje, inak sa taha z restoreMe
+        if(priklad==null) {
+            getPriklad();
+        }
         // otvorim klavesnicu
         showSoftKeyboard();
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("priklad", priklad);
+        outState.putInt("pokusov", pokusov);
+        outState.putInt("spravne", spravne);
+    }
+
+    // Obnovujeme zapamatany stav
+    //je zaujimave ze vysledokLocal ma hodnotu zachovanu bez toho ze by sme to riesili
+    private void restoreMe(Bundle state){
+
+        if  (state != null){
+
+            priklad = state.getParcelable("priklad");
+            pokusov = state.getInt("pokusov");
+            spravne = state.getInt("spravne");
+            Log.d("--", "pokusov:"+priklad.getPrikladString());
+            // Nastavi text prikladu
+            prikladText.setText(priklad.getPrikladString());
+            textSpravneCounter.setText(spravne + "");
+            textPokusovCounter.setText(pokusov + "");
+        }
+
+    }
+
+    // Toto moze byt divne, ako vieme ku ktoremu editTextu to otvara tu klavesnicu?
     public void showSoftKeyboard() {
         // otvorenie klavesnice
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -175,8 +213,6 @@ public class kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), res);
         mediaPlayer.start(); // no need to call prepare(); create() does that for you
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

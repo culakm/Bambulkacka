@@ -3,12 +3,14 @@ package com.hellbilling.bambulkacka;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.view.Window;
 import android.widget.RadioButton;
+
+import java.lang.reflect.Method;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -16,14 +18,29 @@ public class MainActivity extends ActionBarActivity {
 
     /*
 
+    urobit  menu kde bude jedno settings
+
+
+    v settings nastavit parametre po jednom
+                nastavit vsetky parametre v jednom okne
+        - nastavovat typ prikladov
+        - nastavit defaultny typ prikladov
+        - nastavovat oslovenie
+
+    custom back v action bare
+
+    dorobit priklady cez 10
+
+
     prirobit pocitadlo prikladov (uchovavat objeky prikladov?)
 
+    po splneni urciteho poctu prikladov spustit youtube
 
-    drzat premenne pri otacani
+
+
+
     co je to context??
      */
-
-
 
     // default hodnota pre range
     String radioStatus = "do100";
@@ -36,10 +53,8 @@ public class MainActivity extends ActionBarActivity {
 
     public void buttonSendsMessage(View view) {
 
-        //RadioGroup wRadioGroup=(RadioGroup)findViewById(R.id.moj_radio_group_id);
-
         Intent intent;
-        intent = new Intent(this, kalkulacka.class);
+        intent = new Intent(this, Kalkulacka.class);
         intent.putExtra("calkStatus",radioStatus);
         startActivity(intent);
 
@@ -73,8 +88,47 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    // Toto cele je LEN na zobrazenie ikony v menu!
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu)
+    {
+        if(featureId == Window.FEATURE_ACTION_BAR && menu != null){
+            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
+                try{
+                    Method m = menu.getClass().getDeclaredMethod(
+                            "setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                }
+                catch(NoSuchMethodException e){
+                    Log.e("sdafd", "onMenuOpened", e);
+                }
+                catch(Exception e){
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        switch (item.getItemId()) {
+            case R.id.add:
+
+                return(true);
+
+            case R.id.settings:
+                /*Intent intent;
+                intent = new Intent(this, PreferenceActivity.class);
+                startActivity(intent);
+                */
+                return(true);
+        }
+
+        return(super.onOptionsItemSelected(item));
+        /*
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -86,5 +140,6 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+        */
     }
 }

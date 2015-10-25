@@ -1,11 +1,19 @@
 package com.hellbilling.bambulkacka;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Random;
 
-public class Priklad {
+// Parcelable je implemetnovane aby sa objekt priklad dal prehadzovat cez onSaveInstanceState
+// nparcerable som ziskal hodenim kodu do http://www.parcelabler.com/
+public class Priklad implements Parcelable {
 
-    private int start, stop;
-    private int a,b,vysledok;
+    private int start;
+    private int stop;
+    private int a;
+    private int b;
+    private int vysledok;
     private String znamienko;
 
     // Konstruktor bez znamienka
@@ -83,4 +91,42 @@ public class Priklad {
 
     }
 
+
+    protected Priklad(Parcel in) {
+        start = in.readInt();
+        stop = in.readInt();
+        a = in.readInt();
+        b = in.readInt();
+        vysledok = in.readInt();
+        znamienko = in.readString();
+    }
+
+    // Odtialto to tam doplnilo parcelable
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(start);
+        dest.writeInt(stop);
+        dest.writeInt(a);
+        dest.writeInt(b);
+        dest.writeInt(vysledok);
+        dest.writeString(znamienko);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Priklad> CREATOR = new Parcelable.Creator<Priklad>() {
+        @Override
+        public Priklad createFromParcel(Parcel in) {
+            return new Priklad(in);
+        }
+
+        @Override
+        public Priklad[] newArray(int size) {
+            return new Priklad[size];
+        }
+    };
 }

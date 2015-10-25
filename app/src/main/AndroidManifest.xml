@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".kalkulacka"
+            android:name=".Kalkulacka"
             android:label="@string/title_activity_kalkulacka" >
         </activity>
     </application>
