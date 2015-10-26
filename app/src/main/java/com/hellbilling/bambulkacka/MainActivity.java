@@ -1,8 +1,6 @@
 package com.hellbilling.bambulkacka;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,13 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import java.lang.reflect.Method;
 
 public class MainActivity extends ActionBarActivity {
-
-
 
     /*
 
@@ -39,8 +34,9 @@ public class MainActivity extends ActionBarActivity {
 
     po splneni urciteho poctu prikladov spustit youtube
 
-
-
+    pouzit custom preference, posuvace, hodiny, kalendar,,,,,,
+    http://developer.android.com/guide/topics/ui/settings.html#Custom
+    http://stackoverflow.com/questions/16108609/android-creating-custom-preference
 
     co je to context??
      */

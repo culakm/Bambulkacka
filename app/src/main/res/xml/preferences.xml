@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
     <PreferenceCategory android:title="Main">
-        <CheckBoxPreference android:title="Enable Preferences"
-            android:key="pref_sync1" android:summary="Check to enable Other Preferences" />
-        <CheckBoxPreference android:title="Enable Preferences2"
-            android:key="pref_sync2" android:summary="Check to enable Other Preferences2" />
+        <EditTextPreference android:title="Vysledok od"
+            android:key="start"
+            android:summary="%s"
+            android:dialogTitle="Zadaj spodnu hranicu vysledku"
+            android:defaultValue="0"
+            android:inputType="number" />
+        <EditTextPreference android:title="Vysledok do"
+            android:key="stop"
+            android:summary="%s"
+            android:dialogTitle="Zadaj hornu hranicu vysledku"
+            android:defaultValue="100"
+            android:inputType="number" />
+        <ListPreference android:title="Znamienko"
+            android:key="znamienko"
+            android:summary="%s"
+            android:entries="@array/znamienka"
+            android:entryValues="@array/znamienkaValues"
+            android:defaultValue="0" />
+        <ListPreference android:title="Extra"
+            android:key="extra"
+            android:summary="%s"
+            android:entries="@array/extra"
+            android:entryValues="@array/extraValues"
+            android:defaultValue="0" />
     </PreferenceCategory>
-
     <PreferenceCategory android:title="Ostatne nastavenia">
-
         <EditTextPreference android:title="Meno uzivatela"
             android:key="user_name"
             android:summary="%s"
             android:dialogTitle="Zadaj meno"
-            android:defaultValue="Android Partaker"/>
-
+            android:defaultValue="Android Partaker" />
     </PreferenceCategory>
-
-
 </PreferenceScreen>

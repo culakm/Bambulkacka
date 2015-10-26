@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="znamienka">
+        <item>+/-</item>
+        <item>+</item>
+        <item>-</item>
+    </string-array>
+    <string-array name="znamienkaValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="extra">
+        <item>nic</item>
+        <item>cez 10</item>
+        <item>dalsie</item>
+    </string-array>
+    <string-array name="extraValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+</resources>
