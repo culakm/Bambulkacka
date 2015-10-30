@@ -22,6 +22,12 @@
         android:layout_below="@id/prikladText"
         android:layout_alignRight="@id/prikladText"
         android:layout_alignLeft="@id/prikladText"/>
+    <!-- takto sa asi urcuje format vsupu, dava to len cisla
+    <EditText
+        android:id="@+id/myNumber"
+        android:digits="0123456789."
+        android:inputType="numberDecimal"/>
+-->
     <Button
         android:id="@+id/vysledok_button"
         android:text="@string/str_button"

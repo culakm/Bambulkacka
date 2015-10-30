@@ -17,20 +17,21 @@
             android:key="znamienko"
             android:summary="%s"
             android:entries="@array/znamienka"
-            android:entryValues="@array/znamienkaValues"
-            android:defaultValue="0" />
+            android:entryValues="@array/znamienka"
+            android:defaultValue="+/-" />
         <ListPreference android:title="Extra"
             android:key="extra"
             android:summary="%s"
             android:entries="@array/extra"
-            android:entryValues="@array/extraValues"
-            android:defaultValue="0" />
+            android:entryValues="@array/extra"
+            android:defaultValue="nic"
+           />
     </PreferenceCategory>
     <PreferenceCategory android:title="Ostatne nastavenia">
         <EditTextPreference android:title="Meno uzivatela"
             android:key="user_name"
             android:summary="%s"
             android:dialogTitle="Zadaj meno"
-            android:defaultValue="Android Partaker" />
+            android:defaultValue="Detisko" />
     </PreferenceCategory>
 </PreferenceScreen>

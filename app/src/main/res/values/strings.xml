@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Bambulkacka</string>
 
+    <string name="welcome_string">Vitajte matematici</string>
     <string name="hello_world">Hello world!</string>
     <string name="cast_pre_priklad">Tu ma byt zadanie prikladu!</string>
     <string name="action_settings">Settings</string>

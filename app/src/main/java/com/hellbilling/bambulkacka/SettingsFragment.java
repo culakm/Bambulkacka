@@ -13,12 +13,11 @@ import android.preference.PreferenceFragment;
 
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
 
-
-    public static final String KEY_PREF_USER_NAME = "user_name";
-    public static final String KEY_PREF_ZNAMIENKO = "znamienko";
-    public static final String KEY_PREF_EXTRA = "extra";
     public static final String KEY_PREF_START = "start";
     public static final String KEY_PREF_STOP = "stop";
+    public static final String KEY_PREF_ZNAMIENKO = "znamienko";
+    public static final String KEY_PREF_EXTRA = "extra";
+    public static final String KEY_PREF_USER_NAME = "user_name";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,8 +46,6 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         // Nastavenie summary na aktualnu hodnotu
         EditTextPreference stop = (EditTextPreference) findPreference(KEY_PREF_STOP);
         stop.setSummary(stop.getText());
-
-
     }
 
     // Odtialto dole je tu na okamzitu zmenu v setting aktivite

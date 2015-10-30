@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="pokus_color">#0000CC</color>
+    <color name="spravne_color">#00CC00</color>
+    <color name="nespravne_color">#CC0000</color>
+    <color name="default_color">#888888</color>
+</resources>

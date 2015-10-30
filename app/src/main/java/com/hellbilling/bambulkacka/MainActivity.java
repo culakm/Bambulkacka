@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.RadioButton;
 
 import java.lang.reflect.Method;
 
@@ -16,19 +15,24 @@ public class MainActivity extends ActionBarActivity {
 
     /*
 
-    urobit  menu kde bude jedno settings
-
-
-    v settings nastavit parametre po jednom
-                nastavit vsetky parametre v jednom okne
-        - nastavovat typ prikladov
-        - nastavit defaultny typ prikladov
-        - nastavovat oslovenie
-
-    custom back v action bare
+    pozriet pripad cez 10 pred﹕ 130 = 3
+    Priklad.java, riadok 108
+           String newName = stringNumber.substring(0,lengthNumber - lengthLastDigit)+stringlastDigit;
 
     dorobit priklady cez 10
 
+    vyskusat uplne prvotne nastavenie pre znamienko a extra !!
+
+    zmena settingsov aj z kalkulacky, len prikladovych, nie user_name
+
+    nejaku konstantu pre default value start, stop. znamienko, extra
+
+    custom back v action bare
+
+    zkontrolovat spravanie sa MediaPlayeru podla vypisov na konzole
+        E/MediaPlayer-JNI﹕ QCMediaPlayer mediaplayer NOT present
+        E/MediaPlayer﹕ Should have subtitle controller already set
+        W/MediaPlayer-JNI﹕ MediaPlayer finalized without being released
 
     prirobit pocitadlo prikladov (uchovavat objeky prikladov?)
 
@@ -41,51 +45,16 @@ public class MainActivity extends ActionBarActivity {
     co je to context??
      */
 
-    // default hodnota pre range
-    String radioStatus = "do100";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-
     }
 
     public void buttonSendsMessage(View view) {
-
         Intent intent;
         intent = new Intent(this, Kalkulacka.class);
-        intent.putExtra("calkStatus",radioStatus);
         startActivity(intent);
-
-    }
-
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.radioButton1:
-                if (checked)
-                    radioStatus = "do20";
-                break;
-            case R.id.radioButton2:
-                if (checked)
-                    radioStatus = "do100";
-                break;
-            case R.id.radioButton3:
-                if (checked)
-                    radioStatus = "nad100";
-                break;
-            case R.id.radioButton4:
-                if (checked)
-                    radioStatus = "do100cez10";
-                break;
-        }
     }
 
     @Override
@@ -120,17 +89,14 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-
         switch (item.getItemId()) {
             case R.id.add:
-
                 return(true);
-
+            // Startovanie settings aktivity
             case R.id.settings:
                 Intent intent;
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
-
                 return(true);
         }
 
