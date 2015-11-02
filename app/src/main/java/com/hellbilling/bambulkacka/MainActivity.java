@@ -15,11 +15,9 @@ public class MainActivity extends ActionBarActivity {
 
     /*
 
-    pozriet pripad cez 10 pred﹕ 130 = 3
-    Priklad.java, riadok 108
-           String newName = stringNumber.substring(0,lengthNumber - lengthLastDigit)+stringlastDigit;
+    cez 10 pre plus zmenit natvrdo napisanu 10 while (aLastDigit + bLastDigit < 10);
 
-    dorobit priklady cez 10
+    ako updatovat settings hodnoty ak ich nastavujem v kalkulacka.java?
 
     vyskusat uplne prvotne nastavenie pre znamienko a extra !!
 
@@ -41,6 +39,8 @@ public class MainActivity extends ActionBarActivity {
     pouzit custom preference, posuvace, hodiny, kalendar,,,,,,
     http://developer.android.com/guide/topics/ui/settings.html#Custom
     http://stackoverflow.com/questions/16108609/android-creating-custom-preference
+
+    pozret algoritmus prikladov cez 10
 
     co je to context??
      */

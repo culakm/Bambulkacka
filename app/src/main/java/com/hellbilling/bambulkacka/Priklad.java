@@ -43,23 +43,41 @@ public class Priklad implements Parcelable {
         this.extra = parExtra;
     }
 
-    public void getCisla(){
+    public void getCisla() {
 
         // Generuj nahodne znamienko
-        if (znamienko.equals("+/-")){znamienko = generateZnamienko();}
+        if (znamienko.equals("+/-")) {
+            znamienko = generateZnamienko();
+        }
 
-        // Generuj nahodne a
-        a = generateRandomInt();
 
-        if (znamienko.equals("+")){
+        if (znamienko.equals("+")) {
             do {
-                b = generateRandomInt();
+                if (extra.equals("cez 10")){
+                    int aLastDigit = 0;
+                    int bLastDigit = 0;
+                    do {
+                        // Generuj nahodne a
+                        a = generateRandomInt();
+                        aLastDigit = lastDigit(a);
+                    } while (aLastDigit == 0);
+
+
+                    do {
+                        // Generuj nahodne a
+                        b = generateRandomInt();
+                        bLastDigit = lastDigit(b);
+                    } while (aLastDigit + bLastDigit < 10);
+                }
+                else {
+                    a = generateRandomInt();
+                    b = generateRandomInt();
+                }
+
                 vysledok = a + b;
-                Log.d("priklad", "znamienko: " + znamienko + ", a: " + a + ", b: " + b + " = " + vysledok);
-                Log.d("podmienka", vysledok + " >=  " + start + " && " + vysledok + " <= " +stop);
-
-
-            } while ( !(vysledok >= start && vysledok <= stop) );
+        Log.d("priklad", "znamienko: " + znamienko + ", a: " + a + ", b: " + b + " = " + vysledok);
+        Log.d("podmienka", vysledok + " >=  " + start + " && " + vysledok + " <= " +stop);
+        } while ( !(vysledok >= start && vysledok <= stop) );
 
         }
         else if (znamienko.equals("-")) {
@@ -74,7 +92,7 @@ public class Priklad implements Parcelable {
                 }
 
                 if (extra.equals("cez 10")){
-Log.d("cez 10 pred",  a + " = " +  b);
+//Log.d("cez 10 pred",  a + " = " +  b);
                     int aLastDigit = lastDigit(a);
                     int bLastDigit = lastDigit(b);
 
@@ -82,22 +100,14 @@ Log.d("cez 10 pred",  a + " = " +  b);
                         a = changeDigit(a,bLastDigit);
                         b = changeDigit(b,aLastDigit);
                     }
-Log.d("cez 10 po",  a + " = " +  b);
-                   // if ( a < b ) ak nastane toto, co je hovadina, je vysledok mensi ako start a ideme este raz
+//Log.d("cez 10 po",  a + " = " +  b);
+                    // if ( a < b ) ak nastane toto, co je hovadina, je vysledok mensi ako start a ideme este raz
                 }
-
-                // pre istotu
-                // vymen a a b ak je a mensie ako b
-//                if (a < b){
-//                    int c = a;
-//                    a = b;
-//                    b = c;
-//                }
 
                 vysledok = a - b;
                 Log.d("priklad",  a + " " + znamienko + " " + b + " = " + vysledok);
                 Log.d("podmienka", vysledok + " >=  " + start + " && " + vysledok + " <= " +stop);
-            //} while ( !(vysledok >= start && vysledok <= stop)  );
+                //} while ( !(vysledok >= start && vysledok <= stop)  );
             } while ( (a < b) || (!(vysledok >= start && vysledok <= stop))  );
         }
     }
@@ -149,17 +159,6 @@ Log.d("cez 10 po",  a + " = " +  b);
             list.add(Character.getNumericValue(numStr.charAt(i)));
         }
         return list;
-        /*
-        ;
-
-        int[] result = new int[numStr.length()];
-        for(int i=0;i<result.length;i++)
-        {
-            result[i] = Character.getNumericValue(numStr.charAt(i));
-            Log.d("Split", String.valueOf(result[i]));
-        }
-        return result[];
-        */
     }
     // Gety
     int getA (){
@@ -218,7 +217,6 @@ Log.d("cez 10 po",  a + " = " +  b);
         znamienko = in.readString();
     }
 
-    // Odtialto to tam doplnilo parcelable
     @Override
     public int describeContents() {
         return 0;
@@ -228,10 +226,11 @@ Log.d("cez 10 po",  a + " = " +  b);
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(start);
         dest.writeInt(stop);
+        dest.writeString(znamienko);
+        dest.writeString(extra);
         dest.writeInt(a);
         dest.writeInt(b);
         dest.writeInt(vysledok);
-        dest.writeString(znamienko);
     }
 
     @SuppressWarnings("unused")

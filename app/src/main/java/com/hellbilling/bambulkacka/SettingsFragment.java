@@ -18,6 +18,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     public static final String KEY_PREF_ZNAMIENKO = "znamienko";
     public static final String KEY_PREF_EXTRA = "extra";
     public static final String KEY_PREF_USER_NAME = "user_name";
+    public static final String KEY_PREF_REPEAT = "repeat";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,11 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         // Nastavenie summary na aktualnu hodnotu
         EditTextPreference user_name = (EditTextPreference) findPreference(KEY_PREF_USER_NAME);
         user_name.setSummary(user_name.getText());
+
+        // Nastavenie summary na aktualnu hodnotu
+        EditTextPreference repeat = (EditTextPreference) findPreference(KEY_PREF_REPEAT);
+        repeat.setSummary(repeat.getText());
+
 
         // Nastavenie summary na aktualnu hodnotu
         EditTextPreference start = (EditTextPreference) findPreference(KEY_PREF_START);
@@ -73,6 +79,12 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         }
 
         // Change summary
+        if (key.equals(KEY_PREF_REPEAT)) {
+            Preference repeat = findPreference(key);
+            repeat.setSummary(sharedPreferences.getString(key, ""));
+        }
+
+        // Change summary
         if (key.equals(KEY_PREF_START)) {
             Preference username = findPreference(key);
             username.setSummary(sharedPreferences.getString(key, ""));
@@ -90,14 +102,14 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         ListPreference listPreference = (ListPreference) preference;
 
-            int id = 0;
-            for (int i = 0; i < listPreference.getEntryValues().length; i++) {
-                if (listPreference.getEntryValues()[i].equals(newValue.toString())) {
-                    id = i;
-                    break;
-                }
+        int id = 0;
+        for (int i = 0; i < listPreference.getEntryValues().length; i++) {
+            if (listPreference.getEntryValues()[i].equals(newValue.toString())) {
+                id = i;
+                break;
             }
-            preference.setSummary(listPreference.getEntries()[id]);
+        }
+        preference.setSummary(listPreference.getEntries()[id]);
 
         return true;
     }

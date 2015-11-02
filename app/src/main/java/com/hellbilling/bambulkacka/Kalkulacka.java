@@ -1,5 +1,6 @@
 package com.hellbilling.bambulkacka;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
@@ -27,6 +28,9 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     // Ine nastavenie
     private String userName;
 
+    // Pristup k settingu
+    SharedPreferences sharedPref;
+
     // Widgety aktivity
     // Tu zadavame vysledok
     EditText vysledokLocal;
@@ -52,6 +56,9 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kalkulacka);
 
+
+
+
         // zistenie widgetov z obrazovky
         vysledokLocal =(EditText)findViewById(R.id.vysledok_text);
         prikladText =(TextView)findViewById(R.id.prikladText);
@@ -63,7 +70,8 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         vysledokLocal.setOnEditorActionListener(this);
 
         // Nacitaj settingy
-        getSettings();
+        //getSettings();
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         // riesi zotavenie po zmene orientacie
         restoreMe(savedInstanceState);
@@ -78,6 +86,13 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
     // Nacita priklad
     private void getPriklad() {
+
+        prikladStart = Integer.parseInt(sharedPref.getString("start", "0"));
+        prikladStop = Integer.parseInt(sharedPref.getString("stop", "100"));
+        prikladZnamienko = sharedPref.getString("znamienko", "+/-");
+        prikladExtra = sharedPref.getString("extra", "nic");
+        userName = sharedPref.getString("user_name", "Detisko");
+
         priklad = new Priklad(prikladStart,prikladStop,prikladZnamienko,prikladExtra);
         priklad.getCisla();
         // Nastavi text prikladu
@@ -147,7 +162,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
     }
 
-    // Natiahne settings
+    // Natiahne settings, nikdy nepouzite, settingy sa natahuju v getPriklad
     private void getSettings(){
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -236,16 +251,18 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            // Startovanie settings aktivity
+            case R.id.settings:
+                Intent intent;
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return(true);
         }
 
-        return super.onOptionsItemSelected(item);
+        return(super.onOptionsItemSelected(item));
     }
+
+
 }

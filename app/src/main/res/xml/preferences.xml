@@ -27,11 +27,17 @@
             android:defaultValue="nic"
            />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Ostatne nastavenia">
+    <PreferenceCategory android:title="Ostatne nastavenia" >
         <EditTextPreference android:title="Meno uzivatela"
             android:key="user_name"
             android:summary="%s"
             android:dialogTitle="Zadaj meno"
             android:defaultValue="Detisko" />
+        <EditTextPreference android:title="Pocet opakovani"
+            android:key="repeat"
+            android:summary="%s"
+            android:dialogTitle="Zadaj pocet prikladov"
+            android:defaultValue="10"
+            android:inputType="number" />
     </PreferenceCategory>
 </PreferenceScreen>
