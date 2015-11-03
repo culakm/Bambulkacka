@@ -50,25 +50,47 @@ public class Priklad implements Parcelable {
             znamienko = generateZnamienko();
         }
 
-
+        // + cast
         if (znamienko.equals("+")) {
             do {
+//a 24,
+                // extra
                 if (extra.equals("cez 10")){
                     int aLastDigit = 0;
                     int bLastDigit = 0;
+                    int power = 0;
                     do {
                         // Generuj nahodne a
                         a = generateRandomInt();
+
                         aLastDigit = lastDigit(a);
                     } while (aLastDigit == 0);
 
 
+
                     do {
-                        // Generuj nahodne a
+                        // Generuj nahodne b
                         b = generateRandomInt();
-                        bLastDigit = lastDigit(b);
-                    } while (aLastDigit + bLastDigit < 10);
-                }
+                        a++;
+                        Log.d("+ cez10", "a: " + a + ", aLastDigit: " + aLastDigit);
+                        if (lengthDigit(a) != lengthDigit(b)){
+                            int minLength = Math.min(lengthDigit(a), lengthDigit(b));
+                            power = minLength - 1;
+                            aLastDigit = lastDigit(a,power);
+                            //Log.d("+ cez10", "aLastDigit: " + aLastDigit);
+                            bLastDigit = lastDigit(b,power);
+                            //Log.d("+ cez10", "bLastDigit: " + bLastDigit);
+                        }
+                        else {
+                            power = lengthDigit(a) - 1;
+                            bLastDigit = lastDigit(b);
+                        }
+
+                        Log.d("+ cez10", "b: " + b + ", bLastDigit: " + bLastDigit);
+                    // sucet lastDigitov musi byt vacsi ako 10^power
+                        Log.d("+ cez10", "sucet latdigitov: " + (aLastDigit + bLastDigit) + ", power: " + power +" < 10 power " + (Math.pow(10,power)) );
+                    } while (aLastDigit + bLastDigit < Math.pow(10,power));
+                } // normal
                 else {
                     a = generateRandomInt();
                     b = generateRandomInt();
@@ -131,8 +153,12 @@ public class Priklad implements Parcelable {
         return Integer.valueOf(newNumber);
     }
 
+    private static int lengthDigit(int number){
+        return String.valueOf(number).length();
+    }
+
     private static int lastDigit(int number){
-        int length = String.valueOf(number).length();
+        int length = lengthDigit(number);
         int power;
         if (length == 1) {
             power = length;

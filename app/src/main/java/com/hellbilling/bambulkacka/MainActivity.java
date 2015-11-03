@@ -15,7 +15,7 @@ public class MainActivity extends ActionBarActivity {
 
     /*
 
-    cez 10 pre plus zmenit natvrdo napisanu 10 while (aLastDigit + bLastDigit < 10);
+    skontrolovat player, v settings povolit a zastavit zvuky, nastavit hlasitost?
 
     ako updatovat settings hodnoty ak ich nastavujem v kalkulacka.java?
 
