@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.hellbilling.bambulkacka.ResumeActivity">
+    <TextView
+        android:id="@+id/endText"
+        android:text="@string/end_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/abc_text_size_headline_material" />
+    <LinearLayout
+        android:id="@+id/pokusy"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/endText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" >
+        <TextView
+            android:id="@+id/textPokusov"
+            android:text="@string/pokusov"
+            android:textColor="@color/pokus_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/abc_text_size_large_material" />
+        <TextView
+            android:id="@+id/textPokusovCounter"
+            android:text="0"
+            android:textColor="@color/pokus_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/abc_text_size_large_material" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/spravne"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pokusy"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" >
+        <TextView
+            android:id="@+id/textSpravne"
+            android:text="@string/spravne"
+            android:textColor="@color/spravne_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/abc_text_size_large_material" />
+        <TextView
+            android:id="@+id/textSpravneCounter"
+            android:text="0"
+            android:textColor="@color/spravne_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/abc_text_size_large_material" />
+    </LinearLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:src="@drawable/endimage"
+        android:onClick="buttonSendsMessage"
+        android:layout_below="@+id/spravne"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/spravne"
+        android:layout_alignEnd="@+id/spravne" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/again"
+        android:text="Ešte raz"
+        android:onClick="buttonSendsMessageAgain"
+        android:layout_below="@+id/imageButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/spravne"
+        android:layout_alignEnd="@+id/spravne" />
+</RelativeLayout>

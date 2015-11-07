@@ -53,12 +53,11 @@ public class Priklad implements Parcelable {
         // + cast
         if (znamienko.equals("+")) {
             do {
-//a 24,
                 // extra
                 if (extra.equals("cez 10")){
-                    int aLastDigit = 0;
-                    int bLastDigit = 0;
-                    int power = 0;
+                    int aLastDigit;
+                    int bLastDigit;
+                    int power;
                     do {
                         // Generuj nahodne a
                         a = generateRandomInt();
@@ -66,13 +65,12 @@ public class Priklad implements Parcelable {
                         aLastDigit = lastDigit(a);
                     } while (aLastDigit == 0);
 
-
-
                     do {
                         // Generuj nahodne b
                         b = generateRandomInt();
+                        // a inkrementujem aby rychlejsie narastlo do 10
                         a++;
-                        Log.d("+ cez10", "a: " + a + ", aLastDigit: " + aLastDigit);
+                        //Log.d("+ cez10", "a: " + a + ", aLastDigit: " + aLastDigit);
                         if (lengthDigit(a) != lengthDigit(b)){
                             int minLength = Math.min(lengthDigit(a), lengthDigit(b));
                             power = minLength - 1;
@@ -86,9 +84,9 @@ public class Priklad implements Parcelable {
                             bLastDigit = lastDigit(b);
                         }
 
-                        Log.d("+ cez10", "b: " + b + ", bLastDigit: " + bLastDigit);
-                    // sucet lastDigitov musi byt vacsi ako 10^power
-                        Log.d("+ cez10", "sucet latdigitov: " + (aLastDigit + bLastDigit) + ", power: " + power +" < 10 power " + (Math.pow(10,power)) );
+                        //Log.d("+ cez10", "b: " + b + ", bLastDigit: " + bLastDigit);
+                        // sucet lastDigitov musi byt vacsi ako 10^power
+                        //Log.d("+ cez10", "sucet latdigitov: " + (aLastDigit + bLastDigit) + ", power: " + power +" < 10 power " + (Math.pow(10,power)) );
                     } while (aLastDigit + bLastDigit < Math.pow(10,power));
                 } // normal
                 else {
@@ -97,11 +95,11 @@ public class Priklad implements Parcelable {
                 }
 
                 vysledok = a + b;
-        Log.d("priklad", "znamienko: " + znamienko + ", a: " + a + ", b: " + b + " = " + vysledok);
-        Log.d("podmienka", vysledok + " >=  " + start + " && " + vysledok + " <= " +stop);
-        } while ( !(vysledok >= start && vysledok <= stop) );
+                Log.d("priklad", "znamienko: " + znamienko + ", a: " + a + ", b: " + b + " = " + vysledok);
+                Log.d("podmienka", vysledok + " >=  " + start + " && " + vysledok + " <= " +stop);
+            } while ( !(vysledok >= start && vysledok <= stop) );
 
-        }
+        } // - cast
         else if (znamienko.equals("-")) {
             do {
                 b = generateRandomInt();
@@ -114,7 +112,7 @@ public class Priklad implements Parcelable {
                 }
 
                 if (extra.equals("cez 10")){
-//Log.d("cez 10 pred",  a + " = " +  b);
+                    //Log.d("cez 10 pred",  a + " = " +  b);
                     int aLastDigit = lastDigit(a);
                     int bLastDigit = lastDigit(b);
 
@@ -122,10 +120,9 @@ public class Priklad implements Parcelable {
                         a = changeDigit(a,bLastDigit);
                         b = changeDigit(b,aLastDigit);
                     }
-//Log.d("cez 10 po",  a + " = " +  b);
+                    //Log.d("cez 10 po",  a + " = " +  b);
                     // if ( a < b ) ak nastane toto, co je hovadina, je vysledok mensi ako start a ideme este raz
                 }
-
                 vysledok = a - b;
                 Log.d("priklad",  a + " " + znamienko + " " + b + " = " + vysledok);
                 Log.d("podmienka", vysledok + " >=  " + start + " && " + vysledok + " <= " +stop);
@@ -134,6 +131,7 @@ public class Priklad implements Parcelable {
         }
     }
 
+    // vymeni posledne cislice number za lastDigit
     private static int changeDigit (int number, int lastDigit){
         String stringNumber = String.valueOf(number);
         String stringlastDigit = String.valueOf(lastDigit);
@@ -153,10 +151,12 @@ public class Priklad implements Parcelable {
         return Integer.valueOf(newNumber);
     }
 
+    // zisti dlzku number
     private static int lengthDigit(int number){
         return String.valueOf(number).length();
     }
 
+    // zisti posledne cislice od prvej cislice number
     private static int lastDigit(int number){
         int length = lengthDigit(number);
         int power;
@@ -170,11 +170,13 @@ public class Priklad implements Parcelable {
         return number % mod;
     }
 
+    // zisti posledne cislice od zadanej cislice 10^power
     private static int lastDigit(int number, int power){
         int mod = (int) Math.pow(10,power);
         return number % mod;
     }
 
+    // vytvori pole vsetkych cislic v num
     private List<Integer> splitNumer (int num){
 
         List<Integer> list = new ArrayList<>();
@@ -186,6 +188,7 @@ public class Priklad implements Parcelable {
         }
         return list;
     }
+
     // Gety
     int getA (){
         return a;

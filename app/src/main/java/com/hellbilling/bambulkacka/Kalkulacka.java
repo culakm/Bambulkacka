@@ -27,6 +27,8 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     private String prikladExtra;
     // Ine nastavenie
     private String userName;
+    // pocet prikladov
+    private int repeat;
 
     // Pristup k settingu
     SharedPreferences sharedPref;
@@ -56,9 +58,6 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kalkulacka);
 
-
-
-
         // zistenie widgetov z obrazovky
         vysledokLocal =(EditText)findViewById(R.id.vysledok_text);
         prikladText =(TextView)findViewById(R.id.prikladText);
@@ -72,6 +71,8 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         // Nacitaj settingy
         //getSettings();
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        // Pocet opakovani
+        repeat = Integer.parseInt(sharedPref.getString("repeat", "10"));
 
         // riesi zotavenie po zmene orientacie
         restoreMe(savedInstanceState);
@@ -105,8 +106,6 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         String vysledokLocalStr = vysledokLocal.getText().toString();
         int vysledokLocalInt;
 
-
-
         errorText.setTextColor(getResources().getColor(R.color.default_color));
         errorText.setText("");
 
@@ -138,24 +137,37 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         if (vysledokLocalInt == priklad.getVysledok()){
             Log.d("++", "vysledok je dobre");
             // prehrajeme ok zvuk
-            playSound("ok");
+            if (sharedPref.getBoolean("sound", true)){playSound("ok");}
 
             textSpravneCounter.setText(++spravne + "");
             textPokusovCounter.setText(++pokusov + "");
             errorText.setTextColor(getResources().getColor(R.color.spravne_color));
             errorText.setText(userName + ", ty si genius, " + priklad.getCelyPrikladString() + ", ides dalej.");
-            getPriklad();
+
+            // ak je dokoncene tak otvori resume aktivitu
+            if (spravne == repeat){
+                Intent intent;
+                intent = new Intent(this, ResumeActivity.class);
+                intent.putExtra("spravne",spravne);
+                intent.putExtra("pokusov",pokusov);
+
+                startActivity(intent);
+            } // inak da novy priklad
+            else {
+                getPriklad();
+            }
         }
         // Vysledok zle
         else {
             Log.d("--", "vysledok je zle");
             // Prehrajeme NOK zvuk
-            playSound("nok");
+            if (sharedPref.getBoolean("sound", true)){playSound("nok");}
             textPokusovCounter.setText(++pokusov + "");
             //errorText.setTextColor(getResources().getIdentifier("nespravne_color", "color", getPackageName()));
             errorText.setTextColor(getResources().getColor(R.color.nespravne_color));
             errorText.setText(userName + ", " + userName + ". Cele zle, musis si to zopakovat este raz!");
         }
+
 
         // Vynuluj editText
         vysledokLocal.setText("");
