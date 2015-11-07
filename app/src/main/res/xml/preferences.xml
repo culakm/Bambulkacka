@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="Main">
+    <PreferenceScreen
+        android:key="button_priklad_key"
+        android:title="Nastavenie prikladov"
+        android:persistent="false">
         <EditTextPreference android:title="Vysledok od"
             android:key="start"
             android:summary="%s"
@@ -26,8 +29,11 @@
             android:entryValues="@array/extra"
             android:defaultValue="nic"
            />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Ostatne nastavenia" >
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:key="button_ostatne_key"
+        android:title="Nastavenie ostatneho"
+        android:persistent="false">
         <EditTextPreference android:title="Meno uzivatela"
             android:key="user_name"
             android:summary="%s"
@@ -43,5 +49,5 @@
             android:dialogTitle="Zadaj pocet prikladov"
             android:defaultValue="10"
             android:inputType="number" />
-    </PreferenceCategory>
+    </PreferenceScreen>
 </PreferenceScreen>

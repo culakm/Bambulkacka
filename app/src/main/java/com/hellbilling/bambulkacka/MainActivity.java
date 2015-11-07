@@ -1,6 +1,7 @@
 package com.hellbilling.bambulkacka;
 
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,6 +50,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Nastavi defaultne hodnoty preference
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
     public void buttonSendsMessage(View view) {
