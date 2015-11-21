@@ -268,7 +268,8 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             // Startovanie settings aktivity
             case R.id.settings:
                 Intent intent;
-                intent = new Intent(this, SettingsActivity.class);
+                intent = new Intent(this, PreferencesActivity.class);
+                intent.putExtra("preferencesType","kalkulacka");
                 startActivity(intent);
                 return(true);
         }

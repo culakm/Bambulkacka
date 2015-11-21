@@ -16,9 +16,12 @@ public class MainActivity extends ActionBarActivity {
 
     /*
 
+    urobit skupiny settingsov ako fragmenty a pouzit ich rozlicne v mainActivity a v Kalkulacke - Creating the headers file
     skontrolovat player, v settings povolit a zastavit zvuky, nastavit hlasitost?
 
     ako updatovat settings hodnoty ak ich nastavujem v kalkulacka.java?
+
+    preco nejdu ikony v settingsoch? preferences header android:icon="@drawable/cw"
 
     vyskusat uplne prvotne nastavenie pre znamienko a extra !!
 
@@ -27,6 +30,8 @@ public class MainActivity extends ActionBarActivity {
     nejaku konstantu pre default value start, stop. znamienko, extra
 
     custom back v action bare
+
+    okrem start a stop vysledku zadavat aj start a stop cislam !!!!
 
     zkontrolovat spravanie sa MediaPlayeru podla vypisov na konzole
         E/MediaPlayer-JNI﹕ QCMediaPlayer mediaplayer NOT present
@@ -99,7 +104,8 @@ public class MainActivity extends ActionBarActivity {
             // Startovanie settings aktivity
             case R.id.settings:
                 Intent intent;
-                intent = new Intent(this, SettingsActivity.class);
+                intent = new Intent(this, PreferencesActivity.class);
+                intent.putExtra("preferencesType","main");
                 startActivity(intent);
                 return(true);
         }

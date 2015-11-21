@@ -20,9 +20,17 @@
     <string name="pref_sync_summ2">pref_sync_summ_text2</string>
     <string name="end_text">Výborne, tak to je hotové</string>
 
+    <string name="prefs_example">Priklad</string>
+    <string name="prefs_summ_example">Nastavenia tykajuce sa prikladu</string>
+    <string name="prefs_app">Aplikacia</string>
+    <string name="prefs_summ_app">Nastavenia tykajuce sa celej aplikacie</string>
+
+
+
 <!-- TODO: Remove or change this placeholder text -->
 
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_resume">ResumeActivity</string>
+    <string name="title_activity_preferences">PreferencesActivity</string>
 
 </resources>

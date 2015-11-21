@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--toto tu moze byt miesto PreferenceScreen a potom sa to zobrazuje vsetko naraz v podskupinach<PreferenceCategory android:title="Main">-->
     <PreferenceScreen
         android:key="button_priklad_key"
         android:title="Nastavenie prikladov"

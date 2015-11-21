@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Apppppp">
+        <EditTextPreference android:title="Meno uzivatela"
+            android:key="user_name"
+            android:summary="%s"
+            android:dialogTitle="Zadaj meno"
+            android:defaultValue="Detisko" />
+        <CheckBoxPreference android:title="Zvuk"
+            android:key="sound"
+            android:summary="Zapnut zvuk"
+            android:defaultValue="true" />
+        <EditTextPreference android:title="Pocet opakovani"
+            android:key="repeat"
+            android:summary="%s"
+            android:dialogTitle="Zadaj pocet prikladov"
+            android:defaultValue="10"
+            android:inputType="number" />
+    </PreferenceCategory>
+</PreferenceScreen>
