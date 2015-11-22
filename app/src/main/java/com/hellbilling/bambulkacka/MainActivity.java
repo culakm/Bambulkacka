@@ -4,51 +4,49 @@ import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-
-import java.lang.reflect.Method;
 
 public class MainActivity extends ActionBarActivity {
 
     /*
 
-    urobit skupiny settingsov ako fragmenty a pouzit ich rozlicne v mainActivity a v Kalkulacke - Creating the headers file
-    skontrolovat player, v settings povolit a zastavit zvuky, nastavit hlasitost?
+http://developer.android.com/guide/topics/ui/menus.html
 
-    ako updatovat settings hodnoty ak ich nastavujem v kalkulacka.java?
-
-    preco nejdu ikony v settingsoch? preferences header android:icon="@drawable/cw"
-
-    vyskusat uplne prvotne nastavenie pre znamienko a extra !!
-
-    zmena settingsov aj z kalkulacky, len prikladovych, nie user_name
-
+    ###FUNKCNOST
+    vymazat settings subory
+    okrem start a stop vysledku zadavat aj start a stop cislam !!!!
     nejaku konstantu pre default value start, stop. znamienko, extra
+    prirobit pocitadlo prikladov (uchovavat objeky prikladov?)
+    po splneni urciteho poctu prikladov spustit youtube
 
+    ###MENU-ACTION BAR
     custom back v action bare
 
-    okrem start a stop vysledku zadavat aj start a stop cislam !!!!
 
+    ### SETTINGS
+    ako mat uz otvoreny headerFragment v settingsoch?
+    back v jednotlivych fragmentoch
+    preco nejdu ikony v settingsoch? preferences header android:icon="@drawable/cw"
+    ako updatovat settings hodnoty ak ich nastavujem v kalkulacka.java? neviem co som tym chcel povedat
+    pouzit custom preference, posuvace, hodiny, kalendar,,,,,,
+    http://developer.android.com/guide/topics/ui/settings.html#Custom
+    http://stackoverflow.com/questions/16108609/android-creating-custom-preference
+    ### ZVUK
     zkontrolovat spravanie sa MediaPlayeru podla vypisov na konzole
         E/MediaPlayer-JNI﹕ QCMediaPlayer mediaplayer NOT present
         E/MediaPlayer﹕ Should have subtitle controller already set
         W/MediaPlayer-JNI﹕ MediaPlayer finalized without being released
 
-    prirobit pocitadlo prikladov (uchovavat objeky prikladov?)
+    alebo na prskonovom
+    11-22 08:18:36.966    7369-7369/com.hellbilling.bambulkacka I/MediaPlayer﹕ Don't send intent. msg.arg1 = 0, msg.arg2 = 0
+11-22 08:18:36.966    7369-7369/com.hellbilling.bambulkacka E/MediaPlayer﹕ Should have subtitle controller already set
+    skontrolovat player, v settings povolit a zastavit zvuky, nastavit hlasitost RingtonePreference?
 
-    po splneni urciteho poctu prikladov spustit youtube
+    ### ODOVZDAVANIE
+    vyskusat uplne prvotne nastavenie pre znamienko a extra !!
 
-    pouzit custom preference, posuvace, hodiny, kalendar,,,,,,
-    http://developer.android.com/guide/topics/ui/settings.html#Custom
-    http://stackoverflow.com/questions/16108609/android-creating-custom-preference
-
-    pozret algoritmus prikladov cez 10
-
-    co je to context??
      */
 
     @Override
@@ -72,7 +70,7 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
+/*
     // Toto cele je LEN na zobrazenie ikony v menu!
     @Override
     public boolean onMenuOpened(int featureId, Menu menu)
@@ -95,6 +93,7 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onMenuOpened(featureId, menu);
     }
+*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

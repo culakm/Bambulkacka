@@ -2,9 +2,12 @@ package com.hellbilling.bambulkacka;
 
 import android.preference.PreferenceActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PreferencesActivity extends PreferenceActivity {
+
+    private static List<String> fragments = new ArrayList<String>();
 
     @Override
     public void onBuildHeaders(List<Header> target) {
@@ -25,7 +28,18 @@ public class PreferencesActivity extends PreferenceActivity {
                 break;
         }
 
+        fragments.clear();
+        for (Header header : target) {
+            fragments.add(header.fragment);
+        }
+
         // This in xml file can give argument into fragment
         // <extra android:name="someKey" android:value="someHeaderValue" />
+    }
+
+    @Override
+    protected boolean isValidFragment(String fragmentName)
+    {
+        return fragments.contains(fragmentName);
     }
 }
