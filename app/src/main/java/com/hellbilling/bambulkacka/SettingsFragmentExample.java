@@ -10,7 +10,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 
 
-public class PreferenceFragmentExample extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
+public class SettingsFragmentExample extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
 
     public static final String KEY_PREF_START = "start";
     public static final String KEY_PREF_STOP = "stop";

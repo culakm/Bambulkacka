@@ -103,7 +103,7 @@ http://developer.android.com/guide/topics/ui/menus.html
             // Startovanie settings aktivity
             case R.id.settings:
                 Intent intent;
-                intent = new Intent(this, PreferencesActivity.class);
+                intent = new Intent(this, SettingsActivity.class);
                 intent.putExtra("preferencesType","main");
                 startActivity(intent);
                 return(true);

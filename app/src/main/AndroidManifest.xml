@@ -23,15 +23,11 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" >
-        </activity>
-        <activity
             android:name=".ResumeActivity"
             android:label="@string/title_activity_resume" >
         </activity>
         <activity
-            android:name=".PreferencesActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_preferences" >
         </activity>
     </application>

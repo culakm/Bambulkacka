@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-// Parcelable je implemetnovane aby sa objekt priklad dal prehadzovat cez onSaveInstanceState
+// Parcelable je implemetnovane aby sa objekt example dal prehadzovat cez onSaveInstanceState
 // nparcerable som ziskal hodenim kodu do http://www.parcelabler.com/
-public class Priklad implements Parcelable {
+public class Example implements Parcelable {
 
     private int start;
     private int stop;
@@ -22,7 +22,7 @@ public class Priklad implements Parcelable {
 
 
     // Konstruktor bez znamienka
-    public Priklad(int parStart, int parStop) {
+    public Example(int parStart, int parStop) {
 
         this.start = parStart;
         this.stop = parStop;
@@ -30,14 +30,14 @@ public class Priklad implements Parcelable {
     }
 
     // Konstruktor s znamienkom
-    public Priklad(int parStart, int parStop, String parZnamienko) {
+    public Example(int parStart, int parStop, String parZnamienko) {
 
         this(parStart,parStop);
         this.znamienko = parZnamienko;
     }
 
     // Konstruktor so znamienkom a s extra
-    public Priklad(int parStart, int parStop, String parZnamienko, String parExtra) {
+    public Example(int parStart, int parStop, String parZnamienko, String parExtra) {
 
         this(parStart,parStop,parZnamienko);
         this.extra = parExtra;
@@ -95,7 +95,7 @@ public class Priklad implements Parcelable {
                 }
 
                 vysledok = a + b;
-                Log.d("priklad", "znamienko: " + znamienko + ", a: " + a + ", b: " + b + " = " + vysledok);
+                Log.d("example", "znamienko: " + znamienko + ", a: " + a + ", b: " + b + " = " + vysledok);
                 Log.d("podmienka", vysledok + " >=  " + start + " && " + vysledok + " <= " +stop);
             } while ( !(vysledok >= start && vysledok <= stop) );
 
@@ -124,7 +124,7 @@ public class Priklad implements Parcelable {
                     // if ( a < b ) ak nastane toto, co je hovadina, je vysledok mensi ako start a ideme este raz
                 }
                 vysledok = a - b;
-                Log.d("priklad",  a + " " + znamienko + " " + b + " = " + vysledok);
+                Log.d("example",  a + " " + znamienko + " " + b + " = " + vysledok);
                 Log.d("podmienka", vysledok + " >=  " + start + " && " + vysledok + " <= " +stop);
                 //} while ( !(vysledok >= start && vysledok <= stop)  );
             } while ( (a < b) || (!(vysledok >= start && vysledok <= stop))  );
@@ -237,13 +237,14 @@ public class Priklad implements Parcelable {
         return znamienko;
     }
 
-    protected Priklad(Parcel in) {
+    protected Example(Parcel in) {
         start = in.readInt();
         stop = in.readInt();
+        znamienko = in.readString();
+        extra = in.readString();
         a = in.readInt();
         b = in.readInt();
         vysledok = in.readInt();
-        znamienko = in.readString();
     }
 
     @Override
@@ -263,15 +264,15 @@ public class Priklad implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Priklad> CREATOR = new Parcelable.Creator<Priklad>() {
+    public static final Parcelable.Creator<Example> CREATOR = new Parcelable.Creator<Example>() {
         @Override
-        public Priklad createFromParcel(Parcel in) {
-            return new Priklad(in);
+        public Example createFromParcel(Parcel in) {
+            return new Example(in);
         }
 
         @Override
-        public Priklad[] newArray(int size) {
-            return new Priklad[size];
+        public Example[] newArray(int size) {
+            return new Example[size];
         }
     };
 }

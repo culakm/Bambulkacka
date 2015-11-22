@@ -10,7 +10,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 
 
-public class PreferenceFragmentApp extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
+public class SettingsFragmentApp extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
 
     public static final String KEY_PREF_USER_NAME = "user_name";
     public static final String KEY_PREF_REPEAT = "repeat";

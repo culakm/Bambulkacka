@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
     <header
-        android:fragment="com.hellbilling.bambulkacka.PreferenceFragmentExample"
+        android:fragment="com.hellbilling.bambulkacka.SettingsFragmentExample"
         android:title="@string/prefs_example"
         android:summary="@string/prefs_summ_example"
         />
     <header
-        android:fragment="com.hellbilling.bambulkacka.PreferenceFragmentApp"
+        android:fragment="com.hellbilling.bambulkacka.SettingsFragmentApp"
         android:title="@string/prefs_app"
         android:summary="@string/prefs_summ_app"
     />

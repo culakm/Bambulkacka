@@ -45,8 +45,8 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     // Zobrazovanie poctu spravnych pokusov
     TextView textSpravneCounter;
 
-    // aktualny priklad
-    Priklad priklad;
+    // aktualny example
+    Example example;
 
     // Pocitadla
     int pokusov = 0;
@@ -77,15 +77,15 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         // riesi zotavenie po zmene orientacie
         restoreMe(savedInstanceState);
 
-        // nacitame aktualny priklad ak este neexistuje, inak sa taha z restoreMe
-        if(priklad==null) {
+        // nacitame aktualny example ak este neexistuje, inak sa taha z restoreMe
+        if(example ==null) {
             getPriklad();
         }
         // otvorim klavesnicu
         showSoftKeyboard();
     }
 
-    // Nacita priklad
+    // Nacita example
     private void getPriklad() {
 
         prikladStart = Integer.parseInt(sharedPref.getString("start", "0"));
@@ -94,10 +94,10 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         prikladExtra = sharedPref.getString("extra", "nic");
         userName = sharedPref.getString("user_name", "Detisko");
 
-        priklad = new Priklad(prikladStart,prikladStop,prikladZnamienko,prikladExtra);
-        priklad.getCisla();
+        example = new Example(prikladStart,prikladStop,prikladZnamienko,prikladExtra);
+        example.getCisla();
         // Nastavi text prikladu
-        prikladText.setText(priklad.getPrikladString());
+        prikladText.setText(example.getPrikladString());
     }
 
     // spracujeme odoslany vysledok
@@ -134,7 +134,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         }
 
         // Vysledok dobre
-        if (vysledokLocalInt == priklad.getVysledok()){
+        if (vysledokLocalInt == example.getVysledok()){
             Log.d("++", "vysledok je dobre");
             // prehrajeme ok zvuk
             if (sharedPref.getBoolean("sound", true)){playSound("ok");}
@@ -142,7 +142,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             textSpravneCounter.setText(++spravne + "");
             textPokusovCounter.setText(++pokusov + "");
             errorText.setTextColor(getResources().getColor(R.color.spravne_color));
-            errorText.setText(userName + ", ty si genius, " + priklad.getCelyPrikladString() + ", ides dalej.");
+            errorText.setText(userName + ", ty si genius, " + example.getCelyPrikladString() + ", ides dalej.");
 
             // ak je dokoncene tak otvori resume aktivitu
             if (spravne == repeat){
@@ -152,7 +152,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
                 intent.putExtra("pokusov",pokusov);
 
                 startActivity(intent);
-            } // inak da novy priklad
+            } // inak da novy example
             else {
                 getPriklad();
             }
@@ -230,7 +230,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("priklad", priklad);
+        outState.putParcelable("example", example);
         outState.putInt("pokusov", pokusov);
         outState.putInt("spravne", spravne);
     }
@@ -241,12 +241,12 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
         if  (state != null){
 
-            priklad = state.getParcelable("priklad");
+            example = state.getParcelable("example");
             pokusov = state.getInt("pokusov");
             spravne = state.getInt("spravne");
-            Log.d("--", "pokusov:"+priklad.getPrikladString());
+            Log.d("--", "pokusov:"+ example.getPrikladString());
             // Nastavi text prikladu
-            prikladText.setText(priklad.getPrikladString());
+            prikladText.setText(example.getPrikladString());
             textSpravneCounter.setText(spravne + "");
             textPokusovCounter.setText(pokusov + "");
         }
@@ -268,7 +268,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             // Startovanie settings aktivity
             case R.id.settings:
                 Intent intent;
-                intent = new Intent(this, PreferencesActivity.class);
+                intent = new Intent(this, SettingsActivity.class);
                 intent.putExtra("preferencesType","kalkulacka");
                 startActivity(intent);
                 return(true);
