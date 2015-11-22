@@ -15,14 +15,15 @@ public class MainActivity extends ActionBarActivity {
 http://developer.android.com/guide/topics/ui/menus.html
 
     ###FUNKCNOST
-    vymazat settings subory
+    niekedy nefunguje preberanie spravneho znamienka !!!
     okrem start a stop vysledku zadavat aj start a stop cislam !!!!
     nejaku konstantu pre default value start, stop. znamienko, extra
     prirobit pocitadlo prikladov (uchovavat objeky prikladov?)
     po splneni urciteho poctu prikladov spustit youtube
 
     ###MENU-ACTION BAR
-    custom back v action bare
+    action bar pre option menu, jednotlive hlavicky settings, pokec, back
+http://www.101apps.co.za/index.php/articles/preference-settings.html
 
 
     ### SETTINGS
@@ -46,6 +47,11 @@ http://developer.android.com/guide/topics/ui/menus.html
 
     ### ODOVZDAVANIE
     vyskusat uplne prvotne nastavenie pre znamienko a extra !!
+
+    ### OSTATNE
+    definovanie konstant??? co to je a ako sa to pouziva?
+    if (Constants.SETTING_UPDATE.equals(settings))
+        http://gmariotti.blogspot.sk/2013/01/preferenceactivity-preferencefragment_28.html
 
      */
 
@@ -94,34 +100,12 @@ http://developer.android.com/guide/topics/ui/menus.html
         return super.onMenuOpened(featureId, menu);
     }
 */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.add:
-                return(true);
-            // Startovanie settings aktivity
-            case R.id.settings:
-                Intent intent;
-                intent = new Intent(this, SettingsActivity.class);
-                intent.putExtra("preferencesType","main");
-                startActivity(intent);
-                return(true);
-        }
-
-        return(super.onOptionsItemSelected(item));
-        /*
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-        */
+    // Just start settings activity
+    public void startSettings(MenuItem item){
+        Intent intent;
+        intent = new Intent(this, SettingsActivity.class);
+        intent.putExtra("preferencesType","main");
+        startActivity(intent);
     }
 }

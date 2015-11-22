@@ -5,6 +5,7 @@
         />
     <item android:id="@+id/settings"
         android:title="Settings"
+        android:onClick="startSettings"
         />
 </menu>
     <!-- toto je options menu -->

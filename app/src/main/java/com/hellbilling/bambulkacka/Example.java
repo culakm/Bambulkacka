@@ -14,7 +14,7 @@ public class Example implements Parcelable {
 
     private int start;
     private int stop;
-    private String znamienko = "+/-";
+    private String sign = "+/-";
     private String extra = "nic";
     private int a;
     private int b;
@@ -30,28 +30,28 @@ public class Example implements Parcelable {
     }
 
     // Konstruktor s znamienkom
-    public Example(int parStart, int parStop, String parZnamienko) {
+    public Example(int parStart, int parStop, String parSign) {
 
         this(parStart,parStop);
-        this.znamienko = parZnamienko;
+        this.sign = parSign;
     }
 
     // Konstruktor so znamienkom a s extra
-    public Example(int parStart, int parStop, String parZnamienko, String parExtra) {
+    public Example(int parStart, int parStop, String parSign, String parExtra) {
 
-        this(parStart,parStop,parZnamienko);
+        this(parStart,parStop,parSign);
         this.extra = parExtra;
     }
 
     public void getCisla() {
 
-        // Generuj nahodne znamienko
-        if (znamienko.equals("+/-")) {
-            znamienko = generateZnamienko();
+        // Generuj nahodne sign
+        if (sign.equals("+/-")) {
+            sign = generateSign();
         }
 
         // + cast
-        if (znamienko.equals("+")) {
+        if (sign.equals("+")) {
             do {
                 // extra
                 if (extra.equals("cez 10")){
@@ -95,12 +95,12 @@ public class Example implements Parcelable {
                 }
 
                 vysledok = a + b;
-                Log.d("example", "znamienko: " + znamienko + ", a: " + a + ", b: " + b + " = " + vysledok);
+                Log.d("example", "sign: " + sign + ", a: " + a + ", b: " + b + " = " + vysledok);
                 Log.d("podmienka", vysledok + " >=  " + start + " && " + vysledok + " <= " +stop);
             } while ( !(vysledok >= start && vysledok <= stop) );
 
         } // - cast
-        else if (znamienko.equals("-")) {
+        else if (sign.equals("-")) {
             do {
                 b = generateRandomInt();
 
@@ -124,7 +124,7 @@ public class Example implements Parcelable {
                     // if ( a < b ) ak nastane toto, co je hovadina, je vysledok mensi ako start a ideme este raz
                 }
                 vysledok = a - b;
-                Log.d("example",  a + " " + znamienko + " " + b + " = " + vysledok);
+                Log.d("example",  a + " " + sign + " " + b + " = " + vysledok);
                 Log.d("podmienka", vysledok + " >=  " + start + " && " + vysledok + " <= " +stop);
                 //} while ( !(vysledok >= start && vysledok <= stop)  );
             } while ( (a < b) || (!(vysledok >= start && vysledok <= stop))  );
@@ -202,15 +202,15 @@ public class Example implements Parcelable {
         return vysledok;
     }
 
-    String getZnamienko (){
-        return znamienko;
+    String getSign(){
+        return sign;
     }
 
     String getExtra (){
         return extra;
     }
 
-    String getPrikladString () {  return a + znamienko + b + "="; }
+    String getPrikladString () {  return a + sign + b + "="; }
 
     String getCelyPrikladString () { return getPrikladString() + vysledok; }
 
@@ -226,21 +226,21 @@ public class Example implements Parcelable {
 
     }
 
-    private String generateZnamienko(){
-        String znamienko;
+    private String generateSign(){
+        String sign;
         if (generateRandomBool()){
-            znamienko = "+";
+            sign = "+";
         }
         else {
-            znamienko = "-";
+            sign = "-";
         }
-        return znamienko;
+        return sign;
     }
 
     protected Example(Parcel in) {
         start = in.readInt();
         stop = in.readInt();
-        znamienko = in.readString();
+        sign = in.readString();
         extra = in.readString();
         a = in.readInt();
         b = in.readInt();
@@ -256,7 +256,7 @@ public class Example implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(start);
         dest.writeInt(stop);
-        dest.writeString(znamienko);
+        dest.writeString(sign);
         dest.writeString(extra);
         dest.writeInt(a);
         dest.writeInt(b);

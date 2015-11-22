@@ -18,7 +18,7 @@
             android:defaultValue="100"
             android:inputType="number" />
         <ListPreference android:title="Znamienko"
-            android:key="znamienko"
+            android:key="sign"
             android:summary="%s"
             android:entries="@array/znamienka"
             android:entryValues="@array/znamienka"

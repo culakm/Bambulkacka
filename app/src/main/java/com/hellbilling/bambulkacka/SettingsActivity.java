@@ -28,6 +28,7 @@ public class SettingsActivity extends PreferenceActivity {
                 break;
         }
 
+        // Load fragments
         fragments.clear();
         for (Header header : target) {
             fragments.add(header.fragment);
@@ -37,6 +38,7 @@ public class SettingsActivity extends PreferenceActivity {
         // <extra android:name="someKey" android:value="someHeaderValue" />
     }
 
+    // Check validity of fragment
     @Override
     protected boolean isValidFragment(String fragmentName)
     {

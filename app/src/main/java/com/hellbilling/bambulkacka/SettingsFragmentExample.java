@@ -23,23 +23,13 @@ public class SettingsFragmentExample extends PreferenceFragment implements OnSha
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences_example);
 
-        // Nastavenie summary na aktualnu hodnotu
-        EditTextPreference start = (EditTextPreference) findPreference(KEY_PREF_START);
-        start.setSummary(start.getText());
+        // EditTextPreferences: set current value of summary
+        exampleEditTextPreferenceSetSummary(KEY_PREF_START);
+        exampleEditTextPreferenceSetSummary(KEY_PREF_STOP);
 
-        // Nastavenie summary na aktualnu hodnotu
-        EditTextPreference stop = (EditTextPreference) findPreference(KEY_PREF_STOP);
-        stop.setSummary(stop.getText());
-
-        // Register the ListPreference
-        ListPreference preferenceZnamienko = (ListPreference) findPreference(KEY_PREF_SIGN);
-        preferenceZnamienko.setSummary(preferenceZnamienko.getEntry());
-        preferenceZnamienko.setOnPreferenceChangeListener(this);
-
-        // Register the ListPreference
-        ListPreference preferenceExtra = (ListPreference) findPreference(KEY_PREF_EXTRA);
-        preferenceExtra.setSummary(preferenceExtra.getEntry());
-        preferenceExtra.setOnPreferenceChangeListener(this);
+        // ListPreferences: Register (onPreferenceChangeListener) and set current value of summary
+        exampleRegisterListPreference(KEY_PREF_SIGN);
+        exampleRegisterListPreference(KEY_PREF_EXTRA);
 
     }
 
@@ -63,14 +53,10 @@ public class SettingsFragmentExample extends PreferenceFragment implements OnSha
 
         // Change summary
         if (key.equals(KEY_PREF_START)) {
-            Preference username = findPreference(key);
-            username.setSummary(sharedPreferences.getString(key, ""));
+            exampleEditTextPreferenceSetSummary(key, sharedPreferences.getString(key, ""));
         }
-
-        // Change summary
-        if (key.equals(KEY_PREF_STOP)) {
-            Preference username = findPreference(key);
-            username.setSummary(sharedPreferences.getString(key, ""));
+        else if (key.equals(KEY_PREF_STOP)) {
+            exampleEditTextPreferenceSetSummary(key, sharedPreferences.getString(key, ""));
         }
     }
 
@@ -90,4 +76,24 @@ public class SettingsFragmentExample extends PreferenceFragment implements OnSha
 
         return true;
     }
+
+    // Change summary text of the preference
+    private void exampleEditTextPreferenceSetSummary(String key, String value){
+        EditTextPreference pref = (EditTextPreference) findPreference(key);
+        pref.setSummary(value);
+    }
+
+    // Change summary text of the preference, add it's own text as default
+    private void exampleEditTextPreferenceSetSummary(String key){
+        EditTextPreference pref = (EditTextPreference) findPreference(key);
+        exampleEditTextPreferenceSetSummary(key, pref.getText());
+    }
+
+    // Register List preference and change summary
+    private void exampleRegisterListPreference(String key){
+        ListPreference preferenceSign = (ListPreference) findPreference(key);
+        preferenceSign.setSummary(preferenceSign.getEntry());
+        preferenceSign.setOnPreferenceChangeListener(this);
+    }
+
 }
