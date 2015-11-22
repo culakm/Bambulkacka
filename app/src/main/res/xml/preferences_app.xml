@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/prefs_example">
-        <EditTextPreference android:title="Meno uzivatela"
+        <EditTextPreference android:title="Meno uzivatela je pekna hovadina"
             android:key="user_name"
             android:summary="%s"
             android:dialogTitle="Zadaj meno"
