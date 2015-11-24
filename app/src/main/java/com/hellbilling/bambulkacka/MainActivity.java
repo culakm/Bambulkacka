@@ -4,17 +4,13 @@ import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-
-import java.lang.reflect.Method;
 
 public class MainActivity extends ActionBarActivity {
 
-    /*
+    /*TODO
 
     skontrolovat player, v settings povolit a zastavit zvuky, nastavit hlasitost?
 
@@ -68,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
-    // Toto cele je LEN na zobrazenie ikony v menu!
+    /*/ Toto cele je LEN na zobrazenie ikony v menu!
     @Override
     public boolean onMenuOpened(int featureId, Menu menu)
     {
@@ -90,6 +86,8 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onMenuOpened(featureId, menu);
     }
+    */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -102,21 +100,8 @@ public class MainActivity extends ActionBarActivity {
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return(true);
+            default:
+                return(super.onOptionsItemSelected(item));
         }
-
-        return(super.onOptionsItemSelected(item));
-        /*
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-        */
     }
 }

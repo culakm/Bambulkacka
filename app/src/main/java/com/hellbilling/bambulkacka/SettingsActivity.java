@@ -10,7 +10,7 @@ public class SettingsActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
 
-        // Back klavesa
+        // Back key
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Display the fragment as the main content.
@@ -19,7 +19,7 @@ public class SettingsActivity extends ActionBarActivity {
                 .commit();
     }
 
-    // Obsluha back tlacitka
+    // Manage back key
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         onBackPressed();

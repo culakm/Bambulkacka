@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceScreen
+    <!--PreferenceScreen
         android:key="button_priklad_key"
         android:title="Nastavenie prikladov"
-        android:persistent="false">
+        android:persistent="false"-->
         <EditTextPreference android:title="Vysledok od"
             android:key="start"
             android:summary="%s"
@@ -17,7 +17,7 @@
             android:defaultValue="100"
             android:inputType="number" />
         <ListPreference android:title="Znamienko"
-            android:key="znamienko"
+            android:key="sign"
             android:summary="%s"
             android:entries="@array/znamienka"
             android:entryValues="@array/znamienka"
@@ -29,7 +29,7 @@
             android:entryValues="@array/extra"
             android:defaultValue="nic"
            />
-    </PreferenceScreen>
+    <!--/PreferenceScreen-->
     <PreferenceScreen
         android:key="button_ostatne_key"
         android:title="Nastavenie ostatneho"

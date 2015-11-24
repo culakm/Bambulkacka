@@ -21,10 +21,10 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     // Nastavenia pre priklady
     // rozsah generovanych cisel
     private int prikladStart,prikladStop;
-    // Znamienko
-    private String prikladZnamienko;
+    // Sign
+    private String exampleSign;
     // Extra
-    private String prikladExtra;
+    private String exampleExtra;
     // Ine nastavenie
     private String userName;
     // pocet prikladov
@@ -90,11 +90,11 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
         prikladStart = Integer.parseInt(sharedPref.getString("start", "0"));
         prikladStop = Integer.parseInt(sharedPref.getString("stop", "100"));
-        prikladZnamienko = sharedPref.getString("znamienko", "+/-");
-        prikladExtra = sharedPref.getString("extra", "nic");
+        exampleSign = sharedPref.getString("sign", "+/-");
+        exampleExtra = sharedPref.getString("extra", "nic");
         userName = sharedPref.getString("user_name", "Detisko");
 
-        priklad = new Priklad(prikladStart,prikladStop,prikladZnamienko,prikladExtra);
+        priklad = new Priklad(prikladStart,prikladStop, exampleSign, exampleExtra);
         priklad.getCisla();
         // Nastavi text prikladu
         prikladText.setText(priklad.getPrikladString());
@@ -181,11 +181,11 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
         prikladStart = Integer.parseInt(sharedPref.getString("start", "0"));
         prikladStop = Integer.parseInt(sharedPref.getString("stop", "100"));
-        prikladZnamienko = sharedPref.getString("znamienko", "+/-");
-        prikladExtra = sharedPref.getString("extra", "nic");
+        exampleSign = sharedPref.getString("sign", "+/-");
+        exampleExtra = sharedPref.getString("extra", "nic");
         userName = sharedPref.getString("user_name", "Detisko");
-        //Toast.makeText(getApplicationContext(), "start: " + prikladStart + ", stop: " + prikladStop + ", znamienko: " + prikladZnamienko + ", extra: " + prikladExtra + ", username: " + userName, Toast.LENGTH_SHORT).show();
-        //Log.d( "settings: " , "start: " + prikladStart + ", stop: " + prikladStop + ", znamienko: " + prikladZnamienko + ", extra: " + prikladExtra + ", username: " + userName);
+        //Toast.makeText(getApplicationContext(), "start: " + prikladStart + ", stop: " + prikladStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName, Toast.LENGTH_SHORT).show();
+        //Log.d( "settings: " , "start: " + prikladStart + ", stop: " + prikladStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName);
     }
 
     //// Obsluha odosielacieho tlacitka, toto je mu priradene v activity_kalkulacka.xml

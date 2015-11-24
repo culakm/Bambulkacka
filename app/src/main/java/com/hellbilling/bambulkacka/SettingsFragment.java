@@ -15,7 +15,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 
     public static final String KEY_PREF_START = "start";
     public static final String KEY_PREF_STOP = "stop";
-    public static final String KEY_PREF_ZNAMIENKO = "znamienko";
+    public static final String KEY_PREF_SIGN = "sign";
     public static final String KEY_PREF_EXTRA = "extra";
     public static final String KEY_PREF_USER_NAME = "user_name";
     public static final String KEY_PREF_REPEAT = "repeat";
@@ -27,9 +27,9 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         addPreferencesFromResource(R.xml.preferences);
 
         // Register the ListPreference
-        ListPreference preferenceZnamienko = (ListPreference) findPreference(KEY_PREF_ZNAMIENKO);
-        preferenceZnamienko.setSummary(preferenceZnamienko.getEntry());
-        preferenceZnamienko.setOnPreferenceChangeListener(this);
+        ListPreference preferenceSign = (ListPreference) findPreference(KEY_PREF_SIGN);
+        preferenceSign.setSummary(preferenceSign.getEntry());
+        preferenceSign.setOnPreferenceChangeListener(this);
 
         // Register the ListPreference
         ListPreference preferenceExtra = (ListPreference) findPreference(KEY_PREF_EXTRA);

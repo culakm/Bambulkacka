@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:yourapp="http://schemas.android.com/apk/res-auto"
-    yourapp:showAsAction="always">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/add"
-        android:title="Add"
-        android:icon="@drawable/cw"
-        />
+        android:title="Add" />
 
     <item android:id="@+id/settings"
-        android:title="Settings"
-        yourapp:showAsAction="always"
-        />
+        android:title="Settings" />
 </menu>
-    <!-- toto je options menu -->
