@@ -13,9 +13,18 @@ public class SettingsActivity extends ActionBarActivity {
         // Back key
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Pass preferencesType to SettingsFragment
+        // Get preferencesType
+        String preferencesType = getIntent().getExtras().getString("preferencesType");
+        // Add agrument for SettingsFragment
+        Bundle bundle = new Bundle();
+        bundle.putString("preferencesType", preferencesType );
+        SettingsFragment mySettingsFragment = new SettingsFragment();
+        mySettingsFragment.setArguments(bundle);
+
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
+                .replace(android.R.id.content, mySettingsFragment)
                 .commit();
     }
 

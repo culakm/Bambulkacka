@@ -12,6 +12,10 @@ public class MainActivity extends ActionBarActivity {
 
     /*TODO
 
+
+    v kalkulacka.java skusit vyriesit onOptionsMenuClosed
+
+
     skontrolovat player, v settings povolit a zastavit zvuky, nastavit hlasitost?
 
     ako updatovat settings hodnoty ak ich nastavujem v kalkulacka.java?
@@ -48,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // Nastavi defaultne hodnoty preference
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences_main, false);
     }
 
     public void buttonSendsMessage(View view) {
@@ -98,6 +102,7 @@ public class MainActivity extends ActionBarActivity {
             case R.id.settings:
                 Intent intent;
                 intent = new Intent(this, SettingsActivity.class);
+                intent.putExtra("preferencesType","main");
                 startActivity(intent);
                 return(true);
             default:

@@ -20,7 +20,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
     // Nastavenia pre priklady
     // rozsah generovanych cisel
-    private int prikladStart,prikladStop;
+    private int exampleStart, exampleStop;
     // Sign
     private String exampleSign;
     // Extra
@@ -88,13 +88,13 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     // Nacita priklad
     private void getPriklad() {
 
-        prikladStart = Integer.parseInt(sharedPref.getString("start", "0"));
-        prikladStop = Integer.parseInt(sharedPref.getString("stop", "100"));
+        exampleStart = Integer.parseInt(sharedPref.getString("start", "0"));
+        exampleStop = Integer.parseInt(sharedPref.getString("stop", "100"));
         exampleSign = sharedPref.getString("sign", "+/-");
         exampleExtra = sharedPref.getString("extra", "nic");
         userName = sharedPref.getString("user_name", "Detisko");
 
-        priklad = new Priklad(prikladStart,prikladStop, exampleSign, exampleExtra);
+        priklad = new Priklad(exampleStart, exampleStop, exampleSign, exampleExtra);
         priklad.getCisla();
         // Nastavi text prikladu
         prikladText.setText(priklad.getPrikladString());
@@ -179,13 +179,13 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        prikladStart = Integer.parseInt(sharedPref.getString("start", "0"));
-        prikladStop = Integer.parseInt(sharedPref.getString("stop", "100"));
+        exampleStart = Integer.parseInt(sharedPref.getString("start", "0"));
+        exampleStop = Integer.parseInt(sharedPref.getString("stop", "100"));
         exampleSign = sharedPref.getString("sign", "+/-");
         exampleExtra = sharedPref.getString("extra", "nic");
         userName = sharedPref.getString("user_name", "Detisko");
-        //Toast.makeText(getApplicationContext(), "start: " + prikladStart + ", stop: " + prikladStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName, Toast.LENGTH_SHORT).show();
-        //Log.d( "settings: " , "start: " + prikladStart + ", stop: " + prikladStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName);
+        //Toast.makeText(getApplicationContext(), "start: " + exampleStart + ", stop: " + exampleStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName, Toast.LENGTH_SHORT).show();
+        //Log.d( "settings: " , "start: " + exampleStart + ", stop: " + exampleStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName);
     }
 
     //// Obsluha odosielacieho tlacitka, toto je mu priradene v activity_kalkulacka.xml
@@ -253,7 +253,6 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
     }
 
-    // Nevyuzivane
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -269,6 +268,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             case R.id.settings:
                 Intent intent;
                 intent = new Intent(this, SettingsActivity.class);
+                intent.putExtra("preferencesType","kalkulacka");
                 startActivity(intent);
                 return(true);
         }
@@ -276,5 +276,9 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         return(super.onOptionsItemSelected(item));
     }
 
-
+    @Override
+    public void onOptionsMenuClosed(Menu menu) {
+        Log.d("myTag", "This is my message");
+        getPriklad();
+    }
 }

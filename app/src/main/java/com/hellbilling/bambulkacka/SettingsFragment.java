@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-
+import android.util.Log;
 
 
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
@@ -20,11 +20,33 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     public static final String KEY_PREF_USER_NAME = "user_name";
     public static final String KEY_PREF_REPEAT = "repeat";
 
+    private String preferencesType;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
+
+        // Find right preferences
+        preferencesType = this.getArguments().getString("preferencesType");
+        switch (preferencesType) {
+            case "main":
+                addPreferencesFromResource(R.xml.preferences_main);
+                break;
+            case "kalkulacka":
+                addPreferencesFromResource(R.xml.preferences_calculator);
+                break;
+            default:
+                addPreferencesFromResource(R.xml.preferences_main);
+                break;
+        }
+
+        // Nastavenie summary na aktualnu hodnotu
+        EditTextPreference start = (EditTextPreference) findPreference(KEY_PREF_START);
+        start.setSummary(start.getText());
+
+        // Nastavenie summary na aktualnu hodnotu
+        EditTextPreference stop = (EditTextPreference) findPreference(KEY_PREF_STOP);
+        stop.setSummary(stop.getText());
 
         // Register the ListPreference
         ListPreference preferenceSign = (ListPreference) findPreference(KEY_PREF_SIGN);
@@ -36,22 +58,16 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         preferenceExtra.setSummary(preferenceExtra.getEntry());
         preferenceExtra.setOnPreferenceChangeListener(this);
 
-        // Nastavenie summary na aktualnu hodnotu
-        EditTextPreference user_name = (EditTextPreference) findPreference(KEY_PREF_USER_NAME);
-        user_name.setSummary(user_name.getText());
 
-        // Nastavenie summary na aktualnu hodnotu
-        EditTextPreference repeat = (EditTextPreference) findPreference(KEY_PREF_REPEAT);
-        repeat.setSummary(repeat.getText());
+        if (preferencesType.equals("main")){
+            // Nastavenie summary na aktualnu hodnotu
+            EditTextPreference user_name = (EditTextPreference) findPreference(KEY_PREF_USER_NAME);
+            user_name.setSummary(user_name.getText());
 
-
-        // Nastavenie summary na aktualnu hodnotu
-        EditTextPreference start = (EditTextPreference) findPreference(KEY_PREF_START);
-        start.setSummary(start.getText());
-
-        // Nastavenie summary na aktualnu hodnotu
-        EditTextPreference stop = (EditTextPreference) findPreference(KEY_PREF_STOP);
-        stop.setSummary(stop.getText());
+            // Nastavenie summary na aktualnu hodnotu
+            EditTextPreference repeat = (EditTextPreference) findPreference(KEY_PREF_REPEAT);
+            repeat.setSummary(repeat.getText());
+        }
     }
 
     // Odtialto dole je tu na okamzitu zmenu v setting aktivite
@@ -73,18 +89,6 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         // Change summary
-        if (key.equals(KEY_PREF_USER_NAME)) {
-            Preference username = findPreference(key);
-            username.setSummary(sharedPreferences.getString(key, ""));
-        }
-
-        // Change summary
-        if (key.equals(KEY_PREF_REPEAT)) {
-            Preference repeat = findPreference(key);
-            repeat.setSummary(sharedPreferences.getString(key, ""));
-        }
-
-        // Change summary
         if (key.equals(KEY_PREF_START)) {
             Preference username = findPreference(key);
             username.setSummary(sharedPreferences.getString(key, ""));
@@ -94,6 +98,20 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         if (key.equals(KEY_PREF_STOP)) {
             Preference username = findPreference(key);
             username.setSummary(sharedPreferences.getString(key, ""));
+        }
+
+        if (preferencesType.equals("main")){
+            // Change summary
+            if (key.equals(KEY_PREF_USER_NAME)) {
+                Preference username = findPreference(key);
+                username.setSummary(sharedPreferences.getString(key, ""));
+            }
+
+            // Change summary
+            if (key.equals(KEY_PREF_REPEAT)) {
+                Preference repeat = findPreference(key);
+                repeat.setSummary(sharedPreferences.getString(key, ""));
+            }
         }
     }
 
