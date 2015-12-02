@@ -12,8 +12,8 @@ import java.util.Random;
 // nparcerable som ziskal hodenim kodu do http://www.parcelabler.com/
 public class Priklad implements Parcelable {
 
-    private int start;
-    private int stop;
+    private int resultStart;
+    private int resultStop;
     private String sign = "+/-";
     private String extra = "nic";
     private int a;
@@ -22,24 +22,24 @@ public class Priklad implements Parcelable {
 
 
     // Konstruktor bez znamienka
-    public Priklad(int parStart, int parStop) {
+    public Priklad(int parResultStart, int parResultStop) {
 
-        this.start = parStart;
-        this.stop = parStop;
+        this.resultStart = parResultStart;
+        this.resultStop = parResultStop;
 
     }
 
     // Konstruktor s znamienkom
-    public Priklad(int parStart, int parStop, String parSign) {
+    public Priklad(int parResultStart, int parResultStop, String parSign) {
 
-        this(parStart,parStop);
+        this(parResultStart,parResultStop);
         this.sign = parSign;
     }
 
     // Konstruktor so znamienkom a s extra
-    public Priklad(int parStart, int parStop, String parSign, String parExtra) {
+    public Priklad(int parResultStart, int parResultStop, String parSign, String parExtra) {
 
-        this(parStart,parStop,parSign);
+        this(parResultStart,parResultStop,parSign);
         this.extra = parExtra;
     }
 
@@ -96,8 +96,8 @@ public class Priklad implements Parcelable {
 
                 vysledok = a + b;
                 Log.d("priklad", "sign: " + sign + ", a: " + a + ", b: " + b + " = " + vysledok);
-                Log.d("podmienka", vysledok + " >=  " + start + " && " + vysledok + " <= " +stop);
-            } while ( !(vysledok >= start && vysledok <= stop) );
+                Log.d("podmienka", vysledok + " >=  " + resultStart + " && " + vysledok + " <= " + resultStop);
+            } while ( !(vysledok >= resultStart && vysledok <= resultStop) );
 
         } // - cast
         else if (sign.equals("-")) {
@@ -121,13 +121,13 @@ public class Priklad implements Parcelable {
                         b = changeDigit(b,aLastDigit);
                     }
                     //Log.d("cez 10 po",  a + " = " +  b);
-                    // if ( a < b ) ak nastane toto, co je hovadina, je vysledok mensi ako start a ideme este raz
+                    // if ( a < b ) ak nastane toto, co je hovadina, je vysledok mensi ako resultStart a ideme este raz
                 }
                 vysledok = a - b;
                 Log.d("priklad",  a + " " + sign + " " + b + " = " + vysledok);
-                Log.d("podmienka", vysledok + " >=  " + start + " && " + vysledok + " <= " +stop);
-                //} while ( !(vysledok >= start && vysledok <= stop)  );
-            } while ( (a < b) || (!(vysledok >= start && vysledok <= stop))  );
+                Log.d("podmienka", vysledok + " >=  " + resultStart + " && " + vysledok + " <= " + resultStop);
+                //} while ( !(vysledok >= resultStart && vysledok <= resultStop)  );
+            } while ( (a < b) || (!(vysledok >= resultStart && vysledok <= resultStop))  );
         }
     }
 
@@ -217,7 +217,7 @@ public class Priklad implements Parcelable {
     // Random generatory
     private int generateRandomInt(){
         Random r = new Random();
-        return r.nextInt(this.stop + 1);
+        return r.nextInt(this.resultStop + 1);
     }
 
     private boolean generateRandomBool(){
@@ -238,8 +238,8 @@ public class Priklad implements Parcelable {
     }
 
     protected Priklad(Parcel in) {
-        start = in.readInt();
-        stop = in.readInt();
+        resultStart = in.readInt();
+        resultStop = in.readInt();
         a = in.readInt();
         b = in.readInt();
         vysledok = in.readInt();
@@ -253,8 +253,8 @@ public class Priklad implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(start);
-        dest.writeInt(stop);
+        dest.writeInt(resultStart);
+        dest.writeInt(resultStop);
         dest.writeString(sign);
         dest.writeString(extra);
         dest.writeInt(a);

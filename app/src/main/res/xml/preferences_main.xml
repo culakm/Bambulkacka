@@ -5,13 +5,13 @@
         android:title="Nastavenie prikladov"
         android:persistent="false"-->
         <EditTextPreference android:title="Vysledok od"
-            android:key="start"
+            android:key="result_start"
             android:summary="%s"
             android:dialogTitle="Zadaj spodnu hranicu vysledku"
             android:defaultValue="0"
             android:inputType="number" />
         <EditTextPreference android:title="Vysledok do"
-            android:key="stop"
+            android:key="result_stop"
             android:summary="%s"
             android:dialogTitle="Zadaj hornu hranicu vysledku"
             android:defaultValue="100"

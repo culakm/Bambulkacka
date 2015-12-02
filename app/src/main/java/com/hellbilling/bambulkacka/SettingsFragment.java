@@ -13,8 +13,8 @@ import android.util.Log;
 
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
 
-    public static final String KEY_PREF_START = "start";
-    public static final String KEY_PREF_STOP = "stop";
+    public static final String KEY_PREF_START = "result_start";
+    public static final String KEY_PREF_STOP = "result_stop";
     public static final String KEY_PREF_SIGN = "sign";
     public static final String KEY_PREF_EXTRA = "extra";
     public static final String KEY_PREF_USER_NAME = "user_name";
