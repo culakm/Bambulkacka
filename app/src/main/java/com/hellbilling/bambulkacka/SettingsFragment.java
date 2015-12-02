@@ -8,13 +8,14 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.util.Log;
 
 
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
 
-    public static final String KEY_PREF_START = "result_start";
-    public static final String KEY_PREF_STOP = "result_stop";
+    public static final String KEY_PREF_RESULT_START = "result_start";
+    public static final String KEY_PREF_RESULT_STOP = "result_stop";
+    public static final String KEY_PREF_NUMBER_START = "number_start";
+    public static final String KEY_PREF_NUMBER_STOP = "number_stop";
     public static final String KEY_PREF_SIGN = "sign";
     public static final String KEY_PREF_EXTRA = "extra";
     public static final String KEY_PREF_USER_NAME = "user_name";
@@ -41,12 +42,20 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         }
 
         // Nastavenie summary na aktualnu hodnotu
-        EditTextPreference start = (EditTextPreference) findPreference(KEY_PREF_START);
-        start.setSummary(start.getText());
+        EditTextPreference result_start = (EditTextPreference) findPreference(KEY_PREF_RESULT_START);
+        result_start.setSummary(result_start.getText());
 
         // Nastavenie summary na aktualnu hodnotu
-        EditTextPreference stop = (EditTextPreference) findPreference(KEY_PREF_STOP);
-        stop.setSummary(stop.getText());
+        EditTextPreference result_stop = (EditTextPreference) findPreference(KEY_PREF_RESULT_STOP);
+        result_stop.setSummary(result_stop.getText());
+
+        // Nastavenie summary na aktualnu hodnotu
+        EditTextPreference number_start = (EditTextPreference) findPreference(KEY_PREF_NUMBER_START);
+        number_start.setSummary(number_start.getText());
+
+        // Nastavenie summary na aktualnu hodnotu
+        EditTextPreference number_stop = (EditTextPreference) findPreference(KEY_PREF_NUMBER_STOP);
+        number_stop.setSummary(number_stop.getText());
 
         // Register the ListPreference
         ListPreference preferenceSign = (ListPreference) findPreference(KEY_PREF_SIGN);
@@ -89,15 +98,27 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         // Change summary
-        if (key.equals(KEY_PREF_START)) {
-            Preference username = findPreference(key);
-            username.setSummary(sharedPreferences.getString(key, ""));
+        if (key.equals(KEY_PREF_RESULT_START)) {
+            Preference result_start = findPreference(key);
+            result_start.setSummary(sharedPreferences.getString(key, ""));
         }
 
         // Change summary
-        if (key.equals(KEY_PREF_STOP)) {
-            Preference username = findPreference(key);
-            username.setSummary(sharedPreferences.getString(key, ""));
+        if (key.equals(KEY_PREF_RESULT_STOP)) {
+            Preference result_stop = findPreference(key);
+            result_stop.setSummary(sharedPreferences.getString(key, ""));
+        }
+
+        // Change summary
+        if (key.equals(KEY_PREF_NUMBER_START)) {
+            Preference result_start = findPreference(key);
+            result_start.setSummary(sharedPreferences.getString(key, ""));
+        }
+
+        // Change summary
+        if (key.equals(KEY_PREF_NUMBER_STOP)) {
+            Preference result_stop = findPreference(key);
+            result_stop.setSummary(sharedPreferences.getString(key, ""));
         }
 
         if (preferencesType.equals("main")){

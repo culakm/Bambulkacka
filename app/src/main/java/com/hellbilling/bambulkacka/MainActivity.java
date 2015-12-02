@@ -11,9 +11,10 @@ import android.view.View;
 public class MainActivity extends ActionBarActivity {
 
     /*TODO
+    zacat pouzivat number_start a number_stop
 
 
-    v kalkulacka.java skusit vyriesit onOptionsMenuClosed
+    v kalkulacka.java skusit vyriesit onOptionsMenuClosed aby to podla nastaveni cisel a znamienka a ostatnych veci zmenilo priklad
 
 
     skontrolovat player, v settings povolit a zastavit zvuky, nastavit hlasitost?
@@ -25,6 +26,7 @@ public class MainActivity extends ActionBarActivity {
     zmena settingsov aj z kalkulacky, len prikladovych, nie user_name
 
     nejaku konstantu pre default value start, stop. znamienko, extra
+    inteligentne obhospodarovat konstanty
 
     custom back v action bare
 
@@ -41,7 +43,6 @@ public class MainActivity extends ActionBarActivity {
     http://developer.android.com/guide/topics/ui/settings.html#Custom
     http://stackoverflow.com/questions/16108609/android-creating-custom-preference
 
-    pozret algoritmus prikladov cez 10
 
     co je to context??
      */
