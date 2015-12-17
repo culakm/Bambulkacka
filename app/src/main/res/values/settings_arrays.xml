@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="znamienka">
-        <item>+/-</item>
+        <item>all</item>
         <item>+</item>
         <item>-</item>
+        <item>*</item>
     </string-array>
     <string-array name="extra">
         <item>nic</item>

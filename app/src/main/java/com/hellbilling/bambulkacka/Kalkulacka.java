@@ -20,7 +20,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
     // Nastavenia pre priklady
     // rozsah generovanych cisel
-    private int resultStart, resultStop;
+    private int resultStart, resultStop, numberStart, numberStop;
     // Sign
     private String exampleSign;
     // Extra
@@ -90,11 +90,14 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
         resultStart = Integer.parseInt(sharedPref.getString("result_start", "0"));
         resultStop = Integer.parseInt(sharedPref.getString("result_stop", "100"));
-        exampleSign = sharedPref.getString("sign", "+/-");
+        numberStart = Integer.parseInt(sharedPref.getString("number_start", "0"));
+        numberStop = Integer.parseInt(sharedPref.getString("number_stop", "100"));
+
+        exampleSign = sharedPref.getString("sign", "all");
         exampleExtra = sharedPref.getString("extra", "nic");
         userName = sharedPref.getString("user_name", "Detisko");
 
-        priklad = new Priklad(resultStart, resultStop, exampleSign, exampleExtra);
+        priklad = new Priklad(resultStart, resultStop, numberStart, numberStop, exampleSign, exampleExtra);
         priklad.getCisla();
         // Nastavi text prikladu
         prikladText.setText(priklad.getPrikladString());
@@ -159,7 +162,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         }
         // Vysledok zle
         else {
-            Log.d("--", "vysledok je zle");
+            Log.d("--", "vysledok " + vysledokLocalInt + " je zle");
             // Prehrajeme NOK zvuk
             if (sharedPref.getBoolean("sound", true)){playSound("nok");}
             textPokusovCounter.setText(++pokusov + "");
