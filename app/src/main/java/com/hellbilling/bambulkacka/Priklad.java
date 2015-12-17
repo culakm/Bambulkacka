@@ -242,18 +242,6 @@ public class Priklad implements Parcelable {
 
     }
 
-    private String generateSignPlusMinus(){
-        String sign;
-        if (generateRandomBool()){
-            sign = "+";
-        }
-        else {
-            sign = "-";
-        }
-        return sign;
-    }
-
-
     private String generateSign(){
 
         Random r = new Random();
@@ -265,6 +253,8 @@ public class Priklad implements Parcelable {
             case 1:  sign = "-";
                 break;
             case 2:  sign = "*";
+                break;
+            case 3:  sign = "/";
                 break;
             default: sign = "+";
                 break;
