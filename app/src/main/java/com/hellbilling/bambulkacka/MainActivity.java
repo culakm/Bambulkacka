@@ -11,7 +11,14 @@ import android.view.View;
 public class MainActivity extends ActionBarActivity {
 
     /*TODO
-    zacat pouzivat number_start a number_stop
+
+    vyhodit duplicitu db = dbHelper.getWritableDatabase()
+    pozret ako je urobeny kontrakt http://stackoverflow.com/questions/17451931/how-to-use-a-contract-class-in-android,
+    zistit ako inteligentne nacitavat zoznamy
+    dodat databazu pre uchovavanie vysledkov
+    ://www.zdrojak.cz/clanky/vyvijime-pro-android-fragmenty-a-sqlite-databaze/
+    http://developer.android.com/training/basics/data-storage/databases.html
+    zobrazovat vyhodnotenie asi z menu a z resume activity
 
 
     v kalkulacka.java skusit vyriesit onOptionsMenuClosed aby to podla nastaveni cisel a znamienka a ostatnych veci zmenilo priklad
@@ -95,13 +102,14 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.add:
+                intent = new Intent(this, ResultsActivity.class);
+                startActivity(intent);
                 return(true);
             // Startovanie settings aktivity
             case R.id.settings:
-                Intent intent;
                 intent = new Intent(this, SettingsActivity.class);
                 intent.putExtra("preferencesType","main");
                 startActivity(intent);
