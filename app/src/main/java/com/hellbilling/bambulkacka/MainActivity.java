@@ -12,7 +12,8 @@ public class MainActivity extends ActionBarActivity {
 
     /*TODO
 
-    vyhodit duplicitu db = dbHelper.getWritableDatabase()
+    dorobit zobrazovanie ok.nok v resultsoch
+    https://www.zdrojak.cz/clanky/vyvijime-pro-android-fragmenty-a-sqlite-databaze/
     pozret ako je urobeny kontrakt http://stackoverflow.com/questions/17451931/how-to-use-a-contract-class-in-android,
     zistit ako inteligentne nacitavat zoznamy
     dodat databazu pre uchovavanie vysledkov
@@ -104,6 +105,10 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
+            case R.id.results:
+                intent = new Intent(this, ResultsActivity.class);
+                startActivity(intent);
+                return(true);
             case R.id.add:
                 intent = new Intent(this, ResultsActivity.class);
                 startActivity(intent);
