@@ -11,9 +11,6 @@ import android.widget.ListAdapter;
 
 public class ResultsFragment extends ListFragment {
 
-    private static final int MENU_DELETE_ID = 0;
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,14 +40,15 @@ public class ResultsFragment extends ListFragment {
         Context ctx = getActivity();
         BambulkackaDB dbh = new BambulkackaDB(ctx);
 
-        String[] from = { BambulkackaContract.TbExercises.COLUMN_NAME_DATE_START,"nok_count" };
-        int[] to = { android.R.id.text1, android.R.id.text2 };
+//        String[] from = { BambulkackaContract.TbExercises.COLUMN_NAME_DATE_START,"nok_count" };
+//        int[] to = { android.R.id.text1, android.R.id.text2 };
+
+        String[] from = { BambulkackaContract.TbExercises.COLUMN_NAME_DATE_START,"ok_count","nok_count" };
+        int[] to = { R.id.date_start,R.id.ok_count,R.id.nok_count};
 
 
         // toto tu simple_list_item_1 treba zmenit na custom row.xml kde budu definovane vsetky veci ohladom riadku zoznamu
-        ListAdapter adapter = new SimpleCursorAdapter(ctx,
-                android.R.layout.simple_list_item_1, dbh.getExercisesResults(), from,
-                to, 0);
+        ListAdapter adapter = new SimpleCursorAdapter(ctx, R.layout.results_row, dbh.getExercisesResults(), from, to, 0);
 
         setListAdapter(adapter);
 
