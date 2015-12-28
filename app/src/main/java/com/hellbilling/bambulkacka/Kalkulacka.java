@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorActionListener{
 
@@ -69,10 +70,8 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         vysledokLocal.setOnEditorActionListener(this);
 
         // Nacitaj settingy
-        //getSettings();
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        // Pocet opakovani
-        repeat = Integer.parseInt(sharedPref.getString("repeat", "10"));
+        getSettings();
+
 
         // riesi zotavenie po zmene orientacie
         restoreMe(savedInstanceState);
@@ -81,21 +80,13 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         if(priklad==null) {
             getPriklad();
         }
+
         // otvorim klavesnicu
         showSoftKeyboard();
     }
 
     // Nacita priklad
     private void getPriklad() {
-
-        resultStart = Integer.parseInt(sharedPref.getString("result_start", "0"));
-        resultStop = Integer.parseInt(sharedPref.getString("result_stop", "100"));
-        numberStart = Integer.parseInt(sharedPref.getString("number_start", "0"));
-        numberStop = Integer.parseInt(sharedPref.getString("number_stop", "100"));
-
-        exampleSign = sharedPref.getString("sign", "all");
-        exampleExtra = sharedPref.getString("extra", "nic");
-        userName = sharedPref.getString("user_name", "Detisko");
 
         priklad = new Priklad(resultStart, resultStop, numberStart, numberStop, exampleSign, exampleExtra);
         priklad.getCisla();
@@ -180,14 +171,19 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     // Natiahne settings, nikdy nepouzite, settingy sa natahuju v getPriklad
     private void getSettings(){
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         resultStart = Integer.parseInt(sharedPref.getString("result_start", "0"));
         resultStop = Integer.parseInt(sharedPref.getString("result_stop", "100"));
-        exampleSign = sharedPref.getString("sign", "+/-");
+        numberStart = Integer.parseInt(sharedPref.getString("number_start", "0"));
+        numberStop = Integer.parseInt(sharedPref.getString("number_stop", "100"));
+        repeat = Integer.parseInt(sharedPref.getString("repeat", "10"));
+        exampleSign = sharedPref.getString("sign", "all");
         exampleExtra = sharedPref.getString("extra", "nic");
         userName = sharedPref.getString("user_name", "Detisko");
-        //Toast.makeText(getApplicationContext(), "start: " + resultStart + ", stop: " + resultStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "start: " + resultStart + ", stop: " + resultStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName, Toast.LENGTH_SHORT).show();
         //Log.d( "settings: " , "start: " + resultStart + ", stop: " + resultStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName);
     }
 

@@ -1,9 +1,12 @@
 package com.hellbilling.bambulkacka;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 public class BambulkackaDB {
 
@@ -36,18 +39,50 @@ public class BambulkackaDB {
         openHelper = new BambulkackaDbHelper(ctx);
     }
 
-    public Cursor getExercises() {
-        SQLiteDatabase db = openHelper.getReadableDatabase();
-        return db.query(BambulkackaContract.TbExercises.TABLE_NAME, BambulkackaContract.TbExercises.COLUMNS, null, null, null, null, null);
-    }
-
     public Cursor getExercisesResults() {
         SQLiteDatabase db = openHelper.getReadableDatabase();
         return db.rawQuery("SELECT exercises._id, date_start, date_end, ok.count AS ok_count, nok.count  AS nok_count FROM exercises LEFT JOIN (SELECT count(*) AS count, examples.exercise_id AS exercise_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples.exercise_id) AS ok ON exercises._id = ok.exercise_id LEFT JOIN (SELECT count(*) AS count, examples.exercise_id AS exercise_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples.exercise_id) AS nok ON  exercises._id = nok.exercise_id", null);
-
-    //select exercises._id, date_start, ok.count, nok.count from exercises, (select count(*) as count, examples.exercise_id as exercise_id from attempts INNER JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples.exercise_id) as ok, (select count(*) as count, examples.exercise_id as exercise_id from attempts INNER JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples.exercise_id) as nok WHERE exercises._id = ok.exercise_id AND exercises._id = nok.exercise_id
     }
 
+    public Cursor getResultExamples(long exercise_id) {
+        Log.d("myTag", "exercise id je " + exercise_id);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        return db.rawQuery("SELECT examples._id, a,b,sign,result, ok.count AS ok_count, nok.count  AS nok_count  FROM examples LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples._id) AS ok ON examples._id = ok.example_id LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples._id) AS nok ON  examples._id = nok.example_id WHERE examples.exercise_id = " + exercise_id, null);
+    }
+
+
+    public long insertExercise(String sign, String date_start, String date_end) {
+        SQLiteDatabase db = openHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(BambulkackaContract.TbExercises.COLUMN_NAME_SIGN, sign);
+        values.put(BambulkackaContract.TbExercises.COLUMN_NAME_DATE_START, date_start);
+        values.put(BambulkackaContract.TbExercises.COLUMN_NAME_DATE_END, date_end);
+
+        long id = db.insert(BambulkackaContract.TbExercises.TABLE_NAME, null, values);
+        db.close();
+        return id;
+    }
+
+
+
+    /*
+    public Cursor getRawExercises() {
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        return db.rawQuery("SELECT _id,sign,date_start,date_end FROM exercises", null);
+    }
+
+
+    public Cursor getRawExamples() {
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        return db.rawQuery("SELECT _id,exercise_id,a,b,result,sign FROM examples", null);
+    }
+
+    public Cursor getRawAttempts() {
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        return db.rawQuery("SELECT _id,example_id,attempt_result,date,ok FROM attempts", null);
+    }
+    */
     public void close() {
         openHelper.close();
     }

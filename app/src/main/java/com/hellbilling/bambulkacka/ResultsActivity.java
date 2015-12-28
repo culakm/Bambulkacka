@@ -2,6 +2,7 @@ package com.hellbilling.bambulkacka;
 
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentActivity;
@@ -12,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-public class ResultsActivity extends FragmentActivity {
+public class ResultsActivity extends FragmentActivity implements ResultsFragment.OnResultClickedListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,14 @@ public class ResultsActivity extends FragmentActivity {
 
     }
 
+    public void onResultClicked(long id) {
+        showNote(id);
+    }
 
+    private void showNote(long id){
+        Intent i = new Intent(this, ExamplesActivity.class);
+        i.putExtra("exercise_id", id);
+        startActivity(i);
+    }
 
 }

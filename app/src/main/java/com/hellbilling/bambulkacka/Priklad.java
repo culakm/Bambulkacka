@@ -45,7 +45,7 @@ public class Priklad implements Parcelable {
     }
 
     public void getCisla() {
-
+        Log.d("sign", "sign = " + sign);
         // Generuj nahodne sign
         if (sign.equals("all")) {
             sign = generateSign();

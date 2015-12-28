@@ -29,7 +29,7 @@
             android:summary="%s"
             android:entries="@array/znamienka"
             android:entryValues="@array/znamienka"
-            android:defaultValue="+/-" />
+            android:defaultValue="all" />
         <ListPreference android:title="Extra"
             android:key="extra"
             android:summary="%s"

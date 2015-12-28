@@ -1,5 +1,6 @@
 package com.hellbilling.bambulkacka;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 public class ResultsFragment extends ListFragment {
 
@@ -19,16 +21,19 @@ public class ResultsFragment extends ListFragment {
         return view;
     }
 
-//    @Override
-//    public void onAttach(Activity activity) {
-//        super.onAttach(activity);
-//        try {
-//            listener = (OnNoteClickedListener) activity;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString()
-//                    + " must implement OnNoteClickedListener");
-//        }
-//    }
+
+    OnResultClickedListener listener;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            listener = (OnResultClickedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnResultClickedListener");
+        }
+    }
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -40,26 +45,26 @@ public class ResultsFragment extends ListFragment {
         Context ctx = getActivity();
         BambulkackaDB dbh = new BambulkackaDB(ctx);
 
-//        String[] from = { BambulkackaContract.TbExercises.COLUMN_NAME_DATE_START,"nok_count" };
-//        int[] to = { android.R.id.text1, android.R.id.text2 };
-
         String[] from = { BambulkackaContract.TbExercises.COLUMN_NAME_DATE_START,"ok_count","nok_count" };
         int[] to = { R.id.date_start,R.id.ok_count,R.id.nok_count};
 
-
-        // toto tu simple_list_item_1 treba zmenit na custom row.xml kde budu definovane vsetky veci ohladom riadku zoznamu
+        // Definition of the row, SELECT here has to have _id !!!!
         ListAdapter adapter = new SimpleCursorAdapter(ctx, R.layout.results_row, dbh.getExercisesResults(), from, to, 0);
 
         setListAdapter(adapter);
 
         dbh.close();
     }
-/*
+
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        listener.onNoteClicked(id);
+        listener.onResultClicked(id);
     }
 
+    public static interface OnResultClickedListener {
+        public void onResultClicked(long id);
+    }
+/*
     @Override
     public void onCreateContextMenu (ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -90,7 +95,7 @@ public class ResultsFragment extends ListFragment {
         }
     }
 
-    public static interface OnNoteClickedListener {
+    public static interface OnResultClickedListener {
         public void onNoteClicked(long id);
     }
 
