@@ -30,9 +30,8 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     private String userName;
     // pocet prikladov
     private int repeat;
-
-    // Pristup k settingu
-    SharedPreferences sharedPref;
+    // Play sound ?
+    private boolean sound;
 
     // Widgety aktivity
     // Tu zadavame vysledok
@@ -71,7 +70,6 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
         // Nacitaj settingy
         getSettings();
-
 
         // riesi zotavenie po zmene orientacie
         restoreMe(savedInstanceState);
@@ -131,7 +129,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         if (vysledokLocalInt == priklad.getVysledok()){
             Log.d("++", "vysledok je dobre");
             // prehrajeme ok zvuk
-            if (sharedPref.getBoolean("sound", true)){playSound("ok");}
+            if (sound){playSound("ok");}
 
             textSpravneCounter.setText(++spravne + "");
             textPokusovCounter.setText(++pokusov + "");
@@ -155,7 +153,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         else {
             Log.d("--", "vysledok " + vysledokLocalInt + " je zle");
             // Prehrajeme NOK zvuk
-            if (sharedPref.getBoolean("sound", true)){playSound("nok");}
+            if (sound){playSound("nok");}
             textPokusovCounter.setText(++pokusov + "");
             //errorText.setTextColor(getResources().getIdentifier("nespravne_color", "color", getPackageName()));
             errorText.setTextColor(getResources().getColor(R.color.nespravne_color));
@@ -171,9 +169,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     // Natiahne settings, nikdy nepouzite, settingy sa natahuju v getPriklad
     private void getSettings(){
 
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
-        //sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         resultStart = Integer.parseInt(sharedPref.getString("result_start", "0"));
         resultStop = Integer.parseInt(sharedPref.getString("result_stop", "100"));
@@ -183,6 +179,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         exampleSign = sharedPref.getString("sign", "all");
         exampleExtra = sharedPref.getString("extra", "nic");
         userName = sharedPref.getString("user_name", "Detisko");
+        sound = sharedPref.getBoolean("sound", true);
         Toast.makeText(getApplicationContext(), "start: " + resultStart + ", stop: " + resultStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName, Toast.LENGTH_SHORT).show();
         //Log.d( "settings: " , "start: " + resultStart + ", stop: " + resultStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName);
     }
