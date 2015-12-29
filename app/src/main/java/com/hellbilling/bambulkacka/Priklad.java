@@ -17,7 +17,7 @@ public class Priklad implements Parcelable {
     private String extra = "nic";
     private int a;
     private int b;
-    private int vysledok;
+    private int result;
 
 
     // Konstruktor bez znamienka
@@ -44,7 +44,7 @@ public class Priklad implements Parcelable {
         this.extra = parExtra;
     }
 
-    public void getCisla() {
+    public void getNumbers() {
         Log.d("sign", "sign = " + sign);
         // Generuj nahodne sign
         if (sign.equals("all")) {
@@ -95,10 +95,10 @@ public class Priklad implements Parcelable {
                     b = generateRandomNumber();
                 }
 
-                vysledok = a + b;
-                Log.d("priklad", "sign: " + sign + ", a: " + a + ", b: " + b + " = " + vysledok);
-                Log.d("podmienka", vysledok + " >=  " + resultStart + " && " + vysledok + " <= " + resultStop);
-            } while ( !(vysledok >= resultStart && vysledok <= resultStop) );
+                result = a + b;
+                Log.d("priklad", "sign: " + sign + ", a: " + a + ", b: " + b + " = " + result);
+                Log.d("podmienka", result + " >=  " + resultStart + " && " + result + " <= " + resultStop);
+            } while ( !(result >= resultStart && result <= resultStop) );
 
         } // - cast
         else if (sign.equals("-")) {
@@ -122,23 +122,23 @@ public class Priklad implements Parcelable {
                         b = changeDigit(b,aLastDigit);
                     }
                     //Log.d("cez 10 po",  a + " = " +  b);
-                    // if ( a < b ) ak nastane toto, co je hovadina, je vysledok mensi ako resultStart a ideme este raz
+                    // if ( a < b ) ak nastane toto, co je hovadina, je result mensi ako resultStart a ideme este raz
                 }
-                vysledok = a - b;
-                Log.d("priklad",  a + " " + sign + " " + b + " = " + vysledok);
-                Log.d("podmienka", vysledok + " >=  " + resultStart + " && " + vysledok + " <= " + resultStop);
-                //} while ( !(vysledok >= resultStart && vysledok <= resultStop)  );
-            } while ( (a < b) || (!(vysledok >= resultStart && vysledok <= resultStop))  );
+                result = a - b;
+                Log.d("priklad",  a + " " + sign + " " + b + " = " + result);
+                Log.d("podmienka", result + " >=  " + resultStart + " && " + result + " <= " + resultStop);
+                //} while ( !(result >= resultStart && result <= resultStop)  );
+            } while ( (a < b) || (!(result >= resultStart && result <= resultStop))  );
         } // * cast
         else if (sign.equals("*")) {
             do {
                 b = generateRandomNumber();
 
-                vysledok = a * b;
-                Log.d("priklad",  a + " " + sign + " " + b + " = " + vysledok);
-                Log.d("podmienka", vysledok + " >=  " + resultStart + " && " + vysledok + " <= " + resultStop);
-                //} while ( !(vysledok >= resultStart && vysledok <= resultStop)  );
-            } while ( !(vysledok >= resultStart && vysledok <= resultStop)  );
+                result = a * b;
+                Log.d("priklad",  a + " " + sign + " " + b + " = " + result);
+                Log.d("podmienka", result + " >=  " + resultStart + " && " + result + " <= " + resultStop);
+                //} while ( !(result >= resultStart && result <= resultStop)  );
+            } while ( !(result >= resultStart && result <= resultStop)  );
         }
     }
 
@@ -209,8 +209,8 @@ public class Priklad implements Parcelable {
         return b;
     }
 
-    int getVysledok (){
-        return vysledok;
+    int getResult(){
+        return result;
     }
 
     String getSign(){
@@ -223,7 +223,7 @@ public class Priklad implements Parcelable {
 
     String getPrikladString () {  return a + sign + b + "="; }
 
-    String getCelyPrikladString () { return getPrikladString() + vysledok; }
+    String getCelyPrikladString () { return getPrikladString() + result; }
 
     // Random generatory
     private int generateRandomNumber(){
@@ -273,7 +273,7 @@ public class Priklad implements Parcelable {
         numberStop = in.readInt();
         a = in.readInt();
         b = in.readInt();
-        vysledok = in.readInt();
+        result = in.readInt();
         sign = in.readString();
     }
 
@@ -292,7 +292,7 @@ public class Priklad implements Parcelable {
         dest.writeString(extra);
         dest.writeInt(a);
         dest.writeInt(b);
-        dest.writeInt(vysledok);
+        dest.writeInt(result);
     }
 
     @SuppressWarnings("unused")

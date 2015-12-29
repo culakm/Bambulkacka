@@ -45,8 +45,8 @@ public class ResultsFragment extends ListFragment {
         Context ctx = getActivity();
         BambulkackaDB dbh = new BambulkackaDB(ctx);
 
-        String[] from = { BambulkackaContract.TbExercises.COLUMN_NAME_DATE_START,"ok_count","nok_count" };
-        int[] to = { R.id.date_start,R.id.ok_count,R.id.nok_count};
+        String[] from = { BambulkackaContract.TbExercises.COLUMN_NAME_DATE_START,BambulkackaContract.TbExercises.COLUMN_NAME_DATE_END,"ok_count","nok_count" };
+        int[] to = { R.id.date_start,R.id.date_end,R.id.ok_count,R.id.nok_count};
 
         // Definition of the row, SELECT here has to have _id !!!!
         ListAdapter adapter = new SimpleCursorAdapter(ctx, R.layout.results_row, dbh.getExercisesResults(), from, to, 0);

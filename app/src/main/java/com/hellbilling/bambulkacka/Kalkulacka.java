@@ -1,5 +1,6 @@
 package com.hellbilling.bambulkacka;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -17,7 +18,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorActionListener{
+
+    // Database connectivity
+    BambulkackaDB dbh;
 
     // Nastavenia pre priklady
     // rozsah generovanych cisel
@@ -45,8 +53,12 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     // Zobrazovanie poctu spravnych pokusov
     TextView textSpravneCounter;
 
-    // aktualny priklad
+    // Current exercise _id
+    private long exercise_id;
+    // Current example
     Priklad priklad;
+    // Current example _id
+    private long example_id;
 
     // Pocitadla
     int pokusov = 0;
@@ -57,6 +69,10 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kalkulacka);
+
+        // Database connection
+        Context ctx = getApplicationContext();
+        dbh = new BambulkackaDB(ctx);
 
         // zistenie widgetov z obrazovky
         vysledokLocal =(EditText)findViewById(R.id.vysledok_text);
@@ -74,6 +90,9 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         // riesi zotavenie po zmene orientacie
         restoreMe(savedInstanceState);
 
+        // Save exercise
+        exercise_id = dbh.insertExerciseStart(exampleSign,getNow());
+
         // nacitame aktualny priklad ak este neexistuje, inak sa taha z restoreMe
         if(priklad==null) {
             getPriklad();
@@ -87,7 +106,9 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     private void getPriklad() {
 
         priklad = new Priklad(resultStart, resultStop, numberStart, numberStop, exampleSign, exampleExtra);
-        priklad.getCisla();
+        priklad.getNumbers();
+
+        example_id = dbh.insertExample(exercise_id, priklad.getA(), priklad.getB(), priklad.getSign(), priklad.getResult());
         // Nastavi text prikladu
         prikladText.setText(priklad.getPrikladString());
     }
@@ -126,7 +147,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         }
 
         // Vysledok dobre
-        if (vysledokLocalInt == priklad.getVysledok()){
+        if (vysledokLocalInt == priklad.getResult()){
             Log.d("++", "vysledok je dobre");
             // prehrajeme ok zvuk
             if (sound){playSound("ok");}
@@ -136,12 +157,18 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             errorText.setTextColor(getResources().getColor(R.color.spravne_color));
             errorText.setText(userName + ", ty si genius, " + priklad.getCelyPrikladString() + ", ides dalej.");
 
+            // Save attempt
+            dbh.insertAttempt(example_id, vysledokLocalInt, getNow(), 1);
+
             // ak je dokoncene tak otvori resume aktivitu
             if (spravne == repeat){
                 Intent intent;
                 intent = new Intent(this, ResumeActivity.class);
                 intent.putExtra("spravne",spravne);
                 intent.putExtra("pokusov",pokusov);
+
+                // Save exercise end
+                dbh.updateExerciseEnd(exercise_id,getNow());
 
                 startActivity(intent);
             } // inak da novy priklad
@@ -158,6 +185,9 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             //errorText.setTextColor(getResources().getIdentifier("nespravne_color", "color", getPackageName()));
             errorText.setTextColor(getResources().getColor(R.color.nespravne_color));
             errorText.setText(userName + ", " + userName + ". Cele zle, musis si to zopakovat este raz!");
+
+            // Save attempt
+            dbh.insertAttempt(example_id, vysledokLocalInt, getNow(), 0);
         }
 
 
@@ -278,4 +308,12 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         Log.d("myTag", "This is onOptionsMenuClosed");
         getPriklad();
     }
+
+    private String getNow(){
+        // set the format to sql date time
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
 }
