@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+// Since the version 22.1.0, the class ActionBarActivity is deprecated. You should use AppCompatActivity
+// http://stackoverflow.com/questions/29890530/actionbaractivity-is-deprecated-android-studio
 public class MainActivity extends ActionBarActivity {
 
     /*TODO

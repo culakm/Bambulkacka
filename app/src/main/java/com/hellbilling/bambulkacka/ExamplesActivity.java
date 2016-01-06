@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListAdapter;
 
-// depricated http://stackoverflow.com/questions/29890530/actionbaractivity-is-deprecated-android-studio
 public class ExamplesActivity extends ActionBarActivity {
 
     @Override
