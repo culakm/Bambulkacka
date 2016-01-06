@@ -109,14 +109,6 @@ public class MainActivity extends ActionBarActivity {
                 intent = new Intent(this, ResultsActivity.class);
                 startActivity(intent);
                 return(true);
-            case R.id.examples:
-                intent = new Intent(this, ExamplesActivity.class);
-                startActivity(intent);
-                return(true);
-            case R.id.add:
-                intent = new Intent(this, ResultsActivity.class);
-                startActivity(intent);
-                return(true);
             // Startovanie settings aktivity
             case R.id.settings:
                 intent = new Intent(this, SettingsActivity.class);

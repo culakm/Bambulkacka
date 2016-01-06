@@ -57,10 +57,6 @@ public class ResumeActivity extends ActionBarActivity {
         // Run youtube in browser
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=MdGvU-YDElQ")));
         }
-
-//        Intent intent;
-//        intent = new Intent(this, MainActivity.class);
-//        startActivity(intent);
     }
 
     public void buttonSendsMessageAgain(View view) {
@@ -88,11 +84,8 @@ public class ResumeActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
+        int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;

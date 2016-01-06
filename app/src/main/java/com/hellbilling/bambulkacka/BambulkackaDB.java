@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.Toast;
 
 public class BambulkackaDB {
 
@@ -41,16 +39,12 @@ public class BambulkackaDB {
 
     public Cursor getExercisesResults() {
         SQLiteDatabase db = openHelper.getReadableDatabase();
-        Cursor cursor =  db.rawQuery("SELECT exercises._id, date_start, date_end, ok.count AS ok_count, nok.count  AS nok_count FROM exercises LEFT JOIN (SELECT count(*) AS count, examples.exercise_id AS exercise_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples.exercise_id) AS ok ON exercises._id = ok.exercise_id LEFT JOIN (SELECT count(*) AS count, examples.exercise_id AS exercise_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples.exercise_id) AS nok ON  exercises._id = nok.exercise_id", null);
-        //db.close();
-        return cursor;
+        return db.rawQuery("SELECT exercises._id, date_start, date_end, ok.count AS ok_count, nok.count  AS nok_count FROM exercises LEFT JOIN (SELECT count(*) AS count, examples.exercise_id AS exercise_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples.exercise_id) AS ok ON exercises._id = ok.exercise_id LEFT JOIN (SELECT count(*) AS count, examples.exercise_id AS exercise_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples.exercise_id) AS nok ON  exercises._id = nok.exercise_id", null);
     }
 
-    public Cursor getResultExamples(long exercise_id) {
+    public Cursor getResultExamples(String exercise_id) {
         SQLiteDatabase db = openHelper.getReadableDatabase();
-        Cursor cursor =  db.rawQuery("SELECT examples._id, a,b,sign,result, ok.count AS ok_count, nok.count  AS nok_count  FROM examples LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples._id) AS ok ON examples._id = ok.example_id LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples._id) AS nok ON  examples._id = nok.example_id WHERE examples.exercise_id = " + exercise_id, null);
-        //db.close();
-        return cursor;
+        return db.rawQuery("SELECT examples._id, a,b,sign,result, ok.count AS ok_count, nok.count  AS nok_count  FROM examples LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples._id) AS ok ON examples._id = ok.example_id LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples._id) AS nok ON  examples._id = nok.example_id WHERE examples.exercise_id = " + exercise_id, null);
     }
 
 

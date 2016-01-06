@@ -2,10 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/results"
         android:title="Results" />
-    <item android:id="@+id/examples"
-        android:title="Examples" />
-    <item android:id="@+id/add"
-        android:title="Databazove pokusy" />
     <item android:id="@+id/settings"
         android:title="Settings" />
 </menu>

@@ -1,40 +1,26 @@
 package com.hellbilling.bambulkacka;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListAdapter;
-import android.widget.Toast;
 
-
+// depricated http://stackoverflow.com/questions/29890530/actionbaractivity-is-deprecated-android-studio
 public class ExamplesActivity extends ActionBarActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_examples);
-        // Back key
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Load id of the result
         long exercise_id = getIntent().getLongExtra("exercise_id", -1);
-
-        if (savedInstanceState == null) {
-            Fragment fragment = new PlaceholderFragment(exercise_id);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, fragment)
-                    .commit();
-        }
+        PlaceholderFragment fragment = PlaceholderFragment.newInstance( String.valueOf(exercise_id));
+        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -68,68 +54,37 @@ public class ExamplesActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends ListFragment {
 
-        private long exercise_id;
+        private static final String EXERCISE_ID = "exercise_id";
 
-        public PlaceholderFragment() {
+        // Toto nie je uplne jasne, ide tu o uchovanie argumentov pokial je aktivita znicena pri otoceni
+        // vlastne je to prepisanie konstruktoru ktory prebera aj parametre, ten sa nema pouzivat
+        public static PlaceholderFragment newInstance(String exercise_id) {
+            Bundle bundle = new Bundle();
+            bundle.putString(EXERCISE_ID, exercise_id);
 
+            PlaceholderFragment f = new PlaceholderFragment();
+            f.setArguments(bundle);
+
+            return f;
         }
 
-        public PlaceholderFragment(long exercise_id) {
-            this.exercise_id = exercise_id;
-        }
-
+        // Load a view of this fragment
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
             registerForContextMenu(getListView());
-            updateList();
+            String exercise_id = this.getArguments().getString(EXERCISE_ID);
+            updateList(exercise_id);
         }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_examples, container, false);
-            return rootView;
-        }
-
-        public void updateList() {
+        public void updateList(String exercise_id) {
             Context ctx = getActivity();
             BambulkackaDB dbh = new BambulkackaDB(ctx);
 
-
-//            String[] from = { BambulkackaContract.TbExamples.COLUMN_NAME_A,BambulkackaContract.TbExamples.COLUMN_NAME_B,BambulkackaContract.TbExamples.COLUMN_NAME_SIGN,BambulkackaContract.TbExamples.COLUMN_NAME_RESULT,"ok_count","nok_count" };
-//            int[] to = { R.id.a,R.id.b,R.id.sign,R.id.result,R.id.ok_count,R.id.nok_count};
-//            ListAdapter adapter = new SimpleCursorAdapter(ctx, R.layout.examples_row, dbh.getResultExamples(), from, to, 0);
-
-
-            //getExercisesResults
-//            String[] from = {"_id,sign,date_start,date_end" };
-//            int[] to = { R.id.p1v,R.id.p2v,R.id.p3v,R.id.p4v};
-
-            //getRawExercises
-//            String[] from = {"_id","sign","date_start","date_end" };
-//            int[] to = { R.id.p1v,R.id.p2v,R.id.p3v,R.id.p4v};
-
-
-            //getRawExamples
-//            String[] from = {"_id","exercise_id","a","b","result","sign" };
-//            int[] to = { R.id.p1v,R.id.p2v,R.id.p3v,R.id.p4v,R.id.p5v,R.id.p6v};
-
-
-            //getRawAttempts
-//            String[] from = { "_id","example_id","attempt_result","date","ok" };
-//            int[] to = { R.id.p1v,R.id.p2v,R.id.p3v,R.id.p4v,R.id.p5v};
-//
             //getResultExamples
             String[] from = { "a","b","sign","result", "ok_count", "nok_count" };
             int[] to = { R.id.a,R.id.b,R.id.sign,R.id.result,R.id.ok_count,R.id.nok_count};
             ListAdapter adapter = new SimpleCursorAdapter(ctx, R.layout.examples_row, dbh.getResultExamples(exercise_id), from, to, 0);
 
-
-/*/OK
-            String[] from = { BambulkackaContract.TbExercises.COLUMN_NAME_DATE_START,"ok_count","nok_count" };
-            int[] to = { R.id.date_start,R.id.ok_count,R.id.nok_count};
-            ListAdapter adapter = new SimpleCursorAdapter(ctx, R.layout.results_row, dbh.getExercisesResults(), from, to, 0);
-*/
             setListAdapter(adapter);
 
             dbh.close();
