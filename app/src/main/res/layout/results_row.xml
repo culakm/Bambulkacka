@@ -10,22 +10,23 @@
         android:layout_height="wrap_content"
         android:src="@drawable/cw"/>
 -->
-    <TextView
-        android:id="@+id/p1"
-        android:text=" Start: "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
     <TextView
         android:id="@+id/date_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
-        android:id="@+id/date_end"
+        android:id="@+id/p0"
+        android:text=","
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
-        android:id="@+id/p3"
-        android:text= "OK: "
+        android:id="@+id/minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/p1"
+        android:text=","
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
@@ -34,7 +35,7 @@
         android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/p4"
-        android:text=" NOK: "
+        android:text="/"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView

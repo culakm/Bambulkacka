@@ -3,6 +3,7 @@ package com.hellbilling.bambulkacka;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -106,11 +107,41 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     private void getPriklad() {
 
         priklad = new Priklad(resultStart, resultStop, numberStart, numberStop, exampleSign, exampleExtra);
-        priklad.getNumbers();
+
+        do {
+            priklad.getNumbers();
+        } while (checkRepeat(exercise_id,priklad));
 
         example_id = dbh.insertExample(exercise_id, priklad.getA(), priklad.getB(), priklad.getSign(), priklad.getResult());
-        // Nastavi text prikladu
+        // Set up text of the example
         prikladText.setText(priklad.getPrikladString());
+    }
+
+    // Check if Priklad has been already generated
+    boolean checkRepeat(long exercise_id, Priklad priklad){
+
+        Context ctx = this;
+        BambulkackaDB dbh = new BambulkackaDB(ctx);
+        Cursor examplesCursor = dbh.getResultExamples(String.valueOf(exercise_id));
+
+        // Current example
+        int priklad_a = priklad.getA();
+        int priklad_b = priklad.getB();
+        // if Cursor is contains results
+        if (examplesCursor != null) {
+            // move cursor to first row
+            if (examplesCursor.moveToFirst()) {
+                do {
+                    // Database example
+                    String a = examplesCursor.getString(examplesCursor.getColumnIndex("a"));
+                    String b = examplesCursor.getString(examplesCursor.getColumnIndex("b"));
+                    if (Integer.parseInt(a) == priklad_a && Integer.parseInt(b) == priklad_b){
+                        return true;
+                    }
+                } while (examplesCursor.moveToNext());
+            }
+        }
+        return false;
     }
 
     // spracujeme odoslany vysledok
@@ -210,7 +241,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         exampleExtra = sharedPref.getString("extra", "nic");
         userName = sharedPref.getString("user_name", "Detisko");
         sound = sharedPref.getBoolean("sound", true);
-        Toast.makeText(getApplicationContext(), "start: " + resultStart + ", stop: " + resultStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "start: " + resultStart + ", stop: " + resultStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName, Toast.LENGTH_SHORT).show();
         //Log.d( "settings: " , "start: " + resultStart + ", stop: " + resultStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName);
     }
 
@@ -270,7 +301,6 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             priklad = state.getParcelable("priklad");
             pokusov = state.getInt("pokusov");
             spravne = state.getInt("spravne");
-            Log.d("--", "pokusov:"+priklad.getPrikladString());
             // Nastavi text prikladu
             prikladText.setText(priklad.getPrikladString());
             textSpravneCounter.setText(spravne + "");
@@ -283,7 +313,6 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_kalkulacka, menu);
-        Log.d("myTag", "This is onCreateOptionsMenu");
         return true;
     }
 

@@ -5,13 +5,19 @@
     android:orientation="vertical" >
 
     <Button
+        android:id="@+id/delete_all_results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onAddNoteClicked"
-        android:text="bububub" />
-
+        android:onClick="onDeleteResultsClicked"
+        android:text="@string/delete_all_results" />
+    <Button
+        android:id="@+id/insert_test_results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onInsertResultsClicked"
+        android:text="@string/insert_test_results" />
     <fragment
-        android:id="@+id/notes_list"
+        android:id="@+id/results_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

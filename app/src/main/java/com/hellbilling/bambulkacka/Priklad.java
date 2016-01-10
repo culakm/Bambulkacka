@@ -19,7 +19,6 @@ public class Priklad implements Parcelable {
     private int b;
     private int result;
 
-
     // Konstruktor bez znamienka
     public Priklad(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop) {
 
@@ -27,7 +26,6 @@ public class Priklad implements Parcelable {
         this.resultStop = parResultStop;
         this.numberStart = parNumberStart;
         this.numberStop = parNumberStop;
-
     }
 
     // Konstruktor s znamienkom
@@ -45,7 +43,6 @@ public class Priklad implements Parcelable {
     }
 
     public void getNumbers() {
-        Log.d("sign", "sign = " + sign);
         // Generuj nahodne sign
         if (sign.equals("all")) {
             sign = generateSign();
@@ -71,23 +68,16 @@ public class Priklad implements Parcelable {
                         b = generateRandomNumber();
                         // a inkrementujem aby rychlejsie narastlo do 10
                         a++;
-                        //Log.d("+ cez10", "a: " + a + ", aLastDigit: " + aLastDigit);
                         if (lengthDigit(a) != lengthDigit(b)){
                             int minLength = Math.min(lengthDigit(a), lengthDigit(b));
                             power = minLength - 1;
                             aLastDigit = lastDigit(a,power);
-                            //Log.d("+ cez10", "aLastDigit: " + aLastDigit);
                             bLastDigit = lastDigit(b,power);
-                            //Log.d("+ cez10", "bLastDigit: " + bLastDigit);
                         }
                         else {
                             power = lengthDigit(a) - 1;
                             bLastDigit = lastDigit(b);
                         }
-
-                        //Log.d("+ cez10", "b: " + b + ", bLastDigit: " + bLastDigit);
-                        // sucet lastDigitov musi byt vacsi ako 10^power
-                        //Log.d("+ cez10", "sucet latdigitov: " + (aLastDigit + bLastDigit) + ", power: " + power +" < 10 power " + (Math.pow(10,power)) );
                     } while (aLastDigit + bLastDigit < Math.pow(10,power));
                 } // normal
                 else {
@@ -113,7 +103,6 @@ public class Priklad implements Parcelable {
                 }
 
                 if (extra.equals("cez 10")){
-                    //Log.d("cez 10 pred",  a + " = " +  b);
                     int aLastDigit = lastDigit(a);
                     int bLastDigit = lastDigit(b);
 
@@ -121,8 +110,6 @@ public class Priklad implements Parcelable {
                         a = changeDigit(a,bLastDigit);
                         b = changeDigit(b,aLastDigit);
                     }
-                    //Log.d("cez 10 po",  a + " = " +  b);
-                    // if ( a < b ) ak nastane toto, co je hovadina, je result mensi ako resultStart a ideme este raz
                 }
                 result = a - b;
                 Log.d("priklad",  a + " " + sign + " " + b + " = " + result);
@@ -132,7 +119,20 @@ public class Priklad implements Parcelable {
         } // * cast
         else if (sign.equals("*")) {
             do {
-                b = generateRandomNumber();
+
+
+                if (extra.equals("multi10")){
+                    a = generateRandomInt(this.numberStart,10);
+                    if ( a <= this.numberStop ){
+                        b = generateRandomInt(this.numberStart,10);
+                    }
+                    else {
+                        b = generateRandomNumber();
+                    }
+                }
+                else{
+                    b = generateRandomNumber();
+                }
 
                 result = a * b;
                 Log.d("priklad",  a + " " + sign + " " + b + " = " + result);
@@ -239,7 +239,6 @@ public class Priklad implements Parcelable {
     private boolean generateRandomBool(){
         Random random = new Random();
         return random.nextBoolean();
-
     }
 
     private String generateSign(){
@@ -259,11 +258,7 @@ public class Priklad implements Parcelable {
             default: sign = "+";
                 break;
         }
-        Log.d("SIGN", sign);
         return sign;
-
-
-
     }
 
     protected Priklad(Parcel in) {

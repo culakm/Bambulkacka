@@ -5,6 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class BambulkackaDB {
 
@@ -47,6 +53,16 @@ public class BambulkackaDB {
         return db.rawQuery("SELECT examples._id, a,b,sign,result, ok.count AS ok_count, nok.count  AS nok_count  FROM examples LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples._id) AS ok ON examples._id = ok.example_id LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples._id) AS nok ON  examples._id = nok.example_id WHERE examples.exercise_id = " + exercise_id, null);
     }
 
+    public long insertExercise(String sign, String date_start, String date_end) {
+        SQLiteDatabase db = openHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(BambulkackaContract.TbExercises.COLUMN_NAME_SIGN, sign);
+        values.put(BambulkackaContract.TbExercises.COLUMN_NAME_DATE_START, date_start);
+        values.put(BambulkackaContract.TbExercises.COLUMN_NAME_DATE_END, date_end);
+        long id = db.insert(BambulkackaContract.TbExercises.TABLE_NAME, null, values);
+        db.close();
+        return id;
+    }
 
     public long insertExerciseStart(String sign, String date_start) {
         SQLiteDatabase db = openHelper.getWritableDatabase();
@@ -95,6 +111,35 @@ public class BambulkackaDB {
         return id;
     }
 
+    public int deleteAllTables() {
+        SQLiteDatabase db = openHelper.getWritableDatabase();
+        db.delete(BambulkackaContract.TbAttempts.TABLE_NAME, null, null);
+        db.delete(BambulkackaContract.TbExamples.TABLE_NAME,null,null);
+        db.delete(BambulkackaContract.TbExercises.TABLE_NAME,null,null);
+        int deletedCount = db.delete(BambulkackaContract.TbExercises.TABLE_NAME,null,null);
+        db.close();
+        return deletedCount;
+    }
+
+    public void insertTestData() {
+        insertExercise("+", Utils.getNow(), Utils.getNowPlus(5));
+        insertExercise("-", Utils.getNowPlus(6), Utils.getNowPlus(10));
+        insertExercise("*", Utils.getNowPlus(11), Utils.getNowPlus(15));
+        insertExample(1, 2, 2, "+", 4);
+        insertExample(1, 2, 3, "+", 5);
+        insertExample(1, 3, 3, "+", 6);
+        insertExample(2, 4, 2, "-", 2);
+        insertExample(2, 8, 2, "-", 6);
+        insertExample(2, 10, 2, "-", 8);
+        insertAttempt(1, 4, Utils.getNow(), 1);
+        insertAttempt(2, 2, Utils.getNow(), 0);
+        insertAttempt(2, 5, Utils.getNow(), 1);
+        insertAttempt(3, 6, Utils.getNow(), 1);
+        insertAttempt(4, 2, Utils.getNow(), 1);
+        insertAttempt(5, 2, Utils.getNow(), 0);
+        insertAttempt(5, 6, Utils.getNow(), 1);
+        insertAttempt(6, 8, Utils.getNow(), 1);
+    }
     /*
     public Cursor getRawExercises() {
         SQLiteDatabase db = openHelper.getReadableDatabase();
@@ -115,4 +160,5 @@ public class BambulkackaDB {
     public void close() {
         openHelper.close();
     }
+
 }
