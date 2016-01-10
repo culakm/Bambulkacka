@@ -5,16 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+class BambulkackaDB {
 
-public class BambulkackaDB {
-
-    private SQLiteOpenHelper openHelper;
+    private final SQLiteOpenHelper openHelper;
 
     static class BambulkackaDbHelper extends SQLiteOpenHelper {
 
@@ -53,7 +47,7 @@ public class BambulkackaDB {
         return db.rawQuery("SELECT examples._id, a,b,sign,result, ok.count AS ok_count, nok.count  AS nok_count  FROM examples LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples._id) AS ok ON examples._id = ok.example_id LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples._id) AS nok ON  examples._id = nok.example_id WHERE examples.exercise_id = " + exercise_id, null);
     }
 
-    public long insertExercise(String sign, String date_start, String date_end) {
+    long insertExercise(String sign, String date_start, String date_end) {
         SQLiteDatabase db = openHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(BambulkackaContract.TbExercises.COLUMN_NAME_SIGN, sign);

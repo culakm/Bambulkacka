@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class BambulkackaDbHelperRemove extends SQLiteOpenHelper {
+class BambulkackaDbHelperRemove extends SQLiteOpenHelper {
 
     public BambulkackaDbHelperRemove(Context context) {
         super(context, BambulkackaContract.DATABASE_NAME, null, BambulkackaContract.DATABASE_VERSION);

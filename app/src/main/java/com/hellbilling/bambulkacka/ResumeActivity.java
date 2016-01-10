@@ -4,22 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import java.util.List;
 
 
 public class ResumeActivity extends ActionBarActivity {
 
     // Pocitadla
-    int pokusov = 0;
-    int spravne = 0;
+    private int pokusov = 0;
+    private int spravne = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +49,20 @@ public class ResumeActivity extends ActionBarActivity {
 //        Intent intent = YouTubeIntents.createUserIntent(this, channelName);
 //        startActivity(intent);
 
+        Resources res = getResources();
+        String[] videos = res.getStringArray(R.array.videos);
+        int i = Utils.generateRandomInt(0,videos.length - 1);
+        String video = videos[i];
+
+        Log.d("array"," video: " + i);
         // Run youtube application
         if (isPackageInstalled(getApplicationContext(),"com.google.android.youtube")) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + "p6q7jR63dGc"));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + video));
             startActivity(intent);
         }
         else {
         // Run youtube in browser
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=MdGvU-YDElQ")));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=" + video)));
         }
     }
 
@@ -65,7 +72,7 @@ public class ResumeActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public static boolean isPackageInstalled(Context context, String packageName) {
+    private static boolean isPackageInstalled(Context context, String packageName) {
         final PackageManager packageManager = context.getPackageManager();
         Intent intent = packageManager.getLaunchIntentForPackage(packageName);
         if (intent == null) {

@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import javax.xml.transform.Result;
-
 public class ResultsActivity extends ActionBarActivity implements ResultsFragment.OnResultClickedListener {
 
     // ResultFragment that will be updated after delete and insert

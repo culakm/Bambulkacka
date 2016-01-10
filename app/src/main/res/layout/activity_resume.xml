@@ -73,11 +73,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/again"
-        android:text="Ešte raz"
+        android:text="Na zaciatok"
         android:onClick="buttonSendsMessageAgain"
         android:layout_below="@+id/imageButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/spravne"
         android:layout_alignEnd="@+id/spravne" />
+
 </RelativeLayout>

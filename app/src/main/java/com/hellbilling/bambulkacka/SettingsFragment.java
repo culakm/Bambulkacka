@@ -9,17 +9,16 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
-
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
 
-    public static final String KEY_PREF_RESULT_START = "result_start";
-    public static final String KEY_PREF_RESULT_STOP = "result_stop";
-    public static final String KEY_PREF_NUMBER_START = "number_start";
-    public static final String KEY_PREF_NUMBER_STOP = "number_stop";
-    public static final String KEY_PREF_SIGN = "sign";
-    public static final String KEY_PREF_EXTRA = "extra";
-    public static final String KEY_PREF_USER_NAME = "user_name";
-    public static final String KEY_PREF_REPEAT = "repeat";
+    private static final String KEY_PREF_RESULT_START = "result_start";
+    private static final String KEY_PREF_RESULT_STOP = "result_stop";
+    private static final String KEY_PREF_NUMBER_START = "number_start";
+    private static final String KEY_PREF_NUMBER_STOP = "number_stop";
+    private static final String KEY_PREF_SIGN = "sign";
+    private static final String KEY_PREF_EXTRA = "extra";
+    private static final String KEY_PREF_USER_NAME = "user_name";
+    private static final String KEY_PREF_REPEAT = "repeat";
 
     private String preferencesType;
     @Override

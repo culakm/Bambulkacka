@@ -17,16 +17,11 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-
-import java.util.Date;
-import java.text.SimpleDateFormat;
 
 public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorActionListener{
 
     // Database connectivity
-    BambulkackaDB dbh;
+    private BambulkackaDB dbh;
 
     // Nastavenia pre priklady
     // rozsah generovanych cisel
@@ -44,26 +39,26 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
     // Widgety aktivity
     // Tu zadavame vysledok
-    EditText vysledokLocal;
+    private EditText vysledokLocal;
     // text zadania prikladu
-    TextView prikladText;
+    private TextView prikladText;
     // Chybove hlasenia, a komentare k odoslanemu vysledku
-    TextView errorText;
+    private TextView errorText;
     // Zobrazovanie poctu vsetkych pokusov
-    TextView textPokusovCounter;
+    private TextView textPokusovCounter;
     // Zobrazovanie poctu spravnych pokusov
-    TextView textSpravneCounter;
+    private TextView textSpravneCounter;
 
     // Current exercise _id
     private long exercise_id;
     // Current example
-    Priklad priklad;
+    private Priklad priklad;
     // Current example _id
     private long example_id;
 
     // Pocitadla
-    int pokusov = 0;
-    int spravne = 0;
+    private int pokusov = 0;
+    private int spravne = 0;
 
 
     @Override
@@ -92,7 +87,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         restoreMe(savedInstanceState);
 
         // Save exercise
-        exercise_id = dbh.insertExerciseStart(exampleSign,getNow());
+        exercise_id = dbh.insertExerciseStart(exampleSign,Utils.getNow());
 
         // nacitame aktualny priklad ak este neexistuje, inak sa taha z restoreMe
         if(priklad==null) {
@@ -108,6 +103,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
         priklad = new Priklad(resultStart, resultStop, numberStart, numberStop, exampleSign, exampleExtra);
 
+        // Check example duplicity in exercise
         do {
             priklad.getNumbers();
         } while (checkRepeat(exercise_id,priklad));
@@ -118,7 +114,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     }
 
     // Check if Priklad has been already generated
-    boolean checkRepeat(long exercise_id, Priklad priklad){
+    private boolean checkRepeat(long exercise_id, Priklad priklad){
 
         Context ctx = this;
         BambulkackaDB dbh = new BambulkackaDB(ctx);
@@ -189,7 +185,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             errorText.setText(userName + ", ty si genius, " + priklad.getCelyPrikladString() + ", ides dalej.");
 
             // Save attempt
-            dbh.insertAttempt(example_id, vysledokLocalInt, getNow(), 1);
+            dbh.insertAttempt(example_id, vysledokLocalInt, Utils.getNow(), 1);
 
             // ak je dokoncene tak otvori resume aktivitu
             if (spravne == repeat){
@@ -199,7 +195,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
                 intent.putExtra("pokusov",pokusov);
 
                 // Save exercise end
-                dbh.updateExerciseEnd(exercise_id,getNow());
+                dbh.updateExerciseEnd(exercise_id,Utils.getNow());
 
                 startActivity(intent);
             } // inak da novy priklad
@@ -218,16 +214,15 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             errorText.setText(userName + ", " + userName + ". Cele zle, musis si to zopakovat este raz!");
 
             // Save attempt
-            dbh.insertAttempt(example_id, vysledokLocalInt, getNow(), 0);
+            dbh.insertAttempt(example_id, vysledokLocalInt, Utils.getNow(), 0);
         }
-
 
         // Vynuluj editText
         vysledokLocal.setText("");
 
     }
 
-    // Natiahne settings, nikdy nepouzite, settingy sa natahuju v getPriklad
+    // Load preferences
     private void getSettings(){
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -252,7 +247,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 
     //// Obsluha klavesnice
     // Toto moze byt divne, ako vieme ku ktoremu editTextu to otvara tu klavesnicu?
-    public void showSoftKeyboard() {
+    void showSoftKeyboard() {
         // otvorenie klavesnice
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         // zatvorenie klavesnice
@@ -274,7 +269,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         return handled;
     }
 
-    //// Prehrajeme zvuk
+    // Play sound
     private void playSound (String filename) {
         // Find file as resource
         int res = getResources().getIdentifier(filename, "raw", getPackageName());
@@ -336,13 +331,6 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     public void onOptionsMenuClosed(Menu menu) {
         Log.d("myTag", "This is onOptionsMenuClosed");
         getPriklad();
-    }
-
-    private String getNow(){
-        // set the format to sql date time
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-        Date date = new Date();
-        return dateFormat.format(date);
     }
 
 }

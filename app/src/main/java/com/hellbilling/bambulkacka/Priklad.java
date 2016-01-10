@@ -12,7 +12,10 @@ import java.util.Random;
 // nparcerable som ziskal hodenim kodu do http://www.parcelabler.com/
 public class Priklad implements Parcelable {
 
-    private int resultStart, resultStop, numberStart, numberStop;
+    private final int resultStart;
+    private final int resultStop;
+    private final int numberStart;
+    private final int numberStop;
     private String sign = "all";
     private String extra = "nic";
     private int a;
@@ -20,7 +23,7 @@ public class Priklad implements Parcelable {
     private int result;
 
     // Konstruktor bez znamienka
-    public Priklad(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop) {
+    private Priklad(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop) {
 
         this.resultStart = parResultStart;
         this.resultStop = parResultStop;
@@ -29,7 +32,7 @@ public class Priklad implements Parcelable {
     }
 
     // Konstruktor s znamienkom
-    public Priklad(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop, String parSign) {
+    private Priklad(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop, String parSign) {
 
         this(parResultStart,parResultStop,parNumberStart,parNumberStop);
         this.sign = parSign;
@@ -122,9 +125,9 @@ public class Priklad implements Parcelable {
 
 
                 if (extra.equals("multi10")){
-                    a = generateRandomInt(this.numberStart,10);
+                    a = Utils.generateRandomInt(this.numberStart, 10);
                     if ( a <= this.numberStop ){
-                        b = generateRandomInt(this.numberStart,10);
+                        b = Utils.generateRandomInt(this.numberStart, 10);
                     }
                     else {
                         b = generateRandomNumber();
@@ -227,18 +230,7 @@ public class Priklad implements Parcelable {
 
     // Random generatory
     private int generateRandomNumber(){
-        return generateRandomInt(this.numberStart,this.numberStop);
-    }
-    // Random generatory
-    private int generateRandomInt(int parResultStart,int parResultStop){
-        Random r = new Random();
-        return r.nextInt(parResultStop - parResultStart + 1) + parResultStart;
-    }
-
-
-    private boolean generateRandomBool(){
-        Random random = new Random();
-        return random.nextBoolean();
+        return Utils.generateRandomInt(this.numberStart, this.numberStop);
     }
 
     private String generateSign(){
@@ -261,7 +253,7 @@ public class Priklad implements Parcelable {
         return sign;
     }
 
-    protected Priklad(Parcel in) {
+    private Priklad(Parcel in) {
         resultStart = in.readInt();
         resultStop = in.readInt();
         numberStart = in.readInt();

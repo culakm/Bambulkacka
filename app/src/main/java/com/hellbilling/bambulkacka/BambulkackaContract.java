@@ -2,7 +2,7 @@ package com.hellbilling.bambulkacka;
 
 import android.provider.BaseColumns;
 
-public final class BambulkackaContract {
+final class BambulkackaContract {
 
     // If you change the database schema, you must increment the database version.
     public static final  int    DATABASE_VERSION   = 3;

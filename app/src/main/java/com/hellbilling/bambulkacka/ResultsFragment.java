@@ -19,12 +19,11 @@ public class ResultsFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_results, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_results, container, false);
     }
 
 
-    OnResultClickedListener listener;
+    private OnResultClickedListener listener;
 
     @Override
     public void onAttach(Activity activity) {
