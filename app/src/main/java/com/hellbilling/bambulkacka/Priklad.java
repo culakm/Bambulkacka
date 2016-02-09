@@ -46,9 +46,15 @@ public class Priklad implements Parcelable {
     }
 
     public void getNumbers() {
-        // Generuj nahodne sign
+        // Random sign
         if (sign.equals("all")) {
-            sign = generateSign();
+            // Random for nasobilka
+            if (extra.equals("multi10")) {
+                sign = generatemulti10Sign();
+            }
+            else {
+                sign = generateSign();
+            }
         }
 
         // Random a
@@ -122,8 +128,6 @@ public class Priklad implements Parcelable {
         } // * cast
         else if (sign.equals("*")) {
             do {
-
-
                 if (extra.equals("multi10")){
                     a = Utils.generateRandomInt(this.numberStart, 10);
                     if ( a <= this.numberStop ){
@@ -143,6 +147,38 @@ public class Priklad implements Parcelable {
                 //} while ( !(result >= resultStart && result <= resultStop)  );
             } while ( !(result >= resultStart && result <= resultStop)  );
         }
+        else if (sign.equals("/")) {
+            do {
+                int divisionNumberStart = 1;
+                if (extra.equals("multi10")){
+                    a = Utils.generateRandomInt(divisionNumberStart, 10);
+                    if ( a <= this.numberStop ){
+                        b = Utils.generateRandomInt(divisionNumberStart, 10);
+                    }
+                    else {
+                        b = Utils.generateRandomInt(divisionNumberStart, this.numberStop);
+                    }
+                    // b has to be lower than a
+                    if (b > this.numberStop && b > a){
+                        int c = b;
+                        b = a;
+                        a = c;
+                    }
+                }
+                else {
+                    a = Utils.generateRandomInt(divisionNumberStart, this.numberStop);
+                    b = Utils.generateRandomInt(divisionNumberStart, this.numberStop);
+                }
+
+                int semi_result = a * b;
+                a = semi_result;
+                result = semi_result / b;
+                Log.d("priklad",  a + " " + sign + " " + b + " = " + result);
+                Log.d("podmienka", result + " >=  " + resultStart + " && " + result + " <= " + resultStop);
+                //} while ( !(result >= resultStart && result <= resultStop)  );
+            } while ( !(result >= resultStart && result <= resultStop)  );
+        }
+
     }
 
     // vymeni posledne cislice number za lastDigit
@@ -236,7 +272,8 @@ public class Priklad implements Parcelable {
     private String generateSign(){
 
         Random r = new Random();
-        int randomInt = r.nextInt(3);
+        int randomInt = r.nextInt(4);
+        Log.d("sign int","generateSign = "+randomInt);
         String sign;
         switch (randomInt) {
             case 0:  sign = "+";
@@ -250,6 +287,25 @@ public class Priklad implements Parcelable {
             default: sign = "+";
                 break;
         }
+        Log.d("sign int","generateSign sign = "+sign);
+        return sign;
+    }
+
+    private String generatemulti10Sign(){
+
+        Random r = new Random();
+        int randomInt = r.nextInt(2);
+        Log.d("sign int","generatemulti10Sign int = "+randomInt);
+        String sign;
+        switch (randomInt) {
+            case 0:  sign = "*";
+                break;
+            case 1:  sign = "/";
+                break;
+            default: sign = "*";
+                break;
+        }
+        Log.d("sign int","generatemulti10Sign sign = "+sign);
         return sign;
     }
 

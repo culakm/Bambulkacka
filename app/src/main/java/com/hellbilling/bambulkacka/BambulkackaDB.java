@@ -44,7 +44,8 @@ class BambulkackaDB {
 
     public Cursor getResultExamples(String exercise_id) {
         SQLiteDatabase db = openHelper.getReadableDatabase();
-        return db.rawQuery("SELECT examples._id, a,b,sign,result, ok.count AS ok_count, nok.count  AS nok_count  FROM examples LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples._id) AS ok ON examples._id = ok.example_id LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples._id) AS nok ON  examples._id = nok.example_id WHERE examples.exercise_id = " + exercise_id, null);
+        Cursor examples = db.rawQuery("SELECT examples._id, a,b,sign,result, ok.count AS ok_count, nok.count  AS nok_count  FROM examples LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples._id) AS ok ON examples._id = ok.example_id LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples._id) AS nok ON  examples._id = nok.example_id WHERE examples.exercise_id = " + exercise_id, null);
+        return examples;
     }
 
     long insertExercise(String sign, String date_start, String date_end) {

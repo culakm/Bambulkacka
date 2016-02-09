@@ -5,6 +5,7 @@
         <item>+</item>
         <item>-</item>
         <item>*</item>
+        <item>/</item>
     </string-array>
     <string-array name="extra">
         <item>nic</item>

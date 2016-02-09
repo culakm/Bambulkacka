@@ -137,6 +137,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
                 } while (examplesCursor.moveToNext());
             }
         }
+        dbh.close();
         return false;
     }
 

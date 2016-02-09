@@ -67,9 +67,7 @@ public class ResumeActivity extends ActionBarActivity {
     }
 
     public void buttonSendsMessageAgain(View view) {
-        Intent intent;
-        intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        goHome();
     }
 
     private static boolean isPackageInstalled(Context context, String packageName) {
@@ -99,5 +97,16 @@ public class ResumeActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        goHome();
+    }
+
+    private void goHome(){
+        Intent intent;
+        intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
