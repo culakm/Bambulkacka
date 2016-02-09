@@ -183,7 +183,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             textSpravneCounter.setText(++spravne + "");
             textPokusovCounter.setText(++pokusov + "");
             errorText.setTextColor(getResources().getColor(R.color.spravne_color));
-            errorText.setText(userName + ", ty si genius, " + priklad.getCelyPrikladString() + ", ides dalej.");
+            errorText.setText(userName + ", " + getResources().getString(R.string.genius) +", " + priklad.getCelyPrikladString() + ", ides dalej.");
 
             // Save attempt
             dbh.insertAttempt(example_id, vysledokLocalInt, Utils.getNow(), 1);
@@ -212,7 +212,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             textPokusovCounter.setText(++pokusov + "");
             //errorText.setTextColor(getResources().getIdentifier("nespravne_color", "color", getPackageName()));
             errorText.setTextColor(getResources().getColor(R.color.nespravne_color));
-            errorText.setText(userName + ", " + userName + ". Cele zle, musis si to zopakovat este raz!");
+            errorText.setText(userName + ", " + userName + ". " + getResources().getString(R.string.compl_wrong) + "!");
 
             // Save attempt
             dbh.insertAttempt(example_id, vysledokLocalInt, Utils.getNow(), 0);

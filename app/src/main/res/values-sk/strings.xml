@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bambulkacka</string>
+    <string name="action_settings">Nastavenie</string>
+    <string name="cast_pre_priklad">Tu ma byt zadanie prikladu!</string>
+    <string name="delete_all_results">Vymazať všetky výsledky</string>
+    <string name="end_text">Výborne, je to hotové:)</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_world">Servus svet!</string>
+    <string name="insert_test_results">Zadaj výsledok</string>
+    <string name="no_results_available">Nemáme nijaké výsledky</string>
+    <string name="pref_sync_summ2">pref_sync_summ_text2</string>
+    <string name="pokusov">Pokusov :</string>
+    <string name="spravne">Spravne :</string>
+    <string name="str_button">IDEME!</string>
+    <string name="title_activity_kalkulacka">Počítame</string>
+    <string name="title_activity_examples">Príklady</string>
+    <string name="title_activity_preference">Nastavenia</string>
+    <string name="title_activity_results">Výsledky</string>
+    <string name="title_activity_resume">Resume</string>
+    <string name="title_activity_settings">Nastavenia</string>
+    <string name="welcome_string">Vitajte matematici!</string>
+    <string name="go_home">Domov</string>
+    <string name="genius">ty si génius</string>
+    <string name="compl_wrong">Cele zle, musis si to zopakovat este raz</string>
+</resources>

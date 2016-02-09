@@ -73,7 +73,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/again"
-        android:text="Na zaciatok"
+        android:text="@string/go_home"
         android:onClick="buttonSendsMessageAgain"
         android:layout_below="@+id/imageButton"
         android:layout_alignParentLeft="true"
