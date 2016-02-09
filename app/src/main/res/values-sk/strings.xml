@@ -23,4 +23,7 @@
     <string name="go_home">Domov</string>
     <string name="genius">ty si génius</string>
     <string name="compl_wrong">Cele zle, musis si to zopakovat este raz</string>
+    <string name="empty_result">nic nie je vyplnene, daj este raz</string>
+    <string name="natural_numbers">musis zadat cele cislo, davaj</string>
+    <string name="num_limit">Vysledok musi byt mensi ako 2147483647 alebo je tu ina chyba</string>
 </resources>

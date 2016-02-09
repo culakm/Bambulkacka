@@ -25,5 +25,8 @@
     <string name="go_home">Home</string>
     <string name="genius">you\'re genius</string>
     <string name="compl_wrong">Completely wrong, try it again</string>
+    <string name="empty_result">result is empty</string>
+    <string name="natural_numbers">only natural numbers here</string>
+    <string name="num_limit">Result has to be lower than 2147483647 or other error</string>
 
 </resources>

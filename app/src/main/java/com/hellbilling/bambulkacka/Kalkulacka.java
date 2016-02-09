@@ -153,14 +153,14 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         // vysledok je prazdny
         if (vysledokLocalStr.length() == 0){
             //vysledokLocalInt = 0;
-            errorText.setText(userName + " , nic nie je vyplnene, daj este raz.");
+            errorText.setText(userName + " , " + getResources().getString(R.string.empty_result) + ".");
             return;
         }
 
         // vysledok nie je cislo
         if ( ! vysledokLocalStr.matches("\\d+")) {
             //vysledokLocalInt = 0;
-            errorText.setText(userName + ", musis zadat cele cislo, davaj!");
+            errorText.setText(userName + ", " + getResources().getString(R.string.natural_numbers) + "!");
             vysledokLocal.setText("");
             return;
         }
@@ -168,7 +168,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             try {
                 vysledokLocalInt = Integer.parseInt(vysledokLocalStr);
             } catch(NumberFormatException nfe) {
-                errorText.setText("Vysledok musi byt mensi ako 2147483647 alebo je tu ina chyba: \n" + nfe);
+                errorText.setText(getResources().getString(R.string.num_limit) + ": \n" + nfe);
                 vysledokLocal.setText("");
                 return;
             }
