@@ -334,4 +334,17 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         getPriklad();
     }
 
+    @Override
+    public void onBackPressed(){
+        goHome();
+    }
+
+    private void goHome(){
+        // Save exercise end
+        dbh.updateExerciseEnd(exercise_id,Utils.getNow());
+        Intent intent;
+        intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 }
