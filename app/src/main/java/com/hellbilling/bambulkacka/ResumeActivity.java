@@ -89,15 +89,23 @@ public class ResumeActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.results:
+                intent = new Intent(this, ResultsActivity.class);
+                startActivity(intent);
+                return(true);
+            // Startovanie settings aktivity
+            case R.id.settings:
+                intent = new Intent(this, SettingsActivity.class);
+                intent.putExtra("preferencesType","main");
+                startActivity(intent);
+                return(true);
+            default:
+                return(super.onOptionsItemSelected(item));
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onBackPressed(){

@@ -14,6 +14,9 @@ public class MainActivity extends ActionBarActivity {
 
     /*TODO
 
+    nefunguje menu v resumectivity
+    v Kalkulacka pridat results do menu
+
     dorobit zobrazovanie ok.nok v resultsoch
     https://www.zdrojak.cz/clanky/vyvijime-pro-android-fragmenty-a-sqlite-databaze/
     pozret ako je urobeny kontrakt http://stackoverflow.com/questions/17451931/how-to-use-a-contract-class-in-android,
