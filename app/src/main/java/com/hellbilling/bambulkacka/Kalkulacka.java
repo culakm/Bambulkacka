@@ -18,6 +18,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * Kalkulacka pokec
+ *
+ */
 public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorActionListener{
 
     // Database connectivity
@@ -98,7 +102,10 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         showSoftKeyboard();
     }
 
-    // Nacita priklad
+    /**
+     * Nacita priklad
+     *
+     */
     private void getPriklad() {
 
         priklad = new Priklad(resultStart, resultStop, numberStart, numberStop, exampleSign, exampleExtra);
