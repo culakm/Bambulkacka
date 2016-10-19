@@ -19,70 +19,106 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 /**
- * Kalkulacka pokec
+ * Calculator pokec
  *
  */
-public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorActionListener{
+public class Calculator extends ActionBarActivity implements EditText.OnEditorActionListener{
 
-    // Database connectivity
+    /**
+     * Database connectivity
+     */
     private BambulkackaDB dbh;
 
     // Nastavenia pre priklady
-    // rozsah generovanych cisel
+    /**
+     * Range of generated numbers
+     */
     private int resultStart, resultStop, numberStart, numberStop;
-    // Sign
+    /**
+     * Sign
+     */
     private String exampleSign;
-    // Extra
+    /**
+     * Extra directive
+     */
     private String exampleExtra;
-    // Ine nastavenie
+    // Other settings
+    /**
+     * User name
+     */
     private String userName;
-    // pocet prikladov
+    /**
+     * Number of examples in one exercise
+     */
     private int repeat;
-    // Play sound ?
+    /**
+     * Play sound
+     */
     private boolean sound;
 
-    // Widgety aktivity
-    // Tu zadavame vysledok
-    private EditText vysledokLocal;
-    // text zadania prikladu
-    private TextView prikladText;
-    // Chybove hlasenia, a komentare k odoslanemu vysledku
-    private TextView errorText;
-    // Zobrazovanie poctu vsetkych pokusov
-    private TextView textPokusovCounter;
-    // Zobrazovanie poctu spravnych pokusov
-    private TextView textSpravneCounter;
+    // Widgets of activity
+    /**
+     * Text: Result of example
+     */
+    private EditText wgResultLocal;
+    /**
+     * Text: Text of an example withou result
+     */
+    private TextView wgExampleString;
+    /**
+     * Text: Error messages and comments for sent result
+     */
+    private TextView wgErrorString;
+    /**
+     * Text: Counter of all attempts
+     */
+    private TextView wgAttemptsCounterString;
+    /**
+     * Text: Counter of correct attempts
+     */
+    private TextView wgCorrectCounterString;
 
-    // Current exercise _id
+    /**
+     * Current DB exercise _id
+     */
     private long exercise_id;
-    // Current example
-    private Priklad priklad;
-    // Current example _id
+    /**
+     * Current example
+     */
+    private Example example;
+    /**
+     * Current DB example _id
+     */
     private long example_id;
 
-    // Pocitadla
-    private int pokusov = 0;
-    private int spravne = 0;
+    /**
+     * Text: Counter of all attempts
+     */
+    private int attempts = 0;
+    /**
+     * Text: Counter of correct attempts
+     */
+    private int correct = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kalkulacka);
+        setContentView(R.layout.activity_calculator);
 
         // Database connection
         Context ctx = getApplicationContext();
         dbh = new BambulkackaDB(ctx);
 
         // zistenie widgetov z obrazovky
-        vysledokLocal =(EditText)findViewById(R.id.vysledok_text);
-        prikladText =(TextView)findViewById(R.id.prikladText);
-        errorText =(TextView)findViewById(R.id.errorText);
-        textPokusovCounter =(TextView)findViewById(R.id.textPokusovCounter);
-        textSpravneCounter =(TextView)findViewById(R.id.textSpravneCounter);
+        wgResultLocal =(EditText)findViewById(R.id.resultString);
+        wgExampleString =(TextView)findViewById(R.id.exampleString);
+        wgErrorString =(TextView)findViewById(R.id.errorString);
+        wgAttemptsCounterString =(TextView)findViewById(R.id.attemptsCounterString);
+        wgCorrectCounterString =(TextView)findViewById(R.id.correctCounterString);
 
         // tu sa nastavil listener onEditorAction na EditText, urcuje ako sa sprava tlacitko go
-        vysledokLocal.setOnEditorActionListener(this);
+        wgResultLocal.setOnEditorActionListener(this);
 
         // Nacitaj settingy
         getSettings();
@@ -93,9 +129,9 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         // Save exercise
         exercise_id = dbh.insertExerciseStart(exampleSign,Utils.getNow());
 
-        // nacitame aktualny priklad ak este neexistuje, inak sa taha z restoreMe
-        if(priklad==null) {
-            getPriklad();
+        // nacitame aktualny example ak este neexistuje, inak sa taha z restoreMe
+        if(example ==null) {
+            getExample();
         }
 
         // otvorim klavesnicu
@@ -103,33 +139,36 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     }
 
     /**
-     * Nacita priklad
-     *
+     * Load new example
      */
-    private void getPriklad() {
+    private void getExample() {
 
-        priklad = new Priklad(resultStart, resultStop, numberStart, numberStop, exampleSign, exampleExtra);
+        example = new Example(resultStart, resultStop, numberStart, numberStop, exampleSign, exampleExtra);
 
         // Check example duplicity in exercise
         do {
-            priklad.getNumbers();
-        } while (checkRepeat(exercise_id,priklad));
+            example.getNumbers();
+        } while (checkRepeat(exercise_id, example));
 
-        example_id = dbh.insertExample(exercise_id, priklad.getA(), priklad.getB(), priklad.getSign(), priklad.getResult());
+        example_id = dbh.insertExample(exercise_id, example.getA(), example.getB(), example.getSign(), example.getResult());
         // Set up text of the example
-        prikladText.setText(priklad.getPrikladString());
+        wgExampleString.setText(example.getExampleString());
     }
 
-    // Check if Priklad has been already generated
-    private boolean checkRepeat(long exercise_id, Priklad priklad){
+    /**
+     * Check if this example has been already generated for this exercise
+     * we don't want repeat the same example
+     */
+
+    private boolean checkRepeat(long exercise_id, Example example){
 
         Context ctx = this;
         BambulkackaDB dbh = new BambulkackaDB(ctx);
         Cursor examplesCursor = dbh.getResultExamples(String.valueOf(exercise_id));
 
         // Current example
-        int priklad_a = priklad.getA();
-        int priklad_b = priklad.getB();
+        int priklad_a = example.getA();
+        int priklad_b = example.getB();
         // if Cursor is contains results
         if (examplesCursor != null) {
             // move cursor to first row
@@ -148,67 +187,69 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         return false;
     }
 
-    // spracujeme odoslany vysledok
-    private void zpracujVysledok () {
+    /**
+     * Check input value of result and evaluate it
+     */
+    private void manageResult() {
 
-        String vysledokLocalStr = vysledokLocal.getText().toString();
+        String resultLocalStr = wgResultLocal.getText().toString();
         int vysledokLocalInt;
 
-        errorText.setTextColor(getResources().getColor(R.color.default_color));
-        errorText.setText("");
+        wgErrorString.setTextColor(getResources().getColor(R.color.default_color));
+        wgErrorString.setText("");
 
         // vysledok je prazdny
-        if (vysledokLocalStr.length() == 0){
+        if (resultLocalStr.length() == 0){
             //vysledokLocalInt = 0;
-            errorText.setText(userName + " , " + getResources().getString(R.string.empty_result) + ".");
+            wgErrorString.setText(userName + " , " + getResources().getString(R.string.empty_result) + ".");
             return;
         }
 
         // vysledok nie je cislo
-        if ( ! vysledokLocalStr.matches("\\d+")) {
+        if ( ! resultLocalStr.matches("\\d+")) {
             //vysledokLocalInt = 0;
-            errorText.setText(userName + ", " + getResources().getString(R.string.natural_numbers) + "!");
-            vysledokLocal.setText("");
+            wgErrorString.setText(userName + ", " + getResources().getString(R.string.natural_numbers) + "!");
+            wgResultLocal.setText("");
             return;
         }
         else {
             try {
-                vysledokLocalInt = Integer.parseInt(vysledokLocalStr);
+                vysledokLocalInt = Integer.parseInt(resultLocalStr);
             } catch(NumberFormatException nfe) {
-                errorText.setText(getResources().getString(R.string.num_limit) + ": \n" + nfe);
-                vysledokLocal.setText("");
+                wgErrorString.setText(getResources().getString(R.string.num_limit) + ": \n" + nfe);
+                wgResultLocal.setText("");
                 return;
             }
         }
 
         // Vysledok dobre
-        if (vysledokLocalInt == priklad.getResult()){
+        if (vysledokLocalInt == example.getResult()){
             Log.d("++", "vysledok je dobre");
             // prehrajeme ok zvuk
             if (sound){playSound("ok");}
 
-            textSpravneCounter.setText(++spravne + "");
-            textPokusovCounter.setText(++pokusov + "");
-            errorText.setTextColor(getResources().getColor(R.color.spravne_color));
-            errorText.setText(userName + ", " + getResources().getString(R.string.genius) +", " + priklad.getCelyPrikladString() + ", ides dalej.");
+            wgCorrectCounterString.setText(++correct + "");
+            wgAttemptsCounterString.setText(++attempts + "");
+            wgErrorString.setTextColor(getResources().getColor(R.color.spravne_color));
+            wgErrorString.setText(userName + ", " + getResources().getString(R.string.genius) + ", " + example.getExampleStringFull() + ", ides dalej.");
 
             // Save attempt
             dbh.insertAttempt(example_id, vysledokLocalInt, Utils.getNow(), 1);
 
             // ak je dokoncene tak otvori resume aktivitu
-            if (spravne == repeat){
+            if (correct == repeat){
                 Intent intent;
                 intent = new Intent(this, ResumeActivity.class);
-                intent.putExtra("spravne",spravne);
-                intent.putExtra("pokusov",pokusov);
+                intent.putExtra("correct", correct);
+                intent.putExtra("attempts", attempts);
 
                 // Save exercise end
                 dbh.updateExerciseEnd(exercise_id,Utils.getNow());
 
                 startActivity(intent);
-            } // inak da novy priklad
+            } // inak da novy example
             else {
-                getPriklad();
+                getExample();
             }
         }
         // Vysledok zle
@@ -216,21 +257,23 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             Log.d("--", "vysledok " + vysledokLocalInt + " je zle");
             // Prehrajeme NOK zvuk
             if (sound){playSound("nok");}
-            textPokusovCounter.setText(++pokusov + "");
-            //errorText.setTextColor(getResources().getIdentifier("nespravne_color", "color", getPackageName()));
-            errorText.setTextColor(getResources().getColor(R.color.nespravne_color));
-            errorText.setText(userName + ", " + userName + ". " + getResources().getString(R.string.compl_wrong) + "!");
+            wgAttemptsCounterString.setText(++attempts + "");
+            //wgErrorString.setTextColor(getResources().getIdentifier("nespravne_color", "color", getPackageName()));
+            wgErrorString.setTextColor(getResources().getColor(R.color.nespravne_color));
+            wgErrorString.setText(userName + ", " + userName + ". " + getResources().getString(R.string.compl_wrong) + "!");
 
             // Save attempt
             dbh.insertAttempt(example_id, vysledokLocalInt, Utils.getNow(), 0);
         }
 
         // Vynuluj editText
-        vysledokLocal.setText("");
+        wgResultLocal.setText("");
 
     }
 
-    // Load preferences
+    /**
+     * Load preferences
+     */
     private void getSettings(){
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -248,12 +291,19 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
         //Log.d( "settings: " , "start: " + resultStart + ", stop: " + resultStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName);
     }
 
-    //// Obsluha odosielacieho tlacitka, toto je mu priradene v activity_kalkulacka.xml
-    public void submitVysledok(View view) {
-        zpracujVysledok();
+    /**
+     * Submit button handling
+     * <p>
+     * This method is assigned in activity_calculator.xml
+     * @param view view no pokec
+     */
+    public void submitResult(View view) {
+        manageResult();
     }
 
-    //// Obsluha klavesnice
+    /**
+     * Keyboard handling
+     */
     // Toto moze byt divne, ako vieme ku ktoremu editTextu to otvara tu klavesnicu?
     void showSoftKeyboard() {
         // otvorenie klavesnice
@@ -267,17 +317,26 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
 //        }
     }
 
-    // pocuvanie ake odosielacie tlacitko klavesnice je zmacknute, v tomto pripade go
+    /**
+     * Listener for submit button, action GO
+     * @param view view bez pokecu
+     * @param actionId GO,or something else?
+     * @param event ???
+     * @return true if action is GO
+     */
     public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
         boolean handled = false;
         if (actionId == EditorInfo.IME_ACTION_GO) {
-            zpracujVysledok();
+            manageResult();
             handled = true;
         }
         return handled;
     }
 
-    // Play sound
+    /**
+     * Play sound
+     * @param filename source of sound
+     */
     private void playSound (String filename) {
         // Find file as resource
         int res = getResources().getIdentifier(filename, "raw", getPackageName());
@@ -290,24 +349,24 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("priklad", priklad);
-        outState.putInt("pokusov", pokusov);
-        outState.putInt("spravne", spravne);
+        outState.putParcelable("example", example);
+        outState.putInt("attempts", attempts);
+        outState.putInt("correct", correct);
     }
 
     // Obnovujeme zapamatany stav
-    //je zaujimave ze vysledokLocal ma hodnotu zachovanu bez toho ze by sme to riesili
+    //je zaujimave ze wgResultLocal ma hodnotu zachovanu bez toho ze by sme to riesili
     private void restoreMe(Bundle state){
 
         if  (state != null){
 
-            priklad = state.getParcelable("priklad");
-            pokusov = state.getInt("pokusov");
-            spravne = state.getInt("spravne");
+            example = state.getParcelable("example");
+            attempts = state.getInt("attempts");
+            correct = state.getInt("correct");
             // Nastavi text prikladu
-            prikladText.setText(priklad.getPrikladString());
-            textSpravneCounter.setText(spravne + "");
-            textPokusovCounter.setText(pokusov + "");
+            wgExampleString.setText(example.getExampleString());
+            wgCorrectCounterString.setText(correct + "");
+            wgAttemptsCounterString.setText(attempts + "");
         }
 
     }
@@ -315,7 +374,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_kalkulacka, menu);
+        getMenuInflater().inflate(R.menu.menu_calculator, menu);
         return true;
     }
 
@@ -327,7 +386,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
             case R.id.settings:
                 Intent intent;
                 intent = new Intent(this, SettingsActivity.class);
-                intent.putExtra("preferencesType","kalkulacka");
+                intent.putExtra("preferencesType","calculator");
                 startActivity(intent);
                 return(true);
         }
@@ -338,7 +397,7 @@ public class Kalkulacka extends ActionBarActivity implements EditText.OnEditorAc
     @Override
     public void onOptionsMenuClosed(Menu menu) {
         Log.d("myTag", "This is onOptionsMenuClosed");
-        getPriklad();
+        getExample();
     }
 
     @Override

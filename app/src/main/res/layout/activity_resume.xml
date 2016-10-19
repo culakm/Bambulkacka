@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/abc_text_size_large_material" />
         <TextView
-            android:id="@+id/textPokusovCounter"
+            android:id="@+id/attemptsCounterString"
             android:text="0"
             android:textColor="@color/pokus_color"
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/abc_text_size_large_material" />
         <TextView
-            android:id="@+id/textSpravneCounter"
+            android:id="@+id/correctCounterString"
             android:text="0"
             android:textColor="@color/spravne_color"
             android:layout_width="wrap_content"

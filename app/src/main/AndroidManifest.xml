@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Kalkulacka"
+            android:name=".Calculator"
             android:label="@string/title_activity_kalkulacka"
             android:screenOrientation="portrait" >
         </activity>

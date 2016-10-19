@@ -32,7 +32,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
             case "main":
                 addPreferencesFromResource(R.xml.preferences_main);
                 break;
-            case "kalkulacka":
+            case "calculator":
                 addPreferencesFromResource(R.xml.preferences_calculator);
                 break;
             default:

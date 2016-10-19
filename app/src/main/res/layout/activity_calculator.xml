@@ -4,24 +4,24 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.hellbilling.bambulkacka.Kalkulacka">
+    tools:context="com.hellbilling.bambulkacka.Calculator">
 
     <TextView
-        android:id="@+id/prikladText"
+        android:id="@+id/exampleString"
         android:textSize="32sp"
         android:text="@string/cast_pre_priklad"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         />
     <EditText
-        android:id="@+id/vysledok_text"
+        android:id="@+id/resultString"
         android:inputType="number"
         android:imeOptions="actionGo"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/prikladText"
-        android:layout_alignRight="@id/prikladText"
-        android:layout_alignLeft="@id/prikladText"/>
+        android:layout_below="@id/exampleString"
+        android:layout_alignRight="@id/exampleString"
+        android:layout_alignLeft="@id/exampleString"/>
     <!-- takto sa asi urcuje format vsupu, dava to len cisla
     <EditText
         android:id="@+id/myNumber"
@@ -31,14 +31,14 @@
     <Button
         android:id="@+id/vysledok_button"
         android:text="@string/str_button"
-        android:onClick="submitVysledok"
+        android:onClick="submitResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/vysledok_text"
+        android:layout_below="@+id/resultString"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
     <TextView
-        android:id="@+id/errorText"
+        android:id="@+id/errorString"
         android:layout_below="@id/vysledok_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
@@ -47,7 +47,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/errorText"
+        android:layout_below="@+id/errorString"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" >
         <TextView
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/textPokusovCounter"
+            android:id="@+id/attemptsCounterString"
             android:text="0"
             android:textColor="@color/pokus_color"
             android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/textSpravneCounter"
+            android:id="@+id/correctCounterString"
             android:text="0"
             android:textColor="@color/spravne_color"
             android:layout_width="wrap_content"

@@ -10,7 +10,7 @@ import java.util.Random;
 
 // Parcelable je implemetnovane aby sa objekt priklad dal prehadzovat cez onSaveInstanceState
 // nparcerable som ziskal hodenim kodu do http://www.parcelabler.com/
-public class Priklad implements Parcelable {
+public class Example implements Parcelable {
 
     private final int resultStart;
     private final int resultStop;
@@ -23,7 +23,7 @@ public class Priklad implements Parcelable {
     private int result;
 
     // Konstruktor bez znamienka
-    private Priklad(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop) {
+    private Example(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop) {
 
         this.resultStart = parResultStart;
         this.resultStop = parResultStop;
@@ -32,14 +32,14 @@ public class Priklad implements Parcelable {
     }
 
     // Konstruktor s znamienkom
-    private Priklad(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop, String parSign) {
+    private Example(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop, String parSign) {
 
         this(parResultStart,parResultStop,parNumberStart,parNumberStop);
         this.sign = parSign;
     }
 
     // Konstruktor so znamienkom a s extra
-    public Priklad(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop, String parSign, String parExtra) {
+    public Example(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop, String parSign, String parExtra) {
 
         this(parResultStart,parResultStop,parNumberStart,parNumberStop,parSign);
         this.extra = parExtra;
@@ -181,6 +181,21 @@ public class Priklad implements Parcelable {
 
     }
 
+    /**
+     * Short one line description.                           (1)
+     * <p>
+     * Longer description. If there were any, it would be    (2)
+     * here.
+     * <p>
+     * And even more explanations to follow in consecutive
+     * paragraphs separated by HTML paragraph breaks.
+     *
+     * Use {@link #lengthDigit(int number)} to move a piece.
+     *
+     * @param  number Description text text text.          (3)
+     * @param  lastDigit Description text text text.          (3)
+     * @return newNumber as blalbaDescription text text text.
+     */
     // vymeni posledne cislice number za lastDigit
     private static int changeDigit (int number, int lastDigit){
         String stringNumber = String.valueOf(number);
@@ -239,7 +254,7 @@ public class Priklad implements Parcelable {
         return list;
     }
 
-    // Gety
+    // Gets
     int getA (){
         return a;
     }
@@ -260,9 +275,9 @@ public class Priklad implements Parcelable {
         return extra;
     }
 
-    String getPrikladString () {  return a + sign + b + "="; }
+    String getExampleString() {  return a + sign + b + "="; }
 
-    String getCelyPrikladString () { return getPrikladString() + result; }
+    String getExampleStringFull() { return getExampleString() + result; }
 
     // Random generatory
     private int generateRandomNumber(){
@@ -309,7 +324,7 @@ public class Priklad implements Parcelable {
         return sign;
     }
 
-    private Priklad(Parcel in) {
+    private Example(Parcel in) {
         resultStart = in.readInt();
         resultStop = in.readInt();
         numberStart = in.readInt();
@@ -339,15 +354,15 @@ public class Priklad implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Priklad> CREATOR = new Parcelable.Creator<Priklad>() {
+    public static final Parcelable.Creator<Example> CREATOR = new Parcelable.Creator<Example>() {
         @Override
-        public Priklad createFromParcel(Parcel in) {
-            return new Priklad(in);
+        public Example createFromParcel(Parcel in) {
+            return new Example(in);
         }
 
         @Override
-        public Priklad[] newArray(int size) {
-            return new Priklad[size];
+        public Example[] newArray(int size) {
+            return new Example[size];
         }
     };
 }

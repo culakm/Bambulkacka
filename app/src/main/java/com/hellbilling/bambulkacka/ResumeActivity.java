@@ -19,28 +19,28 @@ import java.util.List;
 public class ResumeActivity extends ActionBarActivity {
 
     // Pocitadla
-    private int pokusov = 0;
-    private int spravne = 0;
+    private int attempts = 0;
+    private int correct = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resume);
 
-        pokusov = getIntent().getExtras().getInt("pokusov");
-        spravne = getIntent().getExtras().getInt("spravne");
+        attempts = getIntent().getExtras().getInt("attempts");
+        correct = getIntent().getExtras().getInt("correct");
 
         // zistenie widgetov z obrazovky
 
-        TextView textSpravneCounter =(TextView)findViewById(R.id.textSpravneCounter);
-        TextView textPokusovCounter =(TextView)findViewById(R.id.textPokusovCounter);
-        textSpravneCounter.setText(spravne + "");
-        textPokusovCounter.setText(pokusov + "");
+        TextView textSpravneCounter =(TextView)findViewById(R.id.correctCounterString);
+        TextView textPokusovCounter =(TextView)findViewById(R.id.attemptsCounterString);
+        textSpravneCounter.setText(correct + "");
+        textPokusovCounter.setText(attempts + "");
     }
 
     public void buttonSendsMessage(View view) {
 //        Intent intent;
-//        intent = new Intent(this, Kalkulacka.class);
+//        intent = new Intent(this, Calculator.class);
 //        startActivity(intent);
 //        browser
 //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=MdGvU-YDElQ")));

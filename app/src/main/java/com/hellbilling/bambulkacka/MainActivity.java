@@ -14,8 +14,8 @@ public class MainActivity extends ActionBarActivity {
 
     /*TODO
 
-    nefunguje menu v resumectivity
-    v Kalkulacka pridat results do menu
+    nefunguje podmienka pre velkost A v priklade
+    v Calculator pridat results do menu
 
     dorobit zobrazovanie ok.nok v resultsoch
     https://www.zdrojak.cz/clanky/vyvijime-pro-android-fragmenty-a-sqlite-databaze/
@@ -71,7 +71,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void buttonSendsMessage(View view) {
         Intent intent;
-        intent = new Intent(this, Kalkulacka.class);
+        intent = new Intent(this, Calculator.class);
         startActivity(intent);
     }
 
