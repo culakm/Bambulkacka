@@ -12,54 +12,6 @@ import android.view.View;
 // http://stackoverflow.com/questions/29890530/actionbaractivity-is-deprecated-android-studio
 public class MainActivity extends ActionBarActivity {
 
-    /*TODO
-
-    nefunguje podmienka pre velkost A v priklade
-    v Calculator pridat results do menu
-
-    dorobit zobrazovanie ok.nok v resultsoch
-    https://www.zdrojak.cz/clanky/vyvijime-pro-android-fragmenty-a-sqlite-databaze/
-    pozret ako je urobeny kontrakt http://stackoverflow.com/questions/17451931/how-to-use-a-contract-class-in-android,
-    zistit ako inteligentne nacitavat zoznamy
-    dodat databazu pre uchovavanie vysledkov
-    ://www.zdrojak.cz/clanky/vyvijime-pro-android-fragmenty-a-sqlite-databaze/
-    http://developer.android.com/training/basics/data-storage/databases.html
-    zobrazovat vyhodnotenie asi z menu a z resume activity
-
-
-    v kalkulacka.java skusit vyriesit onOptionsMenuClosed aby to podla nastaveni cisel a znamienka a ostatnych veci zmenilo priklad
-
-
-    skontrolovat player, v settings povolit a zastavit zvuky, nastavit hlasitost?
-
-    ako updatovat settings hodnoty ak ich nastavujem v kalkulacka.java?
-
-    vyskusat uplne prvotne nastavenie pre znamienko a extra !!
-
-    zmena settingsov aj z kalkulacky, len prikladovych, nie user_name
-
-    nejaku konstantu pre default value start, stop. znamienko, extra
-    inteligentne obhospodarovat konstanty
-
-    custom back v action bare
-
-    zkontrolovat spravanie sa MediaPlayeru podla vypisov na konzole
-        E/MediaPlayer-JNI﹕ QCMediaPlayer mediaplayer NOT present
-        E/MediaPlayer﹕ Should have subtitle controller already set
-        W/MediaPlayer-JNI﹕ MediaPlayer finalized without being released
-
-    prirobit pocitadlo prikladov (uchovavat objeky prikladov?)
-
-    po splneni urciteho poctu prikladov spustit youtube
-
-    pouzit custom preference, posuvace, hodiny, kalendar,,,,,,
-    http://developer.android.com/guide/topics/ui/settings.html#Custom
-    http://stackoverflow.com/questions/16108609/android-creating-custom-preference
-
-
-    co je to context??
-     */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

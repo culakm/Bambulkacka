@@ -19,8 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 /**
- * Calculator pokec
- *
+ * Calculator as a main part of the project
  */
 public class Calculator extends ActionBarActivity implements EditText.OnEditorActionListener{
 

@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Random;
 
 // Parcelable je implemetnovane aby sa objekt priklad dal prehadzovat cez onSaveInstanceState
-// nparcerable som ziskal hodenim kodu do http://www.parcelabler.com/
+// parcerable som ziskal hodenim kodu do http://www.parcelabler.com/
+/**
+ * Generates example for calculator
+ */
 public class Example implements Parcelable {
 
     private final int resultStart;
@@ -17,12 +20,19 @@ public class Example implements Parcelable {
     private final int numberStart;
     private final int numberStop;
     private String sign = "all";
+    /**
+     * Extra conditions
+     * nic, cez 10, multi10, dalsie
+     */
     private String extra = "nic";
     private int a;
     private int b;
     private int result;
+    private int wantedNumber;
 
-    // Konstruktor bez znamienka
+    /**
+     * Constructor without sign
+     */
     private Example(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop) {
 
         this.resultStart = parResultStart;
@@ -31,20 +41,28 @@ public class Example implements Parcelable {
         this.numberStop = parNumberStop;
     }
 
-    // Konstruktor s znamienkom
+    /**
+     * Constructor with sign
+     */
     private Example(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop, String parSign) {
 
         this(parResultStart,parResultStop,parNumberStart,parNumberStop);
         this.sign = parSign;
     }
 
-    // Konstruktor so znamienkom a s extra
+    /**
+     * Constructor with sign and extra
+     */
     public Example(int parResultStart, int parResultStop, int parNumberStart, int parNumberStop, String parSign, String parExtra) {
 
         this(parResultStart,parResultStop,parNumberStart,parNumberStop,parSign);
         this.extra = parExtra;
     }
-
+//////////////////////////////
+    /**
+     * Load all values into Example
+     *
+     */
     public void getNumbers() {
         // Random sign
         if (sign.equals("all")) {
@@ -181,22 +199,154 @@ public class Example implements Parcelable {
 
     }
 
+/////////////////////////////
     /**
-     * Short one line description.                           (1)
-     * <p>
-     * Longer description. If there were any, it would be    (2)
-     * here.
-     * <p>
-     * And even more explanations to follow in consecutive
-     * paragraphs separated by HTML paragraph breaks.
-     *
-     * Use {@link #lengthDigit(int number)} to move a piece.
-     *
-     * @param  number Description text text text.          (3)
-     * @param  lastDigit Description text text text.          (3)
-     * @return newNumber as blalbaDescription text text text.
+     * Load all values into Example
+     * ORIG !!!
      */
-    // vymeni posledne cislice number za lastDigit
+    public void getNumbers2() {
+        // Random sign
+        if (sign.equals("all")) {
+            // Random for nasobilka
+            if (extra.equals("multi10")) {
+                sign = generatemulti10Sign();
+            }
+            else {
+                sign = generateSign();
+            }
+        }
+
+        // Random a
+        a = generateRandomNumber();
+
+        // + cast
+        if (sign.equals("+")) {
+            do {
+                // extra
+                if (extra.equals("cez 10")){
+                    int aLastDigit;
+                    int bLastDigit;
+                    int power;
+                    do {
+                        aLastDigit = lastDigit(a);
+                    } while (aLastDigit == 0);
+
+                    do {
+                        // Random b
+                        b = generateRandomNumber();
+                        // a inkrementujem aby rychlejsie narastlo do 10
+                        a++;
+                        if (lengthDigit(a) != lengthDigit(b)){
+                            int minLength = Math.min(lengthDigit(a), lengthDigit(b));
+                            power = minLength - 1;
+                            aLastDigit = lastDigit(a,power);
+                            bLastDigit = lastDigit(b,power);
+                        }
+                        else {
+                            power = lengthDigit(a) - 1;
+                            bLastDigit = lastDigit(b);
+                        }
+                    } while (aLastDigit + bLastDigit < Math.pow(10,power));
+                } // normal
+                else {
+                    a = generateRandomNumber();
+                    b = generateRandomNumber();
+                }
+
+                result = a + b;
+                Log.d("priklad", "sign: " + sign + ", a: " + a + ", b: " + b + " = " + result);
+                Log.d("podmienka", result + " >=  " + resultStart + " && " + result + " <= " + resultStop);
+            } while ( !(result >= resultStart && result <= resultStop) );
+
+        } // - cast
+        else if (sign.equals("-")) {
+            do {
+                b = generateRandomNumber();
+
+                // vymen a a b ak je a mensie ako b
+                if (a < b){
+                    int c = a;
+                    a = b;
+                    b = c;
+                }
+
+                if (extra.equals("cez 10")){
+                    int aLastDigit = lastDigit(a);
+                    int bLastDigit = lastDigit(b);
+
+                    if (aLastDigit > bLastDigit){
+                        a = changeDigit(a,bLastDigit);
+                        b = changeDigit(b,aLastDigit);
+                    }
+                }
+                result = a - b;
+                Log.d("priklad",  a + " " + sign + " " + b + " = " + result);
+                Log.d("podmienka", result + " >=  " + resultStart + " && " + result + " <= " + resultStop);
+                //} while ( !(result >= resultStart && result <= resultStop)  );
+            } while ( (a < b) || (!(result >= resultStart && result <= resultStop))  );
+        } // * cast
+        else if (sign.equals("*")) {
+            do {
+                if (extra.equals("multi10")){
+                    a = Utils.generateRandomInt(this.numberStart, 10);
+                    if ( a <= this.numberStop ){
+                        b = Utils.generateRandomInt(this.numberStart, 10);
+                    }
+                    else {
+                        b = generateRandomNumber();
+                    }
+                }
+                else{
+                    b = generateRandomNumber();
+                }
+
+                result = a * b;
+                Log.d("priklad",  a + " " + sign + " " + b + " = " + result);
+                Log.d("podmienka", result + " >=  " + resultStart + " && " + result + " <= " + resultStop);
+                //} while ( !(result >= resultStart && result <= resultStop)  );
+            } while ( !(result >= resultStart && result <= resultStop)  );
+        }
+        else if (sign.equals("/")) {
+            do {
+                int divisionNumberStart = 1;
+                if (extra.equals("multi10")){
+                    a = Utils.generateRandomInt(divisionNumberStart, 10);
+                    if ( a <= this.numberStop ){
+                        b = Utils.generateRandomInt(divisionNumberStart, 10);
+                    }
+                    else {
+                        b = Utils.generateRandomInt(divisionNumberStart, this.numberStop);
+                    }
+                    // b has to be lower than a
+                    if (b > this.numberStop && b > a){
+                        int c = b;
+                        b = a;
+                        a = c;
+                    }
+                }
+                else {
+                    a = Utils.generateRandomInt(divisionNumberStart, this.numberStop);
+                    b = Utils.generateRandomInt(divisionNumberStart, this.numberStop);
+                }
+
+                int semi_result = a * b;
+                a = semi_result;
+                result = semi_result / b;
+                Log.d("priklad",  a + " " + sign + " " + b + " = " + result);
+                Log.d("podmienka", result + " >=  " + resultStart + " && " + result + " <= " + resultStop);
+                //} while ( !(result >= resultStart && result <= resultStop)  );
+            } while ( !(result >= resultStart && result <= resultStop)  );
+        }
+
+    }
+
+
+    /**
+     * Change last digit(s) of number by lastDigit
+     * @param number number to change
+     * @param lastDigit new last digit(s)
+     * @return new number
+     */
     private static int changeDigit (int number, int lastDigit){
         String stringNumber = String.valueOf(number);
         String stringlastDigit = String.valueOf(lastDigit);
@@ -216,12 +366,21 @@ public class Example implements Parcelable {
         return Integer.valueOf(newNumber);
     }
 
-    // zisti dlzku number
+    /**
+     * Find length of a number
+     * @param number
+     * @return length of the number
+     */
     private static int lengthDigit(int number){
         return String.valueOf(number).length();
     }
 
-    // zisti posledne cislice od prvej cislice number
+    /**
+     * Find out last numbers from first digit of a number
+     * zisti posledne cislice od prvej cislice number
+     * @param number
+     * @return ???
+     */
     private static int lastDigit(int number){
         int length = lengthDigit(number);
         int power;
@@ -236,16 +395,29 @@ public class Example implements Parcelable {
     }
 
     // zisti posledne cislice od zadanej cislice 10^power
+    /**
+     * Find out ??
+     * zisti posledne cislice od zadanej cislice 10^power
+     *
+     * @param number
+     * @return ???
+     */
     private static int lastDigit(int number, int power){
         int mod = (int) Math.pow(10,power);
         return number % mod;
     }
 
     // vytvori pole vsetkych cislic v num
-    private List<Integer> splitNumer (int num){
+
+    /**
+     * Create array of all digits in number
+     * @param number
+     * @return array of digits
+     */
+    private List<Integer> splitNumer (int number){
 
         List<Integer> list = new ArrayList<>();
-        String numStr = Integer.toString(num);
+        String numStr = Integer.toString(number);
 
         for(int i=0;i<numStr.length();i++)
         {
@@ -267,6 +439,10 @@ public class Example implements Parcelable {
         return result;
     }
 
+    int getWantedNumber(){
+        return wantedNumber;
+    }
+
     String getSign(){
         return sign;
     }
@@ -279,11 +455,23 @@ public class Example implements Parcelable {
 
     String getExampleStringFull() { return getExampleString() + result; }
 
-    // Random generatory
+    /**
+     * Generate random number in numberStart, numberStop
+     * @return random int
+     */
     private int generateRandomNumber(){
         return Utils.generateRandomInt(this.numberStart, this.numberStop);
     }
 
+    /**
+     * Random generator of sign for all signs
+     * 0 = +
+     * 1 = -
+     * 2 = *
+     * 3 = /
+     * Default +
+     * @return sign as string +,-,*,/
+     */
     private String generateSign(){
 
         Random r = new Random();
@@ -306,6 +494,13 @@ public class Example implements Parcelable {
         return sign;
     }
 
+    /**
+     * Random generator of sign for multiplication, dividing
+     * 0 = *
+     * 1 = /
+     * Default *
+     * @return sign as string *,/
+     */
     private String generatemulti10Sign(){
 
         Random r = new Random();
@@ -324,15 +519,17 @@ public class Example implements Parcelable {
         return sign;
     }
 
-    private Example(Parcel in) {
+    protected Example(Parcel in) {
         resultStart = in.readInt();
         resultStop = in.readInt();
         numberStart = in.readInt();
         numberStop = in.readInt();
+        sign = in.readString();
+        extra = in.readString();
         a = in.readInt();
         b = in.readInt();
         result = in.readInt();
-        sign = in.readString();
+        wantedNumber = in.readInt();
     }
 
     @Override
@@ -351,6 +548,7 @@ public class Example implements Parcelable {
         dest.writeInt(a);
         dest.writeInt(b);
         dest.writeInt(result);
+        dest.writeInt(wantedNumber);
     }
 
     @SuppressWarnings("unused")

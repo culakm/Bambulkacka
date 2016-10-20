@@ -10,8 +10,6 @@
     <string name="insert_test_results">Zadaj výsledok</string>
     <string name="no_results_available">Nemáme nijaké výsledky</string>
     <string name="pref_sync_summ2">pref_sync_summ_text2</string>
-    <string name="pokusov">Pokusov :</string>
-    <string name="spravne">Spravne :</string>
     <string name="str_button">IDEME!</string>
     <string name="title_activity_kalkulacka">Počítame</string>
     <string name="title_activity_examples">Príklady</string>
@@ -26,4 +24,6 @@
     <string name="empty_result">nic nie je vyplnene, daj este raz</string>
     <string name="natural_numbers">musis zadat cele cislo, davaj</string>
     <string name="num_limit">Vysledok musi byt mensi ako 2147483647 alebo je tu ina chyba</string>
+    <string name="attempts">Pokusov:</string>
+    <string name="correct">OK:</string>
 </resources>

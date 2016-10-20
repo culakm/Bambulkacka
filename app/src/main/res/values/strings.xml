@@ -17,8 +17,8 @@
     <string name="title_activity_examples">Examples</string>
     <string name="cast_pre_priklad">Place for an example!</string>
     <string name="end_text">Great, it\'s done:)</string>
-    <string name="pokusov">Attempts:</string>
-    <string name="spravne">OK:</string>
+    <string name="attempts">Attempts:</string>
+    <string name="correct">OK:</string>
     <string name="str_button">Let\'s go!</string>
     <string name="title_activity_kalkulacka">Calculation</string>
     <string name="welcome_string">Welcome maths!</string>
