@@ -1,13 +1,19 @@
 package com.hellbilling.bambulkacka;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+//import com.hellbilling.bambulkacka.ExampleSetting;
+
+import java.util.HashMap;
+
 
 public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
 
@@ -19,6 +25,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     private static final String KEY_PREF_EXTRA = "extra";
     private static final String KEY_PREF_USER_NAME = "user_name";
     private static final String KEY_PREF_REPEAT = "repeat";
+    private static final String KEY_PREF_EXAMPLES_SETTING = "examples_setting";
 
     private String preferencesType;
     @Override
@@ -40,6 +47,15 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                 break;
         }
 
+
+        // Set examples_setting
+        MultiSelectListPreference preferenceExamplesSetting = (MultiSelectListPreference) findPreference(KEY_PREF_EXAMPLES_SETTING);
+        Context ctx = getActivity();
+        HashMap ExamplesSettingData = ExampleSetting.getExamplesSettingAllKeyText(ctx);
+        preferenceExamplesSetting.setEntries((CharSequence[]) ExamplesSettingData.get("descr"));
+        preferenceExamplesSetting.setEntryValues((CharSequence[]) ExamplesSettingData.get("_id"));
+
+        // summary je pokec pod hlavnym textom polozky
         // Nastavenie summary na aktualnu hodnotu
         EditTextPreference result_start = (EditTextPreference) findPreference(KEY_PREF_RESULT_START);
         result_start.setSummary(result_start.getText());

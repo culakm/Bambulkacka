@@ -54,7 +54,6 @@ public class ResumeActivity extends ActionBarActivity {
         int i = Utils.generateRandomInt(0,videos.length - 1);
         String video = videos[i];
 
-        Log.d("array"," video: " + i);
         // Run youtube application
         if (isPackageInstalled(getApplicationContext(),"com.google.android.youtube")) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + video));

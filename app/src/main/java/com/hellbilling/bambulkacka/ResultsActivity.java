@@ -51,7 +51,7 @@ public class ResultsActivity extends ActionBarActivity implements ResultsFragmen
     public void onInsertResultsClicked(View view) {
         Context ctx = getApplicationContext();
         BambulkackaDB dbh = new BambulkackaDB(ctx);
-        dbh.insertTestData();
+        dbh.insertTestDataForResults();
         Toast.makeText(ctx, "Data loaded", Toast.LENGTH_SHORT).show();
         resultsFragment.updateList();
     }

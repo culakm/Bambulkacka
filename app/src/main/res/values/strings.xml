@@ -28,5 +28,6 @@
     <string name="empty_result">result is empty</string>
     <string name="natural_numbers">only natural numbers here</string>
     <string name="num_limit">Result has to be lower than 2147483647 or other error</string>
+    <string name="examples_setting">Examples setting</string>
 
 </resources>

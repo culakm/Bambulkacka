@@ -5,9 +5,10 @@ import android.provider.BaseColumns;
 final class BambulkackaContract {
 
     // If you change the database schema, you must increment the database version.
-    public static final  int    DATABASE_VERSION   = 3;
+    public static final  int    DATABASE_VERSION   = 2;
     public static final String DATABASE_NAME = "Bambulkacka.db";
     private static final String TEXT_TYPE = " TEXT";
+    private static final String INTEGER_TYPE = " INTEGER";
     private static final String COMMA_SEP = ",";
 
     // To prevent someone from accidentally instantiating the contract class,
@@ -34,8 +35,6 @@ final class BambulkackaContract {
 
         public static final String DELETE_TABLE =
                 "DROP TABLE IF EXISTS " + TbExercises.TABLE_NAME;
-
-
     }
 
     public static abstract class TbExamples implements BaseColumns {
@@ -49,7 +48,7 @@ final class BambulkackaContract {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TbExamples.TABLE_NAME + " (" +
                         TbExamples._ID + " INTEGER PRIMARY KEY," +
-                        TbExamples.COLUMN_NAME_EXERCISE_ID + TEXT_TYPE + COMMA_SEP +
+                        TbExamples.COLUMN_NAME_EXERCISE_ID + INTEGER_TYPE + COMMA_SEP +
                         TbExamples.COLUMN_NAME_A + TEXT_TYPE + COMMA_SEP +
                         TbExamples.COLUMN_NAME_B + TEXT_TYPE + COMMA_SEP +
                         TbExamples.COLUMN_NAME_RESULT + TEXT_TYPE + COMMA_SEP +
@@ -78,5 +77,66 @@ final class BambulkackaContract {
 
         public static final String DELETE_TABLE =
                 "DROP TABLE IF EXISTS " + TbAttempts.TABLE_NAME;
+    }
+
+    public static abstract class TbExampleSettings implements BaseColumns {
+        public static final String TABLE_NAME = "example_settings";
+        public static final String COLUMN_NAME_ORDER = "menu_order";
+        public static final String COLUMN_NAME_RESULT_START = "result_start";
+        public static final String COLUMN_NAME_RESULT_STOP = "result_stop";
+        public static final String COLUMN_NAME_NUMBER_START = "number_start";
+        public static final String COLUMN_NAME_NUMBER_STOP = "number_stop";
+        public static final String COLUMN_NAME_SIGNS_STRING = "signs_string";
+        public static final String COLUMN_NAME_EXTRA = "extra";
+        public static final String COLUMN_NAME_LONG_NAME = "long_name";
+        public static final String COLUMN_NAME_DESCR = "descr";
+
+        public static final String CREATE_TABLE =
+                "CREATE TABLE " + TbExampleSettings.TABLE_NAME + " (" +
+                        TbExampleSettings._ID + " INTEGER PRIMARY KEY," +
+                        TbExampleSettings.COLUMN_NAME_ORDER + INTEGER_TYPE + COMMA_SEP +
+                        TbExampleSettings.COLUMN_NAME_RESULT_START + INTEGER_TYPE + COMMA_SEP +
+                        TbExampleSettings.COLUMN_NAME_RESULT_STOP + INTEGER_TYPE + COMMA_SEP +
+                        TbExampleSettings.COLUMN_NAME_NUMBER_START + INTEGER_TYPE + COMMA_SEP +
+                        TbExampleSettings.COLUMN_NAME_NUMBER_STOP + INTEGER_TYPE + COMMA_SEP +
+                        TbExampleSettings.COLUMN_NAME_SIGNS_STRING + TEXT_TYPE + COMMA_SEP +
+                        TbExampleSettings.COLUMN_NAME_EXTRA + TEXT_TYPE + COMMA_SEP +
+                        TbExampleSettings.COLUMN_NAME_LONG_NAME + TEXT_TYPE + COMMA_SEP +
+                        TbExampleSettings.COLUMN_NAME_DESCR + TEXT_TYPE +
+                        " )";
+
+        public static final String DELETE_TABLE =
+                "DROP TABLE IF EXISTS " + TbExampleSettings.TABLE_NAME;
+
+
+        //INSERT INTO table_name (column1,column2,column3,...) VALUES (value1,value2,value3,...);
+        private static final String INSERT_COLUMNS_STRING = " (" +
+                TbExampleSettings.COLUMN_NAME_ORDER + COMMA_SEP +
+                TbExampleSettings.COLUMN_NAME_RESULT_START + COMMA_SEP +
+                TbExampleSettings.COLUMN_NAME_RESULT_STOP + COMMA_SEP +
+                TbExampleSettings.COLUMN_NAME_NUMBER_START + COMMA_SEP +
+                TbExampleSettings.COLUMN_NAME_NUMBER_STOP + COMMA_SEP +
+                TbExampleSettings.COLUMN_NAME_SIGNS_STRING + COMMA_SEP +
+                TbExampleSettings.COLUMN_NAME_EXTRA + COMMA_SEP +
+                TbExampleSettings.COLUMN_NAME_LONG_NAME + COMMA_SEP +
+                TbExampleSettings.COLUMN_NAME_DESCR +
+                " ) ";
+        // Insert types of examples
+        public static final String INSERT_EXAMPLES_SETTING =
+        "INSERT INTO " + TbExampleSettings.TABLE_NAME + INSERT_COLUMNS_STRING +
+                " SELECT 1 AS " + TbExampleSettings.COLUMN_NAME_ORDER + COMMA_SEP +
+                " 0 AS " + TbExampleSettings.COLUMN_NAME_RESULT_START + COMMA_SEP +
+                " 10 AS " + TbExampleSettings.COLUMN_NAME_RESULT_STOP + COMMA_SEP +
+                " 0 AS " + TbExampleSettings.COLUMN_NAME_NUMBER_START + COMMA_SEP +
+                " 10 AS " + TbExampleSettings.COLUMN_NAME_NUMBER_STOP + COMMA_SEP +
+                " '+' AS " + TbExampleSettings.COLUMN_NAME_SIGNS_STRING + COMMA_SEP +
+                " '' AS " + TbExampleSettings.COLUMN_NAME_EXTRA + COMMA_SEP +
+                " 'do 10 plus' " + TbExampleSettings.COLUMN_NAME_LONG_NAME + COMMA_SEP +
+                " '10+' AS " + TbExampleSettings.COLUMN_NAME_DESCR +
+                " UNION ALL SELECT 2,0,10,0,10,'-','','do 10 minus','10-'" +
+                " UNION ALL SELECT 3,0,20,0,20,'+','','do 20 plus','20+'" +
+                " UNION ALL SELECT 4,0,20,0,20,'-','','do 20 minus','20-'" +
+                " UNION ALL SELECT 4,0,20,0,20,'+,-','','do 20 plus minus','20-+'"
+                ;
     }
 }

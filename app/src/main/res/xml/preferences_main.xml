@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <!--PreferenceScreen
         android:key="button_priklad_key"
         android:title="Nastavenie prikladov"
@@ -62,4 +63,11 @@
             android:defaultValue="10"
             android:inputType="number" />
     </PreferenceScreen>
+    <MultiSelectListPreference
+        android:key="examples_setting"
+        android:title="@string/examples_setting"
+        android:entries="@array/multi_texts"
+        android:entryValues="@array/multi_values"
+        android:persistent="true"
+        />
 </PreferenceScreen>

@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
+
+import java.util.List;
 
 class BambulkackaDB {
 
@@ -19,6 +22,9 @@ class BambulkackaDB {
             db.execSQL(BambulkackaContract.TbExercises.CREATE_TABLE);
             db.execSQL(BambulkackaContract.TbExamples.CREATE_TABLE);
             db.execSQL(BambulkackaContract.TbAttempts.CREATE_TABLE);
+            db.execSQL(BambulkackaContract.TbExampleSettings.CREATE_TABLE);
+            // Insert types of examples
+            db.execSQL(BambulkackaContract.TbExampleSettings.INSERT_EXAMPLES_SETTING);
         }
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             // This database is only a cache for online data, so its upgrade policy is
@@ -26,6 +32,7 @@ class BambulkackaDB {
             db.execSQL(BambulkackaContract.TbExercises.DELETE_TABLE);
             db.execSQL(BambulkackaContract.TbExamples.DELETE_TABLE);
             db.execSQL(BambulkackaContract.TbAttempts.DELETE_TABLE);
+            db.execSQL(BambulkackaContract.TbExampleSettings.DELETE_TABLE);
             onCreate(db);
         }
         public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -116,7 +123,7 @@ class BambulkackaDB {
         return deletedCount;
     }
 
-    public void insertTestData() {
+    public void insertTestDataForResults() {
         insertExercise("+", Utils.getNow(), Utils.getNowPlus(5));
         insertExercise("-", Utils.getNowPlus(6), Utils.getNowPlus(10));
         insertExercise("*", Utils.getNowPlus(11), Utils.getNowPlus(15));
@@ -134,6 +141,44 @@ class BambulkackaDB {
         insertAttempt(5, 2, Utils.getNow(), 0);
         insertAttempt(5, 6, Utils.getNow(), 1);
         insertAttempt(6, 8, Utils.getNow(), 1);
+    }
+
+    /* can't use from onCreate
+    void insertExampleSettingsData() {
+        insertExampleSettings(1,0,10,0,10,"+","NULL");
+        insertExampleSettings(1,0,10,0,10,"-","NULL");
+    }
+    */
+
+    long insertExamplesSetting(int menu_order, int result_start, int result_stop, int number_start, int number_stop, String signs_string, String extra, String long_name, String descr) {
+        SQLiteDatabase db = openHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(BambulkackaContract.TbExampleSettings.COLUMN_NAME_ORDER, menu_order);
+        values.put(BambulkackaContract.TbExampleSettings.COLUMN_NAME_RESULT_START, result_start);
+        values.put(BambulkackaContract.TbExampleSettings.COLUMN_NAME_RESULT_STOP, result_stop);
+        values.put(BambulkackaContract.TbExampleSettings.COLUMN_NAME_NUMBER_START, number_start);
+        values.put(BambulkackaContract.TbExampleSettings.COLUMN_NAME_NUMBER_STOP, number_stop);
+        values.put(BambulkackaContract.TbExampleSettings.COLUMN_NAME_SIGNS_STRING, signs_string);
+        values.put(BambulkackaContract.TbExampleSettings.COLUMN_NAME_EXTRA, extra);
+        values.put(BambulkackaContract.TbExampleSettings.COLUMN_NAME_LONG_NAME, long_name);
+        values.put(BambulkackaContract.TbExampleSettings.COLUMN_NAME_DESCR, descr);
+        long id = db.insert(BambulkackaContract.TbExampleSettings.TABLE_NAME, null, values);
+        db.close();
+        return id;
+    }
+
+    public Cursor getExamplesSettingAllKeyText() {
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor settings = db.rawQuery("SELECT _id,descr FROM example_settings ORDER BY menu_order", null);
+        return settings;
+    }
+
+    public Cursor getExamplesSettingAll(List<String> ids) {
+        // Join ids into string for WHERE
+        String idsString = TextUtils.join(", ", ids);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor settings = db.rawQuery("SELECT * FROM example_settings WHERE _id IN (" + idsString + ")", null);
+        return settings;
     }
     /*
     public Cursor getRawExercises() {

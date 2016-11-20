@@ -18,6 +18,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Calculator as a main part of the project
  */
@@ -28,32 +33,40 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
      */
     private BambulkackaDB dbh;
 
-    // Nastavenia pre priklady
+    // Preferences
     /**
-     * Range of generated numbers
+     * Range of generated numbers preference
      */
-    private int resultStart, resultStop, numberStart, numberStop;
+    private int prefResultStart, prefResultStop, prefNumberStart, prefNumberStop;
     /**
-     * Sign
+     * Sign preference, String of signs delimited by commas
      */
-    private String exampleSign;
+    private String prefSignsString;
     /**
-     * Extra directive
+     * Extra directive preference
      */
-    private String exampleExtra;
+    private String prefExtra;
     // Other settings
     /**
-     * User name
+     * User name preference
      */
-    private String userName;
+    private String prefUserName;
     /**
-     * Number of examples in one exercise
+     * Number of examples in one exercise preference
      */
-    private int repeat;
+    private int prefRepeat;
     /**
-     * Play sound
+     * Play sound after result preference
      */
-    private boolean sound;
+    private boolean prefSound;
+    /**
+     * Examples setting ids preference
+     */
+    private Set<String> prefExamplesSetting;
+    /**
+     * Examples settins array to generate relevant examples
+     */
+    private List<ExampleSetting> examplesSettings = new ArrayList<>();
 
     // Widgets of activity
     /**
@@ -126,10 +139,10 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
         restoreMe(savedInstanceState);
 
         // Save exercise
-        exercise_id = dbh.insertExerciseStart(exampleSign,Utils.getNow());
+        exercise_id = dbh.insertExerciseStart(prefSignsString,Utils.getNow());
 
-        // nacitame aktualny example ak este neexistuje, inak sa taha z restoreMe
-        if(example ==null) {
+        // Load current example if doesn't exists, else it's loaded from restoreMe
+        if(example == null) {
             getExample();
         }
 
@@ -142,21 +155,30 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
      */
     private void getExample() {
 
-        example = new Example(resultStart, resultStop, numberStart, numberStop, exampleSign, exampleExtra);
+        // Chose exampleSetting for example
+        int exampleSettingUsed = 0;
+        if (examplesSettings.size() > 1) {
+            exampleSettingUsed = Utils.generateRandomInt(0, examplesSettings.size() - 1);
+        }
+
+
+        //example = new Example(prefResultStart, prefResultStop, prefNumberStart, prefNumberStop, prefSignsString, prefExtra);
+        ExampleSetting exampleSetting = examplesSettings.get(exampleSettingUsed);
+        example = new Example(exampleSetting);
 
         // Check example duplicity in exercise
         do {
-            example.getNumbers();
+            example.getExample();
         } while (checkRepeat(exercise_id, example));
 
-        example_id = dbh.insertExample(exercise_id, example.getA(), example.getB(), example.getSign(), example.getResult());
+        example_id = dbh.insertExample(exercise_id, example.getA(), example.getB(), example.getSignsString(), example.getResult());
         // Set up text of the example
         wgExampleString.setText(example.getExampleString());
     }
 
     /**
      * Check if this example has been already generated for this exercise
-     * we don't want repeat the same example
+     * we don't want prefRepeat the same example
      */
 
     private boolean checkRepeat(long exercise_id, Example example){
@@ -200,14 +222,14 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
         // vysledok je prazdny
         if (resultLocalStr.length() == 0){
             //vysledokLocalInt = 0;
-            wgErrorString.setText(userName + " , " + getResources().getString(R.string.empty_result) + ".");
+            wgErrorString.setText(prefUserName + " , " + getResources().getString(R.string.empty_result) + ".");
             return;
         }
 
         // vysledok nie je cislo
         if ( ! resultLocalStr.matches("\\d+")) {
             //vysledokLocalInt = 0;
-            wgErrorString.setText(userName + ", " + getResources().getString(R.string.natural_numbers) + "!");
+            wgErrorString.setText(prefUserName + ", " + getResources().getString(R.string.natural_numbers) + "!");
             wgResultLocal.setText("");
             return;
         }
@@ -225,18 +247,18 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
         if (vysledokLocalInt == example.getResult()){
             Log.d("++", "vysledok je dobre");
             // prehrajeme ok zvuk
-            if (sound){playSound("ok");}
+            if (prefSound){playSound("ok");}
 
             wgCorrectCounterString.setText(++correct + "");
             wgAttemptsCounterString.setText(++attempts + "");
             wgErrorString.setTextColor(getResources().getColor(R.color.spravne_color));
-            wgErrorString.setText(userName + ", " + getResources().getString(R.string.genius) + ", " + example.getExampleStringFull() + ", ides dalej.");
+            wgErrorString.setText(prefUserName + ", " + getResources().getString(R.string.genius) + ", " + example.getExampleStringFull() + ", ides dalej.");
 
             // Save attempt
             dbh.insertAttempt(example_id, vysledokLocalInt, Utils.getNow(), 1);
 
             // ak je dokoncene tak otvori resume aktivitu
-            if (correct == repeat){
+            if (correct == prefRepeat){
                 Intent intent;
                 intent = new Intent(this, ResumeActivity.class);
                 intent.putExtra("correct", correct);
@@ -255,11 +277,11 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
         else {
             Log.d("--", "vysledok " + vysledokLocalInt + " je zle");
             // Prehrajeme NOK zvuk
-            if (sound){playSound("nok");}
+            if (prefSound){playSound("nok");}
             wgAttemptsCounterString.setText(++attempts + "");
             //wgErrorString.setTextColor(getResources().getIdentifier("nespravne_color", "color", getPackageName()));
             wgErrorString.setTextColor(getResources().getColor(R.color.nespravne_color));
-            wgErrorString.setText(userName + ", " + userName + ". " + getResources().getString(R.string.compl_wrong) + "!");
+            wgErrorString.setText(prefUserName + ", " + prefUserName + ". " + getResources().getString(R.string.compl_wrong) + "!");
 
             // Save attempt
             dbh.insertAttempt(example_id, vysledokLocalInt, Utils.getNow(), 0);
@@ -277,19 +299,58 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        resultStart = Integer.parseInt(sharedPref.getString("result_start", "0"));
-        resultStop = Integer.parseInt(sharedPref.getString("result_stop", "100"));
-        numberStart = Integer.parseInt(sharedPref.getString("number_start", "0"));
-        numberStop = Integer.parseInt(sharedPref.getString("number_stop", "100"));
-        repeat = Integer.parseInt(sharedPref.getString("repeat", "10"));
-        exampleSign = sharedPref.getString("sign", "all");
-        exampleExtra = sharedPref.getString("extra", "nic");
-        userName = sharedPref.getString("user_name", "Detisko");
-        sound = sharedPref.getBoolean("sound", true);
-        //Toast.makeText(getApplicationContext(), "start: " + resultStart + ", stop: " + resultStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName, Toast.LENGTH_SHORT).show();
-        //Log.d( "settings: " , "start: " + resultStart + ", stop: " + resultStop + ", sign: " + exampleSign + ", extra: " + exampleExtra + ", username: " + userName);
+        prefResultStart = Integer.parseInt(sharedPref.getString("result_start", "0"));
+        prefResultStop = Integer.parseInt(sharedPref.getString("result_stop", "100"));
+        prefNumberStart = Integer.parseInt(sharedPref.getString("number_start", "0"));
+        prefNumberStop = Integer.parseInt(sharedPref.getString("number_stop", "100"));
+        prefRepeat = Integer.parseInt(sharedPref.getString("repeat", "10"));
+        prefSignsString = sharedPref.getString("sign", "all");
+        prefExtra = sharedPref.getString("extra", "nic");
+        prefUserName = sharedPref.getString("user_name", "Detisko");
+        prefSound = sharedPref.getBoolean("sound", true);
+        prefExamplesSetting = sharedPref.getStringSet("examples_setting",new HashSet<String>());
+        // Load all relevant examplesSettings to examplesSettings
+        getExamplesSettings();
     }
 
+    /**
+     * Load examplesSettings ArrayList by ExampleSetting objects
+     */
+    private void getExamplesSettings(){
+
+        // LOAD DATA FROM prefExamplesSetting
+        if(prefExamplesSetting.size()>0){
+            List<String> ids = new ArrayList<>();
+            for (String subset : prefExamplesSetting) {
+                ids.add(subset);
+            }
+            Context ctx = getApplicationContext();
+            BambulkackaDB dbh = new BambulkackaDB(ctx);
+            Cursor cursor = dbh.getExamplesSettingAll(ids);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    //labels.add(cursor.getString(1));
+                    int result_start = cursor.getInt(cursor.getColumnIndex("result_start"));
+                    int result_stop = cursor.getInt(cursor.getColumnIndex("result_stop"));
+                    int number_start = cursor.getInt(cursor.getColumnIndex("number_start"));
+                    int number_stop = cursor.getInt(cursor.getColumnIndex("number_stop"));
+                    String sign = cursor.getString(cursor.getColumnIndex("sign"));
+                    String extra = cursor.getString(cursor.getColumnIndex("extra"));
+                    ExampleSetting myExampleSetting = new ExampleSetting(result_start, result_stop, number_start, number_stop, sign,extra);
+                    examplesSettings.add(myExampleSetting);
+
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            dbh.close();
+        }
+        // prefExamplesSetting is empty, build custom setting
+        else {
+            ExampleSetting myExampleSetting = new ExampleSetting(prefResultStart, prefResultStop, prefNumberStart, prefNumberStop, prefSignsString, prefExtra);
+            examplesSettings.add(myExampleSetting);
+        }
+    }
     /**
      * Submit button handling
      * <p>
@@ -333,8 +394,8 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
     }
 
     /**
-     * Play sound
-     * @param filename source of sound
+     * Play prefSound
+     * @param filename source of prefSound
      */
     private void playSound (String filename) {
         // Find file as resource
