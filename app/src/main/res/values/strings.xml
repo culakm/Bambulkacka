@@ -28,6 +28,10 @@
     <string name="empty_result">result is empty</string>
     <string name="natural_numbers">only natural numbers here</string>
     <string name="num_limit">Result has to be lower than 2147483647 or other error</string>
-    <string name="examples_setting">Examples setting</string>
+    <string name="examples_setting_pref">Examples setting</string>
+    <string name="application_setting_pref">Application setting</string>
+    <string name="signs_pref">Sings</string>
+    <string name="user_name">User name</string>
+    <string name="wrong_input_numbers">Insane numbers in input!</string>
 
 </resources>

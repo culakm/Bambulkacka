@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
+import android.widget.Toast;
 //import com.hellbilling.bambulkacka.ExampleSetting;
 
 import java.util.HashMap;
@@ -25,7 +27,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
     private static final String KEY_PREF_EXTRA = "extra";
     private static final String KEY_PREF_USER_NAME = "user_name";
     private static final String KEY_PREF_REPEAT = "repeat";
-    private static final String KEY_PREF_EXAMPLES_SETTING = "examples_setting";
+    private static final String KEY_PREF_EXAMPLES_SETTING = "examples_setting_pref";
 
     private String preferencesType;
     @Override
@@ -40,7 +42,8 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                 addPreferencesFromResource(R.xml.preferences_main);
                 break;
             case "calculator":
-                addPreferencesFromResource(R.xml.preferences_calculator);
+                addPreferencesFromResource(R.xml.preferences_main);
+                //addPreferencesFromResource(R.xml.preferences_calculator);
                 break;
             default:
                 addPreferencesFromResource(R.xml.preferences_main);
@@ -52,7 +55,7 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         MultiSelectListPreference preferenceExamplesSetting = (MultiSelectListPreference) findPreference(KEY_PREF_EXAMPLES_SETTING);
         Context ctx = getActivity();
         HashMap ExamplesSettingData = ExampleSetting.getExamplesSettingAllKeyText(ctx);
-        preferenceExamplesSetting.setEntries((CharSequence[]) ExamplesSettingData.get("descr"));
+        preferenceExamplesSetting.setEntries((CharSequence[]) ExamplesSettingData.get("long_name"));
         preferenceExamplesSetting.setEntryValues((CharSequence[]) ExamplesSettingData.get("_id"));
 
         // summary je pokec pod hlavnym textom polozky
@@ -71,11 +74,6 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         // Nastavenie summary na aktualnu hodnotu
         EditTextPreference number_stop = (EditTextPreference) findPreference(KEY_PREF_NUMBER_STOP);
         number_stop.setSummary(number_stop.getText());
-
-        // Register the ListPreference
-        ListPreference preferenceSign = (ListPreference) findPreference(KEY_PREF_SIGN);
-        preferenceSign.setSummary(preferenceSign.getEntry());
-        preferenceSign.setOnPreferenceChangeListener(this);
 
         // Register the ListPreference
         ListPreference preferenceExtra = (ListPreference) findPreference(KEY_PREF_EXTRA);
@@ -111,7 +109,9 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
+        if (! numbersOK()){
+            Toast.makeText(getActivity(), getString(R.string.wrong_input_numbers), Toast.LENGTH_SHORT).show();
+        }
         // Change summary
         if (key.equals(KEY_PREF_RESULT_START)) {
             Preference result_start = findPreference(key);
@@ -149,6 +149,17 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
                 repeat.setSummary(sharedPreferences.getString(key, ""));
             }
         }
+    }
+
+    private boolean numbersOK(){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        int result_start = Integer.parseInt(sharedPref.getString("result_start", "0"));
+        int result_stop = Integer.parseInt(sharedPref.getString("result_stop", "0"));
+        int number_start = Integer.parseInt(sharedPref.getString("number_start", "0"));
+        int number_stop = Integer.parseInt(sharedPref.getString("number_stop", "0"));
+        if (result_start > result_stop){return false;}
+        if (number_start > number_stop){return false;}
+        return true;
     }
 
     // Toto obsluhuje vsetky ListPreference zo settingu

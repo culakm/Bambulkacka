@@ -24,11 +24,11 @@ public class ExampleSetting {
     public final String extra;
 
     /**
-     * Retrurns HashMap (_id, descr) containing CharSequences of all records from examples_setting
+     * Retrurns HashMap (_id, long_name) containing CharSequences of all records from examples_setting
      * for MultiSelectListPreference in settings
      *
      * @param ctx
-     * @return HashMap, map.get(menu_order),map(descr)
+     * @return HashMap, map.get(menu_order),map(long_name)
      */
     static public HashMap getExamplesSettingAllKeyText(Context ctx){
 
@@ -44,10 +44,10 @@ public class ExampleSetting {
             do {
                 //labels.add(cursor.getString(1));
                 String _id = cursor.getString(cursor.getColumnIndex("_id"));
-                String descr = cursor.getString(cursor.getColumnIndex("descr"));
-//                Toast.makeText(ctx, "HAHA " + _id + " = " + descr, Toast.LENGTH_SHORT).show();
-//                Log.d("myTag", "HAHA " + _id + " = " + descr);
-                listItemsReadable.add(descr);
+                String long_name = cursor.getString(cursor.getColumnIndex("long_name"));
+//                Toast.makeText(ctx, "HAHA " + _id + " = " + long_name, Toast.LENGTH_SHORT).show();
+//                Log.d("myTag", "HAHA " + _id + " = " + long_name);
+                listItemsReadable.add(long_name);
                 listItemsValue.add(_id);
             } while (cursor.moveToNext());
         }
@@ -62,7 +62,7 @@ public class ExampleSetting {
         //CharSequence[] outArray [] = {charSequenceItemsReadable,charSequenceItemsValue};
         HashMap<String, CharSequence[]> map = new HashMap<String, CharSequence[]>();
         map.put("_id", charSequenceItemsValue);
-        map.put("descr", charSequenceItemsReadable);
+        map.put("long_name", charSequenceItemsReadable);
         return map;
         //return charSequenceItemsReadable;
     }
@@ -70,8 +70,8 @@ public class ExampleSetting {
     public ExampleSetting(int resultStart, int resultStop, int numberStart, int numberStop, String sign, String extra){
         this.resultStart = resultStart;
         this.resultStop = resultStop;
-        this.numberStart = resultStop;
-        this.numberStop = resultStop;
+        this.numberStart = numberStart;
+        this.numberStop = numberStop;
         this.sign = sign;
         this.extra = extra;
     }

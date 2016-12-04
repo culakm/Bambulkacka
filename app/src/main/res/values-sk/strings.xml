@@ -26,4 +26,9 @@
     <string name="num_limit">Vysledok musi byt mensi ako 2147483647 alebo je tu ina chyba</string>
     <string name="attempts">Pokusov:</string>
     <string name="correct">OK:</string>
+    <string name="wrong_input_numbers">Nezmyselne nastavené vstupné čísla</string>
+    <string name="examples_setting_pref">Nastavenie príkladov</string>
+    <string name="signs_pref">Znamienka</string>
+    <string name="application_setting_pref">Nastavenie aplikácie</string>
+    <string name="user_name">Meno matematika</string>
 </resources>

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--PreferenceScreen
-        android:key="button_priklad_key"
-        android:title="Nastavenie prikladov"
-        android:persistent="false"-->
+    <MultiSelectListPreference
+        android:key="examples_setting_pref"
+        android:title="@string/examples_setting_pref"
+        android:persistent="true"
+        />
+    <PreferenceScreen
+        android:key="examples_custom"
+        android:title="Custom priklady"
+        android:persistent="true">
         <EditTextPreference android:title="Vysledok od"
             android:key="result_start"
             android:summary="%s"
@@ -29,12 +34,13 @@
             android:dialogTitle="Zadaj hornu hranicu zadavanych cisel"
             android:defaultValue="100"
             android:inputType="number" />
-        <ListPreference android:title="Znamienko"
-            android:key="sign"
-            android:summary="%s"
-            android:entries="@array/znamienka"
-            android:entryValues="@array/znamienka"
-            android:defaultValue="all" />
+        <MultiSelectListPreference
+            android:key="signs_pref"
+            android:title="@string/signs_pref"
+            android:entries="@array/signs"
+            android:entryValues="@array/signs"
+            android:persistent="true"
+            />
         <ListPreference android:title="Extra"
             android:key="extra"
             android:summary="%s"
@@ -42,12 +48,12 @@
             android:entryValues="@array/extra"
             android:defaultValue="nic"
            />
-    <!--/PreferenceScreen-->
+    </PreferenceScreen>
     <PreferenceScreen
-        android:key="button_ostatne_key"
-        android:title="Nastavenie ostatneho"
+        android:key="button_application_setting"
+        android:title="@string/application_setting_pref"
         android:persistent="false">
-        <EditTextPreference android:title="Meno uzivatela"
+        <EditTextPreference android:title="@string/user_name"
             android:key="user_name"
             android:summary="%s"
             android:dialogTitle="Zadaj meno"
@@ -63,11 +69,4 @@
             android:defaultValue="10"
             android:inputType="number" />
     </PreferenceScreen>
-    <MultiSelectListPreference
-        android:key="examples_setting"
-        android:title="@string/examples_setting"
-        android:entries="@array/multi_texts"
-        android:entryValues="@array/multi_values"
-        android:persistent="true"
-        />
 </PreferenceScreen>

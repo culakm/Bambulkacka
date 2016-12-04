@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 final class BambulkackaContract {
 
     // If you change the database schema, you must increment the database version.
-    public static final  int    DATABASE_VERSION   = 2;
+    public static final  int    DATABASE_VERSION   = 6;
     public static final String DATABASE_NAME = "Bambulkacka.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String INTEGER_TYPE = " INTEGER";
@@ -129,14 +129,16 @@ final class BambulkackaContract {
                 " 10 AS " + TbExampleSettings.COLUMN_NAME_RESULT_STOP + COMMA_SEP +
                 " 0 AS " + TbExampleSettings.COLUMN_NAME_NUMBER_START + COMMA_SEP +
                 " 10 AS " + TbExampleSettings.COLUMN_NAME_NUMBER_STOP + COMMA_SEP +
-                " '+' AS " + TbExampleSettings.COLUMN_NAME_SIGNS_STRING + COMMA_SEP +
-                " '' AS " + TbExampleSettings.COLUMN_NAME_EXTRA + COMMA_SEP +
-                " 'do 10 plus' " + TbExampleSettings.COLUMN_NAME_LONG_NAME + COMMA_SEP +
-                " '10+' AS " + TbExampleSettings.COLUMN_NAME_DESCR +
-                " UNION ALL SELECT 2,0,10,0,10,'-','','do 10 minus','10-'" +
-                " UNION ALL SELECT 3,0,20,0,20,'+','','do 20 plus','20+'" +
-                " UNION ALL SELECT 4,0,20,0,20,'-','','do 20 minus','20-'" +
-                " UNION ALL SELECT 4,0,20,0,20,'+,-','','do 20 plus minus','20-+'"
+                " '+,-' AS " + TbExampleSettings.COLUMN_NAME_SIGNS_STRING + COMMA_SEP +
+                " '10+-' AS " + TbExampleSettings.COLUMN_NAME_EXTRA + COMMA_SEP +
+                " '+,- do 10' " + TbExampleSettings.COLUMN_NAME_LONG_NAME + COMMA_SEP +
+                " '10+-' AS " + TbExampleSettings.COLUMN_NAME_DESCR +
+                " UNION ALL SELECT 2,0,20,0,20,'+,-','20notOver10','+,- do 20 bez prechodu cez 10','20notOver10'"+
+                " UNION ALL SELECT 3,0,20,0,20,'+,-','20Over10','+,- do 20 s prechodom cez 10','20Over10'"+
+                " UNION ALL SELECT 4,10,100,0,100,'+,-','100notOver10','+,- do 100 bez prechodu cez 10','100notOver10'"+
+                " UNION ALL SELECT 5,10,100,0,100,'+,-','100with1Over10','+,- do 100 s jednotkami a prechodom cez 10','100with1Over10'"+
+                " UNION ALL SELECT 6,10,100,0,100,'+,-','100with10oneWhole10','+,- do 100 obe desiatky, jedna cela desiatka','100with10oneWhole10'"+
+                " UNION ALL SELECT 7,10,100,0,100,'+,-','100with10notOver10','+,- do 100 obe desiatky bez prechodu cez 10','100with10notOver10'"
                 ;
     }
 }

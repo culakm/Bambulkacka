@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -161,7 +162,6 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
             exampleSettingUsed = Utils.generateRandomInt(0, examplesSettings.size() - 1);
         }
 
-
         //example = new Example(prefResultStart, prefResultStop, prefNumberStart, prefNumberStop, prefSignsString, prefExtra);
         ExampleSetting exampleSetting = examplesSettings.get(exampleSettingUsed);
         example = new Example(exampleSetting);
@@ -304,11 +304,16 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
         prefNumberStart = Integer.parseInt(sharedPref.getString("number_start", "0"));
         prefNumberStop = Integer.parseInt(sharedPref.getString("number_stop", "100"));
         prefRepeat = Integer.parseInt(sharedPref.getString("repeat", "10"));
-        prefSignsString = sharedPref.getString("sign", "all");
-        prefExtra = sharedPref.getString("extra", "nic");
+
+        //prefSignsString = sharedPref.getString("sign", "all");
+        Set<String> signs = sharedPref.getStringSet("signs_pref",new HashSet<String>());
+        String[] signsArray = signs.toArray(new String[signs.size()]);
+        prefSignsString = TextUtils.join(",", signsArray);
+
+        prefExtra = sharedPref.getString("extra", "");
         prefUserName = sharedPref.getString("user_name", "Detisko");
         prefSound = sharedPref.getBoolean("sound", true);
-        prefExamplesSetting = sharedPref.getStringSet("examples_setting",new HashSet<String>());
+        prefExamplesSetting = sharedPref.getStringSet("examples_setting_pref",new HashSet<String>());
         // Load all relevant examplesSettings to examplesSettings
         getExamplesSettings();
     }
@@ -317,7 +322,7 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
      * Load examplesSettings ArrayList by ExampleSetting objects
      */
     private void getExamplesSettings(){
-
+        String pako = BambulkackaContract.TbExercises.COLUMN_NAME_SIGN;
         // LOAD DATA FROM prefExamplesSetting
         if(prefExamplesSetting.size()>0){
             List<String> ids = new ArrayList<>();
@@ -330,14 +335,14 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
 
             if (cursor.moveToFirst()) {
                 do {
-                    //labels.add(cursor.getString(1));
-                    int result_start = cursor.getInt(cursor.getColumnIndex("result_start"));
-                    int result_stop = cursor.getInt(cursor.getColumnIndex("result_stop"));
-                    int number_start = cursor.getInt(cursor.getColumnIndex("number_start"));
-                    int number_stop = cursor.getInt(cursor.getColumnIndex("number_stop"));
-                    String sign = cursor.getString(cursor.getColumnIndex("sign"));
-                    String extra = cursor.getString(cursor.getColumnIndex("extra"));
-                    ExampleSetting myExampleSetting = new ExampleSetting(result_start, result_stop, number_start, number_stop, sign,extra);
+                    //Load wanted ExampleSetting instances
+                    int result_start = cursor.getInt(cursor.getColumnIndex(BambulkackaContract.TbExampleSettings.COLUMN_NAME_RESULT_START));
+                    int result_stop = cursor.getInt(cursor.getColumnIndex(BambulkackaContract.TbExampleSettings.COLUMN_NAME_RESULT_STOP));
+                    int number_start = cursor.getInt(cursor.getColumnIndex(BambulkackaContract.TbExampleSettings.COLUMN_NAME_NUMBER_START));
+                    int number_stop = cursor.getInt(cursor.getColumnIndex(BambulkackaContract.TbExampleSettings.COLUMN_NAME_NUMBER_STOP));
+                    String signs = cursor.getString(cursor.getColumnIndex(BambulkackaContract.TbExampleSettings.COLUMN_NAME_SIGNS_STRING));
+                    String extra = cursor.getString(cursor.getColumnIndex(BambulkackaContract.TbExampleSettings.COLUMN_NAME_EXTRA));
+                    ExampleSetting myExampleSetting = new ExampleSetting(result_start, result_stop, number_start, number_stop, signs,extra);
                     examplesSettings.add(myExampleSetting);
 
                 } while (cursor.moveToNext());

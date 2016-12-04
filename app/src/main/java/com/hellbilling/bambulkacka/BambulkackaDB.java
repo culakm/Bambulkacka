@@ -44,17 +44,34 @@ class BambulkackaDB {
         openHelper = new BambulkackaDbHelper(ctx);
     }
 
+    /**
+     * Get all saved exercises
+     * @return Cursor of all exercises
+     */
     public Cursor getExercisesResults() {
         SQLiteDatabase db = openHelper.getReadableDatabase();
         return db.rawQuery("SELECT exercises._id, date_start, date_end, ok.count AS ok_count, nok.count  AS nok_count FROM exercises LEFT JOIN (SELECT count(*) AS count, examples.exercise_id AS exercise_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples.exercise_id) AS ok ON exercises._id = ok.exercise_id LEFT JOIN (SELECT count(*) AS count, examples.exercise_id AS exercise_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples.exercise_id) AS nok ON  exercises._id = nok.exercise_id", null);
     }
 
+    /**
+     * Get all examples of exercise according to exercise ID
+     * @param exercise_id
+     * @return Cursor of all examples
+     */
     public Cursor getResultExamples(String exercise_id) {
         SQLiteDatabase db = openHelper.getReadableDatabase();
         Cursor examples = db.rawQuery("SELECT examples._id, a,b,sign,result, ok.count AS ok_count, nok.count  AS nok_count  FROM examples LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 1 GROUP BY  examples._id) AS ok ON examples._id = ok.example_id LEFT JOIN (SELECT count(*) AS count, examples._id AS example_id FROM attempts LEFT JOIN examples ON attempts.example_id=examples._id WHERE attempts.ok = 0 GROUP BY  examples._id) AS nok ON  examples._id = nok.example_id WHERE examples.exercise_id = " + exercise_id, null);
         return examples;
     }
 
+    /**
+     * Insert new exercise with all values
+     * used only for testing purpose now
+     * @param sign
+     * @param date_start
+     * @param date_end
+     * @return
+     */
     long insertExercise(String sign, String date_start, String date_end) {
         SQLiteDatabase db = openHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -66,6 +83,12 @@ class BambulkackaDB {
         return id;
     }
 
+    /**
+     * Insert new exercise with date_start and sign
+     * @param sign
+     * @param date_start
+     * @return
+     */
     public long insertExerciseStart(String sign, String date_start) {
         SQLiteDatabase db = openHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -76,6 +99,12 @@ class BambulkackaDB {
         return id;
     }
 
+    /**
+     * Save date_end of exercise
+     * @param exercise_id
+     * @param date_end
+     * @return
+     */
     public long updateExerciseEnd(long exercise_id, String date_end) {
         SQLiteDatabase db = openHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -87,6 +116,15 @@ class BambulkackaDB {
         return id;
     }
 
+    /**
+     * Insert new exercise
+     * @param exercise_id
+     * @param a
+     * @param b
+     * @param sign
+     * @param result
+     * @return id of the new record
+     */
     public long insertExample(long exercise_id, int a, int b, String sign, int result) {
         SQLiteDatabase db = openHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -100,6 +138,14 @@ class BambulkackaDB {
         return id;
     }
 
+    /**
+     * Insert new attempt
+     * @param example_id
+     * @param attempt_result
+     * @param date
+     * @param ok
+     * @return id of the new record
+     */
     public long insertAttempt(long example_id, int attempt_result, String date, int ok) {
         SQLiteDatabase db = openHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -113,6 +159,7 @@ class BambulkackaDB {
         return id;
     }
 
+
     public int deleteAllTables() {
         SQLiteDatabase db = openHelper.getWritableDatabase();
         db.delete(BambulkackaContract.TbAttempts.TABLE_NAME, null, null);
@@ -123,6 +170,9 @@ class BambulkackaDB {
         return deletedCount;
     }
 
+    /**
+     * Insert testing records into exercises and examples table
+     */
     public void insertTestDataForResults() {
         insertExercise("+", Utils.getNow(), Utils.getNowPlus(5));
         insertExercise("-", Utils.getNowPlus(6), Utils.getNowPlus(10));
@@ -150,6 +200,19 @@ class BambulkackaDB {
     }
     */
 
+    /**
+     * Insert all values into example_settings table
+     * @param menu_order
+     * @param result_start
+     * @param result_stop
+     * @param number_start
+     * @param number_stop
+     * @param signs_string
+     * @param extra
+     * @param long_name
+     * @param descr
+     * @return id of the record
+     */
     long insertExamplesSetting(int menu_order, int result_start, int result_stop, int number_start, int number_stop, String signs_string, String extra, String long_name, String descr) {
         SQLiteDatabase db = openHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -167,9 +230,18 @@ class BambulkackaDB {
         return id;
     }
 
+    /**
+     * Get all ExamplesSettings defined in the table
+     * @return Cursor of returned records
+     */
     public Cursor getExamplesSettingAllKeyText() {
         SQLiteDatabase db = openHelper.getReadableDatabase();
-        Cursor settings = db.rawQuery("SELECT _id,descr FROM example_settings ORDER BY menu_order", null);
+        Cursor settings = db.rawQuery(
+            "SELECT " +
+            BambulkackaContract.TbExampleSettings._ID + "," +
+            BambulkackaContract.TbExampleSettings.COLUMN_NAME_LONG_NAME +
+            " FROM example_settings ORDER BY menu_order"
+        , null);
         return settings;
     }
 

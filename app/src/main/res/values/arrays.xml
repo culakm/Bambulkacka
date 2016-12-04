@@ -25,10 +25,10 @@
         <item>QNJL6nfu__Q</item>
         <item>F2AitTPI5U0</item>
     </string-array>
-    <string-array name="multi_values">
-        <item>_lmi2jlrk0c</item>
-        <item>dsUXAEzaC3Q</item>
-        <item>QNJL6nfu__Q</item>
-        <item>F2AitTPI5U0</item>
+    <string-array name="signs">
+        <item>+</item>
+        <item>-</item>
+        <item>*</item>
+        <item>/</item>
     </string-array>
 </resources>
