@@ -115,6 +115,16 @@ public class Example implements Parcelable {
                 a = numbers[0];
                 b = numbers[1];
                 break;
+            case "100notOver10resWhole10":
+                numbers = get100notOver10resWhole10();
+                a = numbers[0];
+                b = numbers[1];
+                break;
+            case "100Over10":
+                numbers = get100Over10();
+                a = numbers[0];
+                b = numbers[1];
+                break;
             default:
                 // Default regular examples
                 if (sign.equals("+")) {
@@ -158,7 +168,93 @@ public class Example implements Parcelable {
 
     /**
      * Extra math fuction
-     * 1 :
+     * 1 : obe desiatky s prechodom cez 10, 53+28,73+29
+     */
+    private int[] get100Over10() {
+        // Count of subtypes
+        int countSubTypes = 1;
+        // Random sub type
+        int subType = Utils.generateRandomInt(1, countSubTypes);
+        int a = 0;
+        int b = 0;
+        int part = 0;
+        Log.d("ex-podmienka", "get100Over10 subType : " + subType);
+        switch (subType) {
+            // obe desiatky s prechodom cez 10, 53+28,73+29
+            case 1:
+                if (sign.equals("+")) {
+                    int la = 0;
+                    do {
+                        a = Utils.generateRandomInt(12, 79);
+                        la = Utils.lastDigit(a);
+                    }
+                    while (la == 0 || la == 1); // We don't want 0 or 1
+                    //cislo je zlozene:                    desiatkova cast cisla + jednotkova cast cisla
+                    b = Utils.generateRandomIntWhole10(10, (90 - (a - la)) - 10 ) + Utils.generateRandomInt((10 - la) + 1, 9);
+                } // -
+                else {
+                    int la = 0;
+                    do {
+                        a = Utils.generateRandomInt(20, 98);
+                        la = Utils.lastDigit(a);
+                    }
+                    while (la == 9 || la == 0); // We don't want 9
+                    b = Utils.generateRandomIntWhole10(10,(a - la) - 10 ) + Utils.generateRandomInt(la + 1, 9);
+                }
+                break;
+        }
+        int array [] = {a,b};
+        return array;
+    }
+
+
+    /**
+     * Extra math fuction
+     * 1 : obe desiatky vysledok cela desiatka 28+22, 50-22
+     */
+    private int[] get100notOver10resWhole10() {
+        // Count of subtypes
+        int countSubTypes = 1;
+        // Random sub type
+        int subType = Utils.generateRandomInt(1, countSubTypes);
+        int a = 0;
+        int b = 0;
+        int part = 0;
+        Log.d("ex-podmienka", "get100notOver10resWhole10 subType : " + subType);
+        switch (subType) {
+            // obe desiatky vysledok cela desiatka 28+22, 50-22
+            case 1:
+                if (sign.equals("+")) {
+                    int la = 0;
+                    do {
+                        a = Utils.generateRandomInt(11, 89);
+                        la = Utils.lastDigit(a);
+                    }
+                    while (la == 0); // We don't want 0
+                    //cislo je zlozene:                    desiatkova cast cisla + jednotkova cast cisla
+                    b = Utils.generateRandomIntWhole10(10, 100 -((a - la) + 10)) + (10 - la);
+                } // -
+                else {
+                    a = Utils.generateRandomIntWhole10(20, 90);
+                    if (a == 20){
+                        b = 10;
+                    }
+                    else {
+                        do {
+                            b = Utils.generateRandomInt(11, a - 10);
+                        }
+                        while (Utils.lastDigit(b) == 0); // We don't want 0
+                    }
+                }
+                break;
+        }
+        int array [] = {a,b};
+        return array;
+    }
+
+    /**
+     * Extra math fuction
+     * 1 : obe desiatky bez prechodu cez 10, 26+33, 86-24
      */
     private int[] get100with10notOver10() {
         // Count of subtypes
@@ -168,36 +264,27 @@ public class Example implements Parcelable {
         int a = 0;
         int b = 0;
         int part = 0;
-        Log.d("ex-podmienka", "get100with1Over10 subType : " + subType);
+        Log.d("ex-podmienka", "get100with10notOver10 subType : " + subType);
         switch (subType) {
-            // cela desiatka + hocijaka desiatka 30+62
+            // obe desiatky bez prechodu cez 10, 26+33, 86-24
             case 1:
                 if (sign.equals("+")) {
                     // last digit of a
-                    a = Utils.generateRandomInt(10, 90);
+                    a = Utils.generateRandomInt(11, 89);
                     // 90 needs 10 only
-                    if (a == 90) {
-                        b = 10;
-                    } else {
-                        int la = Utils.lastDigit(a);
-                        int aux_a = a;
-                        // 0 at the end needs decimal part lower by 1
-                        if (la == 0) {
-                            aux_a = a + 10;
-                        }
-                        //cislo je zlozene:                           desiatkova cast cisla + jednotkova cast cisla
-                        b = Utils.generateRandomIntWhole10(10, (((100 - aux_a) / 10) * 10)) + Utils.generateRandomInt(0, 9 - la);
+                    int la = Utils.lastDigit(a);
+                    int aux_a = a;
+                    // 0 at the end needs decimal part lower by 1
+                    if (la == 0) {
+                        aux_a = a + 10;
                     }
+                    //cislo je zlozene:                           desiatkova cast cisla + jednotkova cast cisla
+                    b = Utils.generateRandomIntWhole10(10, (((100 - aux_a) / 10) * 10)) + Utils.generateRandomInt(0, 9 - la);
                 } // -
                 else {
-                    a = Utils.generateRandomInt(20, 99);
-                    if (a == 20) {
-                        b = 10;
-                    }
-                    else {
-                        int la = Utils.lastDigit(a);
-                        b = Utils.generateRandomIntWhole10(10, a - la) + Utils.generateRandomInt(0, la);
-                    }
+                    a = Utils.generateRandomInt(21, 99);
+                    int la = Utils.lastDigit(a);
+                    b = Utils.generateRandomIntWhole10(10, a - la) + Utils.generateRandomInt(0, la - 1);
                 }
                 break;
         }
@@ -219,7 +306,7 @@ public class Example implements Parcelable {
         int a = 0;
         int b = 0;
         int part = 0;
-        Log.d("ex-podmienka", "get100with1Over10 subType : " + subType);
+        Log.d("ex-podmienka", "get100with10oneWhole10 subType : " + subType);
         switch (subType) {
             // cela desiatka + hocijaka desiatka 30+62
             case 1:
@@ -308,7 +395,7 @@ public class Example implements Parcelable {
         int b = 0;
         int part = 0;
 
-        Log.d("ex-podmienka", "get20noOver10 subType : " + subType);
+        Log.d("ex-podmienka", "get100notOver10 subType : " + subType);
         switch (subType) {
             // +/-cele desiatky, 40+20, 50-10
             case 1:

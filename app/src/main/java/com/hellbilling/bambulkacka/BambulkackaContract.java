@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 final class BambulkackaContract {
 
     // If you change the database schema, you must increment the database version.
-    public static final  int    DATABASE_VERSION   = 6;
+    public static final  int    DATABASE_VERSION   = 8;
     public static final String DATABASE_NAME = "Bambulkacka.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String INTEGER_TYPE = " INTEGER";
@@ -138,7 +138,9 @@ final class BambulkackaContract {
                 " UNION ALL SELECT 4,10,100,0,100,'+,-','100notOver10','+,- do 100 bez prechodu cez 10','100notOver10'"+
                 " UNION ALL SELECT 5,10,100,0,100,'+,-','100with1Over10','+,- do 100 s jednotkami a prechodom cez 10','100with1Over10'"+
                 " UNION ALL SELECT 6,10,100,0,100,'+,-','100with10oneWhole10','+,- do 100 obe desiatky, jedna cela desiatka','100with10oneWhole10'"+
-                " UNION ALL SELECT 7,10,100,0,100,'+,-','100with10notOver10','+,- do 100 obe desiatky bez prechodu cez 10','100with10notOver10'"
+                " UNION ALL SELECT 7,10,100,0,100,'+,-','100with10notOver10','+,- do 100 obe desiatky bez prechodu cez 10','100with10notOver10'"+
+                " UNION ALL SELECT 8,10,100,0,100,'+,-','100notOver10resWhole10','+,- do 100 obe desiatky vysledok cela desiatka','100notOver10resWhole10'"+
+                " UNION ALL SELECT 9,10,100,0,100,'+,-','100Over10','+,- do 100 obe desiatky s prechodom cez 10','100Over10'"
                 ;
     }
 }
