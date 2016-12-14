@@ -44,6 +44,15 @@ public class ResultsActivity extends ActionBarActivity implements ResultsFragmen
         Context ctx = getApplicationContext();
         BambulkackaDB dbh = new BambulkackaDB(ctx);
         int deletedResults = dbh.deleteAllTables();
+        Toast.makeText(ctx, "One exercise deleted", Toast.LENGTH_SHORT).show();
+        resultsFragment.updateList();
+    }
+
+    public void onDeleteIdResultClicked(View view) {
+        Context ctx = getApplicationContext();
+        BambulkackaDB dbh = new BambulkackaDB(ctx);
+        long exercise_id = 4;
+        int deletedResults = dbh.deleteExercise(exercise_id);
         Toast.makeText(ctx, "All " + deletedResults + " results deleted", Toast.LENGTH_SHORT).show();
         resultsFragment.updateList();
     }

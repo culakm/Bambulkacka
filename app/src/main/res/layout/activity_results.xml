@@ -11,6 +11,12 @@
         android:onClick="onDeleteResultsClicked"
         android:text="@string/delete_all_results" />
     <Button
+        android:id="@+id/delete_id_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onDeleteIdResultClicked"
+        android:text="one result delete" />
+    <Button
         android:id="@+id/insert_test_results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

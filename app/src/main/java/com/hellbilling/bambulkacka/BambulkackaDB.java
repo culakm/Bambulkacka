@@ -252,6 +252,21 @@ class BambulkackaDB {
         Cursor settings = db.rawQuery("SELECT * FROM example_settings WHERE _id IN (" + idsString + ")", null);
         return settings;
     }
+
+
+    /**
+     * Remove exercise according to id with all examples
+     * @param exercise_id
+     * @return the number of rows affected
+     */
+    int deleteExercise(int exercise_id) {
+
+        SQLiteDatabase db = openHelper.getWritableDatabase();
+        db.delete(BambulkackaContract.TbExamples.TABLE_NAME,BambulkackaContract.TbExamples.COLUMN_NAME_EXERCISE_ID + "=?", new String[] {Integer.toString(exercise_id)});
+        int count = db.delete(BambulkackaContract.TbExercises.TABLE_NAME,BambulkackaContract.TbExercises._ID + "=?", new String[] {Integer.toString(exercise_id)});
+        db.close();
+        return count;
+    }
     /*
     public Cursor getRawExercises() {
         SQLiteDatabase db = openHelper.getReadableDatabase();

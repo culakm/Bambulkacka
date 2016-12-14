@@ -222,14 +222,14 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
         // vysledok je prazdny
         if (resultLocalStr.length() == 0){
             //vysledokLocalInt = 0;
-            wgErrorString.setText(prefUserName + " , " + getResources().getString(R.string.empty_result) + ".");
+            wgErrorString.setText(prefUserName + " , " + getString(R.string.empty_result) + ".");
             return;
         }
 
         // vysledok nie je cislo
         if ( ! resultLocalStr.matches("\\d+")) {
             //vysledokLocalInt = 0;
-            wgErrorString.setText(prefUserName + ", " + getResources().getString(R.string.natural_numbers) + "!");
+            wgErrorString.setText(prefUserName + ", " + getString(R.string.natural_numbers) + "!");
             wgResultLocal.setText("");
             return;
         }
@@ -237,7 +237,7 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
             try {
                 vysledokLocalInt = Integer.parseInt(resultLocalStr);
             } catch(NumberFormatException nfe) {
-                wgErrorString.setText(getResources().getString(R.string.num_limit) + ": \n" + nfe);
+                wgErrorString.setText(getString(R.string.num_limit) + ": \n" + nfe);
                 wgResultLocal.setText("");
                 return;
             }
@@ -252,7 +252,7 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
             wgCorrectCounterString.setText(++correct + "");
             wgAttemptsCounterString.setText(++attempts + "");
             wgErrorString.setTextColor(getResources().getColor(R.color.spravne_color));
-            wgErrorString.setText(prefUserName + ", " + getResources().getString(R.string.genius) + ", " + example.getExampleStringFull() + ", ides dalej.");
+            wgErrorString.setText(prefUserName + ", " + getString(R.string.genius) + ", " + example.getExampleStringFull() + ", ides dalej.");
 
             // Save attempt
             dbh.insertAttempt(example_id, vysledokLocalInt, Utils.getNow(), 1);
@@ -281,7 +281,7 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
             wgAttemptsCounterString.setText(++attempts + "");
             //wgErrorString.setTextColor(getResources().getIdentifier("nespravne_color", "color", getPackageName()));
             wgErrorString.setTextColor(getResources().getColor(R.color.nespravne_color));
-            wgErrorString.setText(prefUserName + ", " + prefUserName + ". " + getResources().getString(R.string.compl_wrong) + "!");
+            wgErrorString.setText(prefUserName + ", " + prefUserName + ". " + getString(R.string.compl_wrong) + "!");
 
             // Save attempt
             dbh.insertAttempt(example_id, vysledokLocalInt, Utils.getNow(), 0);

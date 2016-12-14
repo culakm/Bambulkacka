@@ -33,5 +33,6 @@
     <string name="signs_pref">Sings</string>
     <string name="user_name">User name</string>
     <string name="wrong_input_numbers">Insane numbers in input!</string>
+    <string name="exercise_deleted">Exercise deleted.</string>
 
 </resources>

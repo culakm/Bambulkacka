@@ -7,21 +7,24 @@ import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ResultsFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_results, container, false);
     }
-
 
     private OnResultClickedListener listener;
 
@@ -42,6 +45,50 @@ public class ResultsFragment extends ListFragment {
         updateList();
     }
 
+    /**
+     *  Context menu initialization
+     */
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.results_context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.remove:
+                deleteExercise((int) info.id);
+                Toast.makeText(getActivity(), R.string.exercise_deleted, Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.again_all:
+// zostavit list alebo poslat exercise id? skor by som povedal zostavit list, pretoze v repair chceme len niektore
+                Toast.makeText(getActivity().getApplicationContext(), "Tu treba spustit cely exercise  " , Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.repair:
+                Toast.makeText(getActivity().getApplicationContext(), "tu treba spustat len chybne pripady", Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    /**
+     * Remove exercise from the List and udate the List
+     * @param exercise_id
+     */
+    public void deleteExercise(int exercise_id) {
+        BambulkackaDB dbh = new BambulkackaDB(getActivity());
+        dbh.deleteExercise(exercise_id);
+        updateList();
+    }
+
+
+    /**
+     * Load all exercises from DB and fill setListAdapter()
+     */
     public void updateList() {
         Context ctx = getActivity();
         BambulkackaDB dbh = new BambulkackaDB(ctx);
@@ -98,42 +145,4 @@ public class ResultsFragment extends ListFragment {
         public void onResultClicked(long id);
     }
 
-
-
-/*
-    @Override
-    public void onCreateContextMenu (ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(0, MENU_DELETE_ID, 0, R.string.delete);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()) {
-            case MENU_DELETE_ID:
-                deleteNote(info.id);
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }
-
-    private void deleteNote(long id){
-        Context ctx = getActivity();
-        Notes notes = new Notes(ctx);
-
-        if(notes.deleteNote(id)){
-            Toast.makeText(ctx, R.string.note_deleted, Toast.LENGTH_SHORT).show();
-            updateList();
-        } else{
-            Toast.makeText(ctx, R.string.note_not_deleted, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public static interface OnResultClickedListener {
-        public void onNoteClicked(long id);
-    }
-
-*/
 }
