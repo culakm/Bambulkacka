@@ -30,5 +30,16 @@
     <string name="examples_setting_pref">Nastavenie príkladov</string>
     <string name="signs_pref">Znamienka</string>
     <string name="application_setting_pref">Nastavenie aplikácie</string>
-    <string name="user_name">Meno matematika</string>
+    <string name="user_name">Matematik</string>
+    <string name="extra">""</string>
+    <string name="exercise_deleted">Cvičenie vymazané.</string>
+    <string name="number_start">0</string>
+    <string name="number_stop">0</string>
+    <string name="repeat">5</string>
+    <string name="result_start">0</string>
+    <string name="result_stop">0</string>
+    <string name="sound">"true"</string>
+    <string name="wait_for_ok_result">Opravovať chybne výsledky</string>
+    <string name="user_name_title">Používateľské meno</string>
+    <string name="wait_for_ok_result_summary">Čakať na správny výsledok alebo skusiť hneď ďalší?</string>
 </resources>

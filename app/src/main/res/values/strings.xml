@@ -31,8 +31,10 @@
     <string name="examples_setting_pref">Examples setting</string>
     <string name="application_setting_pref">Application setting</string>
     <string name="signs_pref">Sings</string>
-    <string name="user_name">User name</string>
+    <string name="user_name_title">User name</string>
     <string name="wrong_input_numbers">Insane numbers in input!</string>
     <string name="exercise_deleted">Exercise deleted.</string>
+    <string name="wait_for_ok_result">Fix wrong result</string>
+    <string name="wait_for_ok_result_summary">Wait for right result or try another example?</string>
 
 </resources>

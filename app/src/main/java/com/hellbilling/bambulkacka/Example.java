@@ -50,6 +50,7 @@ public class Example implements Parcelable {
      * extra request
      */
     private String extra = "";
+
     private int a;
     private int b;
     private int result;
@@ -68,6 +69,23 @@ public class Example implements Parcelable {
         this.signs = signToArrayList(signsString);
         this.extra = exampleSetting.extra;
 
+    }
+
+    /**
+     * Constructor with ExampleSetting class
+     */
+    public Example(int a, int b, String sign ) {
+
+        this.a = a;
+        this.b = b;
+        this.sign = sign;
+        this.resultStart = 0;
+        this.resultStop = 0;
+        this.numberStart = 0;
+        this.numberStop = 0;
+        this.signsString = "";
+        this.signs = signToArrayList(signsString);
+        this.extra = "";
     }
 
 

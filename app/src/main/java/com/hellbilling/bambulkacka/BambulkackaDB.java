@@ -117,7 +117,7 @@ class BambulkackaDB {
     }
 
     /**
-     * Insert new exercise
+     * Insert new example
      * @param exercise_id
      * @param a
      * @param b
@@ -160,14 +160,13 @@ class BambulkackaDB {
     }
 
 
-    public int deleteAllTables() {
+    public void deleteAllExercisesTables() {
         SQLiteDatabase db = openHelper.getWritableDatabase();
         db.delete(BambulkackaContract.TbAttempts.TABLE_NAME, null, null);
         db.delete(BambulkackaContract.TbExamples.TABLE_NAME,null,null);
         db.delete(BambulkackaContract.TbExercises.TABLE_NAME,null,null);
-        int deletedCount = db.delete(BambulkackaContract.TbExercises.TABLE_NAME,null,null);
+        db.delete(BambulkackaContract.TbExercises.TABLE_NAME,null,null);
         db.close();
-        return deletedCount;
     }
 
     /**

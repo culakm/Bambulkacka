@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="znamienka">
+    <string-array name="signs">
         <item>all</item>
         <item>+</item>
         <item>-</item>
         <item>*</item>
         <item>/</item>
+    </string-array>
+    <string-array name="signs_default">
+        <item>+</item>
     </string-array>
     <string-array name="extra">
         <item>nic</item>
@@ -24,11 +27,5 @@
         <item>dsUXAEzaC3Q</item>
         <item>QNJL6nfu__Q</item>
         <item>F2AitTPI5U0</item>
-    </string-array>
-    <string-array name="signs">
-        <item>+</item>
-        <item>-</item>
-        <item>*</item>
-        <item>/</item>
     </string-array>
 </resources>

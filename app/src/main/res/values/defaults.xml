@@ -1,0 +1,12 @@
+<resources>
+    <string name="result_start">0</string>
+    <string name="result_stop">100</string>
+    <string name="number_start">0</string>
+    <string name="number_stop">0</string>
+    <string name="repeat">5</string>
+    <string name="extra">""</string>
+    <string name="user_name">Mathematician</string>
+    <string name="sound">"true"</string>
+
+
+</resources>

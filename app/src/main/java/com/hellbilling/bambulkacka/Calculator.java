@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -61,6 +62,10 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
      */
     private boolean prefSound;
     /**
+     * Play sound after result preference
+     */
+    private boolean prefWaitForOkResult;/**!!!!!!!!!!!!!!!!!!
+    /**
      * Examples setting ids preference
      */
     private Set<String> prefExamplesSetting;
@@ -71,11 +76,11 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
 
     // Widgets of activity
     /**
-     * Text: Result of example
+     * Text: Result of currentExample
      */
     private EditText wgResultLocal;
     /**
-     * Text: Text of an example withou result
+     * Text: Text of an currentExample withou result
      */
     private TextView wgExampleString;
     /**
@@ -94,16 +99,19 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
     /**
      * Current DB exercise _id
      */
-    private long exercise_id;
+    private long exerciseId;
     /**
-     * Current example
+     * Current currentExample
      */
-    private Example example;
+    private Example currentExample;
     /**
-     * Current DB example _id
+     * Current DB currentExample _id
      */
-    private long example_id;
-
+    private long currentExampleId;
+    /**
+     * Examples from already done exercise
+     */
+    private ArrayList examplesIDs = new ArrayList();
     /**
      * Text: Counter of all attempts
      */
@@ -133,85 +141,64 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
         // tu sa nastavil listener onEditorAction na EditText, urcuje ako sa sprava tlacitko go
         wgResultLocal.setOnEditorActionListener(this);
 
+
+
         // Nacitaj settingy
         getSettings();
 
         // riesi zotavenie po zmene orientacie
         restoreMe(savedInstanceState);
 
-        // Save exercise
-        exercise_id = dbh.insertExerciseStart(prefSignsString,Utils.getNow());
+        // Brand new exercise
+        if (examplesIDs.size() == 0){
+            getExamplesSettings();
+            // Save new exercise
+            exerciseId = dbh.insertExerciseStart(prefSignsString,Utils.getNow());
 
-        // Load current example if doesn't exists, else it's loaded from restoreMe
-        if(example == null) {
+            // toto je velmi otazne
+            if(currentExample == null) {
+                getExample();
+            }
+        } // Exercise to repeat
+        else {
+            //Load all example_id from examples into examplesIDs
             getExample();
         }
-
-        // otvorim klavesnicu
-        showSoftKeyboard();
     }
 
-    /**
-     * Load new example
-     */
-    private void getExample() {
+    private void getExample(){
 
-        // Chose exampleSetting for example
-        int exampleSettingUsed = 0;
-        if (examplesSettings.size() > 1) {
-            exampleSettingUsed = Utils.generateRandomInt(0, examplesSettings.size() - 1);
-        }
-
-        //example = new Example(prefResultStart, prefResultStop, prefNumberStart, prefNumberStop, prefSignsString, prefExtra);
-        ExampleSetting exampleSetting = examplesSettings.get(exampleSettingUsed);
-        example = new Example(exampleSetting);
-
-        // Check example duplicity in exercise
-        do {
-            example.getExample();
-        } while (checkRepeat(exercise_id, example));
-
-        example_id = dbh.insertExample(exercise_id, example.getA(), example.getB(), example.getSignsString(), example.getResult());
-        // Set up text of the example
-        wgExampleString.setText(example.getExampleString());
-    }
-
-    /**
-     * Check if this example has been already generated for this exercise
-     * we don't want prefRepeat the same example
-     */
-
-    private boolean checkRepeat(long exercise_id, Example example){
-
-        Context ctx = this;
-        BambulkackaDB dbh = new BambulkackaDB(ctx);
-        Cursor examplesCursor = dbh.getResultExamples(String.valueOf(exercise_id));
-
-        // Current example
-        int priklad_a = example.getA();
-        int priklad_b = example.getB();
-        // if Cursor is contains results
-        if (examplesCursor != null) {
-            // move cursor to first row
-            if (examplesCursor.moveToFirst()) {
-                do {
-                    // Database example
-                    String a = examplesCursor.getString(examplesCursor.getColumnIndex("a"));
-                    String b = examplesCursor.getString(examplesCursor.getColumnIndex("b"));
-                    if (Integer.parseInt(a) == priklad_a && Integer.parseInt(b) == priklad_b){
-                        return true;
-                    }
-                } while (examplesCursor.moveToNext());
+        // Repeat examples from already saved exercise
+        if (examplesIDs.size() == 0){
+            // Chose exampleSetting for the example
+            int exampleSettingUsed = 0;
+            // Random
+            if (examplesSettings.size() > 1) {
+                exampleSettingUsed = Utils.generateRandomInt(0, examplesSettings.size() - 1);
             }
+
+            //example = new Example(prefResultStart, prefResultStop, prefNumberStart, prefNumberStop, prefSignsString, prefExtra);
+            ExampleSetting exampleSetting = examplesSettings.get(exampleSettingUsed);
+            currentExample = new Example(exampleSetting);
+
+            // Check example duplicity in exercise
+            do {
+                currentExample.getExample();
+            } while (checkRepeat(exerciseId, currentExample));
+
+            currentExampleId = dbh.insertExample(exerciseId, currentExample.getA(), currentExample.getB(), currentExample.getSignsString(), currentExample.getResult());
+            // Set up text of the example
+            wgExampleString.setText(currentExample.getExampleString());
         }
-        dbh.close();
-        return false;
+        // Repeat examples from already saved exercise
+        else {
+        }
     }
 
     /**
      * Check input value of result and evaluate it
      */
-    private void manageResult() {
+    private void eveluateExample() {
 
         String resultLocalStr = wgResultLocal.getText().toString();
         int vysledokLocalInt;
@@ -244,7 +231,7 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
         }
 
         // Vysledok dobre
-        if (vysledokLocalInt == example.getResult()){
+        if (vysledokLocalInt == currentExample.getResult()){
             Log.d("++", "vysledok je dobre");
             // prehrajeme ok zvuk
             if (prefSound){playSound("ok");}
@@ -252,10 +239,10 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
             wgCorrectCounterString.setText(++correct + "");
             wgAttemptsCounterString.setText(++attempts + "");
             wgErrorString.setTextColor(getResources().getColor(R.color.spravne_color));
-            wgErrorString.setText(prefUserName + ", " + getString(R.string.genius) + ", " + example.getExampleStringFull() + ", ides dalej.");
+            wgErrorString.setText(prefUserName + ", " + getString(R.string.genius) + ", " + currentExample.getExampleStringFull() + ", ides dalej.");
 
             // Save attempt
-            dbh.insertAttempt(example_id, vysledokLocalInt, Utils.getNow(), 1);
+            dbh.insertAttempt(currentExampleId, vysledokLocalInt, Utils.getNow(), 1);
 
             // ak je dokoncene tak otvori resume aktivitu
             if (correct == prefRepeat){
@@ -265,10 +252,10 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
                 intent.putExtra("attempts", attempts);
 
                 // Save exercise end
-                dbh.updateExerciseEnd(exercise_id,Utils.getNow());
+                long id = dbh.updateExerciseEnd(exerciseId,Utils.getNow());
 
                 startActivity(intent);
-            } // inak da novy example
+            } // inak da novy currentExample
             else {
                 getExample();
             }
@@ -284,12 +271,44 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
             wgErrorString.setText(prefUserName + ", " + prefUserName + ". " + getString(R.string.compl_wrong) + "!");
 
             // Save attempt
-            dbh.insertAttempt(example_id, vysledokLocalInt, Utils.getNow(), 0);
+            dbh.insertAttempt(currentExampleId, vysledokLocalInt, Utils.getNow(), 0);
         }
 
         // Vynuluj editText
         wgResultLocal.setText("");
 
+    }
+
+
+    /**
+     * Check if this currentExample has been already generated for this exercise
+     * we don't want prefRepeat the same currentExample
+     */
+    private boolean checkRepeat(long exercise_id, Example example){
+
+        Context ctx = this;
+        BambulkackaDB dbh = new BambulkackaDB(ctx);
+        Cursor examplesCursor = dbh.getResultExamples(String.valueOf(exercise_id));
+
+        // Current currentExample
+        int priklad_a = example.getA();
+        int priklad_b = example.getB();
+        // if Cursor is contains results
+        if (examplesCursor != null) {
+            // move cursor to first row
+            if (examplesCursor.moveToFirst()) {
+                do {
+                    // Database currentExample
+                    String a = examplesCursor.getString(examplesCursor.getColumnIndex("a"));
+                    String b = examplesCursor.getString(examplesCursor.getColumnIndex("b"));
+                    if (Integer.parseInt(a) == priklad_a && Integer.parseInt(b) == priklad_b){
+                        return true;
+                    }
+                } while (examplesCursor.moveToNext());
+            }
+        }
+        dbh.close();
+        return false;
     }
 
     /**
@@ -299,30 +318,30 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        prefResultStart = Integer.parseInt(sharedPref.getString("result_start", "0"));
-        prefResultStop = Integer.parseInt(sharedPref.getString("result_stop", "100"));
-        prefNumberStart = Integer.parseInt(sharedPref.getString("number_start", "0"));
-        prefNumberStop = Integer.parseInt(sharedPref.getString("number_stop", "100"));
-        prefRepeat = Integer.parseInt(sharedPref.getString("repeat", "10"));
+        prefResultStart = Integer.parseInt(sharedPref.getString("result_start", getString(R.string.result_start)));
+        prefResultStop = Integer.parseInt(sharedPref.getString("result_stop", getString(R.string.result_stop)));
+        prefNumberStart = Integer.parseInt(sharedPref.getString("number_start", getString(R.string.number_start)));
+        prefNumberStop = Integer.parseInt(sharedPref.getString("number_stop", getString(R.string.number_stop)));
+        prefRepeat = Integer.parseInt(sharedPref.getString("repeat", getString(R.string.repeat)));
 
         //prefSignsString = sharedPref.getString("sign", "all");
         Set<String> signs = sharedPref.getStringSet("signs_pref",new HashSet<String>());
         String[] signsArray = signs.toArray(new String[signs.size()]);
         prefSignsString = TextUtils.join(",", signsArray);
 
-        prefExtra = sharedPref.getString("extra", "");
-        prefUserName = sharedPref.getString("user_name", "Detisko");
-        prefSound = sharedPref.getBoolean("sound", true);
+        prefExtra = sharedPref.getString("extra", getString(R.string.extra));
+        prefUserName = sharedPref.getString("user_name", getString(R.string.user_name));
+        prefSound = sharedPref.getBoolean("sound", Boolean.parseBoolean(getString(R.string.sound)));
+        prefWaitForOkResult = sharedPref.getBoolean("wait_for_ok_result", Boolean.parseBoolean(getString(R.string.sound)));
+        Toast.makeText(this, "prefWaitForOkResult : " + prefWaitForOkResult, Toast.LENGTH_LONG).show();
         prefExamplesSetting = sharedPref.getStringSet("examples_setting_pref",new HashSet<String>());
-        // Load all relevant examplesSettings to examplesSettings
-        getExamplesSettings();
+
     }
 
     /**
      * Load examplesSettings ArrayList by ExampleSetting objects
      */
     private void getExamplesSettings(){
-        String pako = BambulkackaContract.TbExercises.COLUMN_NAME_SIGN;
         // LOAD DATA FROM prefExamplesSetting
         if(prefExamplesSetting.size()>0){
             List<String> ids = new ArrayList<>();
@@ -363,7 +382,7 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
      * @param view view no pokec
      */
     public void submitResult(View view) {
-        manageResult();
+        eveluateExample();
     }
 
     /**
@@ -383,22 +402,6 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
     }
 
     /**
-     * Listener for submit button, action GO
-     * @param view view bez pokecu
-     * @param actionId GO,or something else?
-     * @param event ???
-     * @return true if action is GO
-     */
-    public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-        boolean handled = false;
-        if (actionId == EditorInfo.IME_ACTION_GO) {
-            manageResult();
-            handled = true;
-        }
-        return handled;
-    }
-
-    /**
      * Play prefSound
      * @param filename source of prefSound
      */
@@ -409,14 +412,12 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
         mediaPlayer.start(); // no need to call prepare(); create() does that for you
     }
 
-    //// Obsluha zapamatania
-    // ukladame premenne
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable("example", example);
-        outState.putInt("attempts", attempts);
-        outState.putInt("correct", correct);
+    private void goHome(){
+        // Save exercise end
+        dbh.updateExerciseEnd(exerciseId,Utils.getNow());
+        Intent intent;
+        intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     // Obnovujeme zapamatany stav
@@ -425,15 +426,43 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
 
         if  (state != null){
 
-            example = state.getParcelable("example");
+            currentExample = state.getParcelable("currentExample");
             attempts = state.getInt("attempts");
             correct = state.getInt("correct");
             // Nastavi text prikladu
-            wgExampleString.setText(example.getExampleString());
+            wgExampleString.setText(currentExample.getExampleString());
             wgCorrectCounterString.setText(correct + "");
             wgAttemptsCounterString.setText(attempts + "");
         }
 
+    }
+
+
+    /**
+     * Listener for submit button, action GO
+     * @param view view bez pokecu
+     * @param actionId GO,or something else?
+     * @param event ???
+     * @return true if action is GO
+     */
+    @Override
+    public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
+        boolean handled = false;
+        if (actionId == EditorInfo.IME_ACTION_GO) {
+            eveluateExample();
+            handled = true;
+        }
+        return handled;
+    }
+
+    //// Obsluha zapamatania
+    // ukladame premenne
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("currentExample", currentExample);
+        outState.putInt("attempts", attempts);
+        outState.putInt("correct", correct);
     }
 
     @Override
@@ -469,13 +498,4 @@ public class Calculator extends ActionBarActivity implements EditText.OnEditorAc
     public void onBackPressed(){
         goHome();
     }
-
-    private void goHome(){
-        // Save exercise end
-        dbh.updateExerciseEnd(exercise_id,Utils.getNow());
-        Intent intent;
-        intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
 }

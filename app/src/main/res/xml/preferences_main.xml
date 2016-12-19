@@ -39,6 +39,7 @@
             android:title="@string/signs_pref"
             android:entries="@array/signs"
             android:entryValues="@array/signs"
+            android:defaultValue="@array/signs_default"
             android:persistent="true"
             />
         <ListPreference android:title="Extra"
@@ -53,7 +54,7 @@
         android:key="button_application_setting"
         android:title="@string/application_setting_pref"
         android:persistent="false">
-        <EditTextPreference android:title="@string/user_name"
+        <EditTextPreference android:title="@string/user_name_title"
             android:key="user_name"
             android:summary="%s"
             android:dialogTitle="Zadaj meno"
@@ -68,5 +69,9 @@
             android:dialogTitle="Zadaj pocet prikladov"
             android:defaultValue="10"
             android:inputType="number" />
+        <CheckBoxPreference android:title="@string/wait_for_ok_result"
+            android:key="wait_for_ok_result"
+            android:summary="@string/wait_for_ok_result_summary"
+            android:defaultValue="true" />
     </PreferenceScreen>
 </PreferenceScreen>

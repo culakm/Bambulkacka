@@ -27,8 +27,8 @@
         <ListPreference android:title="Znamienko"
             android:key="sign"
             android:summary="%s"
-            android:entries="@array/znamienka"
-            android:entryValues="@array/znamienka"
+            android:entries="@array/signs"
+            android:entryValues="@array/signs"
             android:defaultValue="all" />
         <ListPreference android:title="Extra"
             android:key="extra"
